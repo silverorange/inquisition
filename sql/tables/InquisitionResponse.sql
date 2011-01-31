@@ -1,6 +1,6 @@
 create table InquisitionResponse (
 	id serial,
-	inquisition integer not null references Survey(id) on delete cascade,
+	inquisition integer not null references Inquisition(id) on delete cascade,
 	createdate timestamp,
 	primary key (id)
 );
