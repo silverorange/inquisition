@@ -145,7 +145,16 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$questions = SwatDB::query($this->app->db, $sql,
 			SwatDBClassMap::get('InquisitionQuestionWrapper'));
 
-		return $questions;
+		$store = new SwatTableStore();
+
+		foreach ($questions as $question) {
+			$ds = new SwatDetailsStore($question);
+			$ds->option_count = sprintf('%s options', count($question->options));
+
+			$store->add($ds);
+		}
+
+		return $store;
 	}
 
 	// }}}
@@ -154,12 +163,6 @@ class InquisitionInquisitionDetails extends AdminIndex
 	protected function buildNavBar()
 	{
 		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		$course = $this->inquisition->course;
-		$course_link = sprintf('Course/Details?id=%s', $course->id);
-		$this->navbar->createEntry($course->title, $course_link);
 
 		$this->navbar->createEntry($this->inquisition->title);
 	}

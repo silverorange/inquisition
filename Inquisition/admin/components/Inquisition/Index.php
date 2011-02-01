@@ -55,7 +55,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 		foreach ($inquisitions as $inquisition) {
 			$ds = new SwatDetailsStore($inquisition);
-			$ds->details = sprintf('%s questions', count($inquisition->questions));
+			$ds->question_count = sprintf('%s questions', count($inquisition->questions));
 
 			$store->add($ds);
 		}

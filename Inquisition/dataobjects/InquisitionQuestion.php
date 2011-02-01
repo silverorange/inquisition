@@ -51,8 +51,12 @@ class InquisitionQuestion extends SwatDBDataObject
 	{
 		$this->table = 'InquisitionQuestion';
 		$this->id_field = 'integer:id';
+
 		$this->registerInternalProperty('inquisition',
 			SwatDBClassMap::get('Inquisition'));
+
+		$this->registerInternalProperty('correct_option',
+			SwatDBClassMap::get('InquisitionQuestionOption'));
 	}
 
 	// }}}

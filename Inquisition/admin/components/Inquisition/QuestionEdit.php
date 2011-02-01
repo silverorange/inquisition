@@ -4,12 +4,13 @@ require_once 'Swat/SwatDate.php';
 require_once 'Admin/exceptions/AdminNotFoundException.php';
 require_once 'Admin/pages/AdminDBEdit.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
+require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
 
 /**
  * @package   Inquisition
  * @copyright 2011 silverorange
  */
-class InquisitionInquisitionEditQuestion extends AdminDBEdit
+class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 {
 	// {{{ protected properties
 
@@ -31,7 +32,7 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 	protected function initInternal()
 	{
 		parent::initInternal();
-		$this->ui->loadFromXML(dirname(__FILE__).'/edit-question.xml');
+		$this->ui->loadFromXML(dirname(__FILE__).'/question-edit.xml');
 		$this->initQuestion();
 
 		$form = $this->ui->getWidget('edit_form');
@@ -79,6 +80,10 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 
 		foreach ($this->question->options as $option) {
 			$ds = new SwatDetailsStore($option);
+
+			$ds->correct_option =
+				($option->id === $this->question->getInternalValue('correct_option'));
+
 			$store->add($ds);
 		}
 
@@ -94,7 +99,6 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 	{
 		$values = $this->ui->getValues(array(
 			'bodytext',
-			//'correct_option',
 		));
 
 		if ($this->question->id === null) {
@@ -105,7 +109,10 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 
 		$this->question->bodytext       = $values['bodytext'];
 		$this->question->question_type  = InquisitionQuestion::TYPE_RADIO_LIST;
-		//$this->question->correct_option = $values['correct_option'];
+
+		$this->updateOptions();
+		$this->removeOptions();
+		$this->addOptions();
 
 		if ($this->question->isModified()) {
 			$this->question->save();
@@ -113,10 +120,6 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 			$message = new SwatMessage('Question has been saved.');
 			$this->app->messages->add($message);
 		}
-
-		$this->updateOptions();
-		$this->removeOptions();
-		$this->addOptions();
 	}
 
 	// }}}
@@ -127,13 +130,17 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 		$count = 0;
 
 		$view = $this->ui->getWidget('table_view');
-		$replicator = $view->getColumn('title')->getRenderer('title_widget');
+		$title_renderer = $view->getColumn('title')->getRenderer('title_renderer');
+		$correct_option_renderer = $view->getColumn('correct_option')->getRenderer('correct_option_renderer');
 
 		foreach ($this->question->options as $option) {
-			$widget = $replicator->getWidget($option->id);
-			if ($widget !== null && $widget->value != $option->title) {
-				$option->title = $widget->value;
-			}
+			$title_widget = $title_renderer->getWidget($option->id);
+			if ($title_widget !== null && $title_widget->value != $option->title)
+				$option->title = $title_widget->value;
+
+			$radio = $correct_option_renderer->getWidget($option->id);
+			if ($radio !== null && $radio->value)
+				$this->question->correct_option = $option;
 		}
 
 		foreach ($this->question->options as $option)
@@ -192,6 +199,12 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 
 				$option->save();
 
+				$is_correct_option = $input_row->getWidget(
+					'correct_option', $replicator_id)->value;
+
+				if ($is_correct_option)
+					$this->question->correct_option = $option;
+
 				$input_row->removeReplicatedRow($replicator_id);
 			}
 		}
@@ -210,6 +223,17 @@ class InquisitionInquisitionEditQuestion extends AdminDBEdit
 
 		$form = $this->ui->getWidget('edit_form');
 		$form->addHiddenField('inquisition', $this->inquisition->id);
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$this->navbar->popEntry();
+		$this->navbar->createEntry('Edit Question');
 	}
 
 	// }}}

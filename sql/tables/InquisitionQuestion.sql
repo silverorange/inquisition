@@ -8,5 +8,5 @@ create table InquisitionQuestion (
 );
 
 create index InquisitionQuestion_inquisition_index on InquisitionQuestion(inquisition);
-alter table InquisitionQuestion add correct_option integer not null references InquisitionQuestionOption(id) on delete set null;
+alter table InquisitionQuestion add correct_option integer references InquisitionQuestionOption(id) on delete set null;
 

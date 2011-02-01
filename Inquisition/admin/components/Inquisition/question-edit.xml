@@ -15,9 +15,9 @@
 				<property name="display_messages" type="boolean">false</property>
 				<widget class="SwatTableView" id="table_view">
 					<object class="SwatTableViewColumn" id="title">
-						<object class="SwatWidgetCellRenderer" id="title_widget">
+						<object class="SwatWidgetCellRenderer" id="title_renderer">
 							<property name="replicator_id" type="data">id</property>
-							<widget class="SwatTextarea" id="title_entry">
+							<widget class="SwatTextarea" id="title">
 								<property name="rows" type="integer">2</property>
 								<property name="value" type="data">title</property>
 								<property name="resizeable" type="boolean">false</property>
@@ -34,20 +34,19 @@
 							</widget>
 						</object>
 					</object>
-					<object class="SwatTableViewColumn" id="maximum">
-						<property name="visible" type="boolean">false</property>
-						<property name="title" translatable="yes">Maximum Value</property>
-						<object class="SwatWidgetCellRenderer" id="maximum_widget">
+					<object class="SwatTableViewColumn" id="correct_option">
+						<property name="title" translatable="yes">Correct Option</property>
+						<object class="SwatWidgetCellRenderer" id="correct_option_renderer">
 							<property name="replicator_id" type="data">id</property>
-							<widget class="SwatIntegerEntry" id="maximum_entry">
-								<property name="value" type="data">maximum</property>
-								<property name="size" type="integer">2</property>
+							<widget class="InquisitionCorrectOptionRadioButton" id="correct_option">
+								<property name="value" type="data">correct_option</property>
 							</widget>
+							<!--widget class="SwatCheckbox" id="correct_option">
+								<property name="value" type="data">correct_option</property>
+							</widget-->
 						</object>
 						<object class="SwatInputCell">
-							<widget class="SwatIntegerEntry">
-								<property name="size" type="integer">2</property>
-							</widget>
+							<widget class="InquisitionCorrectOptionRadioButton" />
 						</object>
 					</object>
 					<object class="SwatTableViewCheckboxColumn" id="checkbox_column">
@@ -63,21 +62,8 @@
 					</object>
 				</widget>
 			</widget>
-			<widget class="SwatFormField" id="point_total_field">
-				<property name="title" translatable="yes">Values Must Add Up To</property>
-				<property name="note" translatable="yes">Optional</property>
-				<property name="visible" type="boolean">false</property>
-				<widget class="SwatIntegerEntry" id="point_total" />
-			</widget>
-			<widget class="SwatFormField" id="other_field">
-				<property name="title" translatable="yes">Show “Other” Entry?</property>
-				<property name="visible" type="boolean">false</property>
-				<widget class="SwatCheckbox" id="other" />
-			</widget>
 			<widget class="SwatFooterFormField">
-				<widget class="SwatButton" id="submit_button">
-					<property name="title" translatable="yes">Add Question</property>
-				</widget>
+				<widget class="SwatButton" id="submit_button" />
 			</widget>
 		</widget>
 	</widget>

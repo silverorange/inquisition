@@ -5,12 +5,12 @@
 	<widget class="SwatFrame" id="details_frame">
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink">
-				<property name="title" translatable="yes">Edit Inquisition</property>
+				<property name="title" translatable="yes">Edit</property>
 				<property name="link">Inquisition/Edit?id=%s</property>
 				<property name="stock_id">edit</property>
 			</widget>
 			<widget class="SwatToolLink">
-				<property name="title" translatable="yes">Delete Inquisition</property>
+				<property name="title" translatable="yes">Delete</property>
 				<property name="link">Inquisition/Delete?id=%s</property>
 				<property name="stock_id">delete</property>
 			</widget>
@@ -41,7 +41,7 @@
 				<widget class="SwatToolbar" id="question_toolbar">
 					<widget class="SwatToolLink">
 						<property name="title" translatable="yes">Add Questions</property>
-						<property name="link">Inquisition/EditQuestion?inquisition=%s</property>
+						<property name="link">Inquisition/QuestionEdit?inquisition=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
 				</widget>
@@ -55,8 +55,14 @@
 						<property name="title" translatable="yes">Question</property>
 						<object class="AdminTitleLinkCellRenderer">
 							<property name="text" type="data">bodytext</property>
-							<property name="link">Inquisition/EditQuestion?id=%s</property>
+							<property name="content_type">text/xml</property>
+							<property name="link">Inquisition/QuestionEdit?id=%s</property>
 							<property name="link_value[]" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<object class="SwatTextCellRenderer">
+							<property name="text" type="data">option_count</property>
 						</object>
 					</object>
 				</widget>
