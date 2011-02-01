@@ -63,7 +63,7 @@ class InquisitionQuestion extends SwatDBDataObject
 	protected function loadOptions()
 	{
 		$sql = sprintf('select * from InquisitionQuestionOption
-			where inquisition_question = %s
+			where question = %s
 			order by displayorder',
 			$this->db->quote($this->id, 'integer'));
 

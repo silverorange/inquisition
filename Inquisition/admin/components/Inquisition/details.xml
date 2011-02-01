@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
+<swatml>
+	<widget class="SwatMessageDisplay" id="message_display" />
+	<widget class="SwatFrame" id="details_frame">
+		<widget class="SwatToolbar" id="details_toolbar">
+			<widget class="SwatToolLink">
+				<property name="title" translatable="yes">Edit Inquisition</property>
+				<property name="link">Inquisition/Edit?id=%s</property>
+				<property name="stock_id">edit</property>
+			</widget>
+			<widget class="SwatToolLink">
+				<property name="title" translatable="yes">Delete Inquisition</property>
+				<property name="link">Inquisition/Delete?id=%s</property>
+				<property name="stock_id">delete</property>
+			</widget>
+		</widget>
+		<!-- {{{ Details -->
+
+		<widget class="SwatDetailsView" id="details_view">
+			<object class="SwatDetailsViewField">
+				<property name="title" translatable="yes">Title</property>
+				<object class="SwatNullTextCellRenderer">
+					<property name="text" type="data">title</property>
+				</object>
+			</object>
+			<object class="SwatDetailsViewField" id="createdate">
+				<property name="title" translatable="yes">Created On</property>
+				<object class="SwatDateCellRenderer">
+					<property name="date" type="data">createdate</property>
+				</object>
+			</object>
+		</widget>
+
+		<!-- }}} -->
+		<!-- {{{ Questions -->
+
+		<widget class="SwatFrame">
+			<property name="title" translatable="yes">Questions</property>
+			<widget class="SwatForm">
+				<widget class="SwatToolbar" id="question_toolbar">
+					<widget class="SwatToolLink">
+						<property name="title" translatable="yes">Add Questions</property>
+						<property name="link">Inquisition/EditQuestion?inquisition=%s</property>
+						<property name="stock_id">add</property>
+					</widget>
+				</widget>
+				<widget class="SwatTableView" id="question_view">
+					<object class="SwatTableViewCheckboxColumn" id="checkbox">
+						<object class="SwatCheckboxCellRenderer" id="items">
+							<property name="value" type="data">id</property>
+						</object>
+					</object>
+					<object class="AdminTableViewOrderableColumn" id="id">
+						<property name="title" translatable="yes">Question</property>
+						<object class="AdminTitleLinkCellRenderer">
+							<property name="text" type="data">bodytext</property>
+							<property name="link">Inquisition/EditQuestion?id=%s</property>
+							<property name="link_value[]" type="data">id</property>
+						</object>
+					</object>
+				</widget>
+				<widget class="SwatActions" id="question_actions">
+					<widget class="SwatActionItem" id="question_delete">
+						<property name="title" translatable="yes">delete…</property>
+					</widget>
+				</widget>
+			</widget>
+		</widget>
+
+		<!-- }}} -->
+	</widget>
+</swatml>

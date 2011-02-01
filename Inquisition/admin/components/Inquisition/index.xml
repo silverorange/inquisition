@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
+<swatml>
+	<widget class="SwatMessageDisplay" id="message_display" />
+	<widget class="SwatFrame" id="inquisition_frame">
+		<property name="title">Inquisitions</property>
+		<widget class="SwatToolbar" id="toolbar">
+			<widget class="SwatToolLink">
+				<property name="title" translatable="yes">New Inquisition</property>
+				<property name="link">Inquisition/Edit</property>
+				<property name="stock_id">add</property>
+			</widget>
+		</widget>
+		<widget class="SwatTableView" id="inquisition_view">
+			<object class="AdminTableViewOrderableColumn" id="title">
+				<property name="title">Title</property>
+				<object class="AdminTitleLinkCellRenderer">
+					<property name="text" type="data">title</property>
+					<property name="link">Inquisition/Details?id=%s</property>
+					<property name="link_value" type="data">id</property>
+				</object>
+			</object>
+			<object class="SwatTableViewColumn" id="details">
+				<object class="SwatTextCellRenderer">
+					<property name="text" type="data">details</property>
+				</object>
+			</object>
+		</widget>
+	</widget>
+</swatml>
