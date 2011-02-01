@@ -68,6 +68,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			if (!$this->inquisition->load($inquisition_id)) {
 				throw new AdminNotFoundException('Unable to load inquisition.');
 			}
+
+			$this->ui->getWidget('another_button')->visible = true;
+			$this->ui->getWidget('submit_button')->title = 'Done';
 		}
 	}
 
@@ -112,7 +115,6 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 		$this->updateOptions();
 		$this->removeOptions();
-		$this->addOptions();
 
 		if ($this->question->isModified()) {
 			$this->question->save();
@@ -120,6 +122,8 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			$message = new SwatMessage('Question has been saved.');
 			$this->app->messages->add($message);
 		}
+
+		$this->addOptions();
 	}
 
 	// }}}
@@ -210,6 +214,23 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		}
 
 		return $count;
+	}
+
+	// }}}
+	// {{{ protected function relocate()
+
+	protected function relocate()
+	{
+		$button = $this->ui->getWidget('another_button');
+
+		if ($button->hasBeenClicked()) {
+			$url = sprintf('%s?inquisition=%s',
+				$this->source, $this->inquisition->id);
+		} else {
+			$url = sprintf('Inquisition/Details?id=%s', $this->inquisition->id);
+		}
+
+		$this->app->relocate($url);
 	}
 
 	// }}}

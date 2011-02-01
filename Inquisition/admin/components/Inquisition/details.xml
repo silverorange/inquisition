@@ -44,6 +44,11 @@
 						<property name="link">Inquisition/QuestionEdit?inquisition=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
+					<widget class="SwatToolLink">
+						<property name="title" translatable="yes">Change Question Order</property>
+						<property name="link">Inquisition/QuestionOrder?inquisition=%s</property>
+						<property name="stock_id">change-order</property>
+					</widget>
 				</widget>
 				<widget class="SwatTableView" id="question_view">
 					<object class="SwatTableViewCheckboxColumn" id="checkbox">
@@ -63,6 +68,11 @@
 					<object class="SwatTableViewColumn">
 						<object class="SwatTextCellRenderer">
 							<property name="text" type="data">option_count</property>
+						</object>
+						<object class="SwatLinkCellRenderer">
+							<property name="text">Change Order</property>
+							<property name="link">Inquisition/QuestionOptionOrder?question=%s</property>
+							<property name="link_value" type="data">id</property>
 						</object>
 					</object>
 				</widget>

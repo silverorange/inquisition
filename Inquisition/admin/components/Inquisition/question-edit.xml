@@ -7,6 +7,7 @@
 			<widget class="SwatFormField" id="bodytext_field">
 				<property name="title" translatable="yes">Question</property>
 				<widget class="SwatTextareaEditor" id="bodytext">
+					<property name="required" type="boolean">true</property>
 					<property name="rows" type="integer">5</property>
 				</widget>
 			</widget>
@@ -41,9 +42,6 @@
 							<widget class="InquisitionCorrectOptionRadioButton" id="correct_option">
 								<property name="value" type="data">correct_option</property>
 							</widget>
-							<!--widget class="SwatCheckbox" id="correct_option">
-								<property name="value" type="data">correct_option</property>
-							</widget-->
 						</object>
 						<object class="SwatInputCell">
 							<widget class="InquisitionCorrectOptionRadioButton" />
@@ -59,11 +57,16 @@
 					</object>
 					<object class="SwatTableViewInputRow" id="input_row">
 						<property name="number" type="integer">2</property>
+						<property name="enter_text">add another option</property>
 					</object>
 				</widget>
 			</widget>
 			<widget class="SwatFooterFormField">
 				<widget class="SwatButton" id="submit_button" />
+				<widget class="SwatButton" id="another_button">
+					<property name="visible" type="boolean">false</property>
+					<property name="title">Add Another Question</property>
+				</widget>
 			</widget>
 		</widget>
 	</widget>
