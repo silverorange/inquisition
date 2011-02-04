@@ -41,6 +41,16 @@ class Inquisition extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ protected function getSerializableSubDataObjects()
+
+	protected function getSerializableSubDataObjects()
+	{
+		return array_merge(
+			parent::getSerializableSubDataObjects(),
+			array('questions'));
+	}
+
+	// }}}
 
 	// loader methods
 	// {{{ protected function loadQuestions()
