@@ -32,7 +32,7 @@ class InquisitionResponse extends SwatDBDataObject
 	{
 		$correct = 0;
 
-		foreach ($response->values as $value) {
+		foreach ($this->values as $value) {
 			$question           = $value->question_option->question;
 			$correct_option_id  = $question->getInternalValue('correct_option');
 			$response_option_id = $value->question_option->id;
@@ -41,7 +41,7 @@ class InquisitionResponse extends SwatDBDataObject
 			}
 		}
 
-		return $correct / count($this->quiz->values);
+		return $correct / count($this->inquisition->questions);
 	}
 
 	// }}}
