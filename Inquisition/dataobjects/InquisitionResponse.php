@@ -26,6 +26,25 @@ class InquisitionResponse extends SwatDBDataObject
 	public $createdate;
 
 	// }}}
+	// {{{ public function getGrade()
+
+	public function getGrade()
+	{
+		$correct = 0;
+
+		foreach ($response->values as $value) {
+			$question           = $value->question_option->question;
+			$correct_option_id  = $question->getInternalValue('correct_option');
+			$response_option_id = $value->question_option->id;
+			if ($response_option_id == $correct_option_id) {
+				$correct++;
+			}
+		}
+
+		return $correct / count($this->quiz->values);
+	}
+
+	// }}}
 	// {{{ protected function init()
 
 	protected function init()
