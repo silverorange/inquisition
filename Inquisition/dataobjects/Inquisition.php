@@ -40,8 +40,8 @@ class Inquisition extends SwatDBDataObject
 
 		$sql = sprintf('select * from InquisitionResponse
 			where account = %s and inquisition = %s',
-			$this->db->quote($this->id, 'integer'),
-			$this->db->quote($quiz->id, 'integer'));
+			$this->db->quote($account->id, 'integer'),
+			$this->db->quote($this->id, 'integer'));
 
 		$wrapper  = SwatDBClassMap::get('InquisitionResponseWrapper');
 		return SwatDB::query($this->db, $sql, $wrapper)->getFirst();

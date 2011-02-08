@@ -39,7 +39,7 @@ class InquisitionResponseValue extends SwatDBDataObject
 		$this->id_field = 'integer:id';
 
 		$this->registerInternalProperty('response',
-			SwatDBClassMap::get('InquisitionResponseValueWrapper'));
+			SwatDBClassMap::get('InquisitionResponse'));
 
 		$this->registerInternalProperty('question_option',
 			SwatDBClassMap::get('InquisitionQuestionOption'));
