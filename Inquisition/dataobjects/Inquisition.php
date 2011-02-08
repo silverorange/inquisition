@@ -2,6 +2,7 @@
 
 require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
+require_once 'Site/dataobjects/SiteAccount.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseWrapper.php';
 
@@ -29,6 +30,22 @@ class Inquisition extends SwatDBDataObject
 	 * @var SwatDate
 	 */
 	public $createdate;
+
+	// }}}
+	// {{{ public function getResponseByAccount()
+
+	public function getResponseByAccount(SiteAccount $account)
+	{
+		$this->checkDB();
+
+		$sql = sprintf('select * from InquisitionResponse
+			where account = %s and inquisition = %s',
+			$this->db->quote($this->id, 'integer'),
+			$this->db->quote($quiz->id, 'integer'));
+
+		$wrapper  = SwatDBClassMap::get('InquisitionResponseWrapper');
+		return SwatDB::query($this->db, $sql, $wrapper)->getFirst();
+	}
 
 	// }}}
 	// {{{ protected function init()
