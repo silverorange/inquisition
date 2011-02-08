@@ -44,7 +44,11 @@ class Inquisition extends SwatDBDataObject
 			$this->db->quote($this->id, 'integer'));
 
 		$wrapper  = SwatDBClassMap::get('InquisitionResponseWrapper');
-		return SwatDB::query($this->db, $sql, $wrapper)->getFirst();
+		$response = SwatDB::query($this->db, $sql, $wrapper)->getFirst();
+
+		$response->quiz = $this;
+
+		return $response;
 	}
 
 	// }}}
