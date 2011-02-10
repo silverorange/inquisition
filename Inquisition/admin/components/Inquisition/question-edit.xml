@@ -2,6 +2,7 @@
 <!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
 <swatml>
 	<widget class="SwatFrame" id="edit_frame">
+		<property name="title" translatable="yes">Question</property>
 		<widget class="SwatForm" id="edit_form">
 			<widget class="SwatMessageDisplay" id="message_display" />
 			<widget class="SwatFormField" id="bodytext_field">
