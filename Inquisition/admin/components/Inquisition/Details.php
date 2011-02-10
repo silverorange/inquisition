@@ -149,7 +149,9 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		foreach ($questions as $question) {
 			$ds = new SwatDetailsStore($question);
+
 			$ds->option_count = sprintf('%s options', count($question->options));
+			$ds->bodytext = SwatString::condense($question->bodytext);
 
 			$store->add($ds);
 		}

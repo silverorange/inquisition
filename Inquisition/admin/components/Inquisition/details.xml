@@ -60,7 +60,7 @@
 						<property name="title" translatable="yes">Question</property>
 						<object class="AdminTitleLinkCellRenderer">
 							<property name="text" type="data">bodytext</property>
-							<property name="content_type">text/xml</property>
+							<property name="stock_id">edit</property>
 							<property name="link">Inquisition/QuestionEdit?id=%s</property>
 							<property name="link_value[]" type="data">id</property>
 						</object>
