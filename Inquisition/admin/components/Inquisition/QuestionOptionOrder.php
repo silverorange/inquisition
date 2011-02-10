@@ -28,6 +28,9 @@ class InquisitionInquisitionQuestionOptionOrder extends AdminDBOrder
 	{
 		$this->ui->getWidget('order_frame')->title = 'Order Options';
 
+		$this->ui->getWidget('order')->width = '500px';
+		$this->ui->getWidget('order')->height = '200px';
+
 		parent::buildInternal();
 	}
 
