@@ -27,7 +27,7 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 
 		$message = new SwatMessage(sprintf(ngettext(
 			'One inquisition has been deleted.',
-			'%d inquisitions have been deleted.', $num),
+			'%s inquisitions have been deleted.', $num),
 			SwatString::numberFormat($num)), 'notice');
 
 		$this->app->messages->add($message);
