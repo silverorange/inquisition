@@ -1,0 +1,17 @@
+#question_option_view td.option-title {
+	padding-left: 20px;
+}
+
+#question_option_view td.question .swat-text-cell-renderer {
+	display: block;
+}
+
+#question_option_view td.question .swat-link-cell-renderer {
+	margin: 2px 0.5em 2px 0;
+	display: block;
+	float: left;
+}
+#question_option_view td.question .swat-link-cell-renderer a {
+	display: block;
+	margin: 0;
+}

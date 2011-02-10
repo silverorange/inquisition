@@ -50,36 +50,34 @@
 						<property name="stock_id">change-order</property>
 					</widget>
 				</widget>
-				<widget class="SwatTableView" id="question_view">
-					<object class="SwatTableViewCheckboxColumn" id="checkbox">
-						<object class="SwatCheckboxCellRenderer" id="items">
-							<property name="value" type="data">id</property>
-						</object>
-					</object>
-					<object class="AdminTableViewOrderableColumn" id="id">
+				<widget class="SwatTableView" id="question_option_view">
+					<object class="SwatTableViewGroup" id="question">
 						<property name="title" translatable="yes">Question</property>
-						<object class="AdminTitleLinkCellRenderer">
-							<property name="text" type="data">bodytext</property>
-							<property name="stock_id">edit</property>
-							<property name="link">Inquisition/QuestionEdit?id=%s</property>
-							<property name="link_value[]" type="data">id</property>
-						</object>
-					</object>
-					<object class="SwatTableViewColumn">
+						<property name="group_by">question</property>
 						<object class="SwatTextCellRenderer">
-							<property name="text" type="data">option_count</property>
+							<property name="text" type="data">bodytext</property>
 						</object>
-						<object class="SwatLinkCellRenderer">
-							<property name="text">Change Order</property>
+						<object class="AdminGroupLinkCellRenderer">
+							<property name="text">Edit Question</property>
+							<property name="link">Inquisition/QuestionEdit?question=%s</property>
+							<property name="link_value" type="data">question</property>
+						</object>
+						<object class="AdminGroupLinkCellRenderer">
+							<property name="text">Delete Question</property>
+							<property name="link">Inquisition/QuestionDelete?question=%s</property>
+							<property name="link_value" type="data">question</property>
+						</object>
+						<object class="AdminGroupLinkCellRenderer">
+							<property name="text">Change Option Order</property>
 							<property name="link">Inquisition/QuestionOptionOrder?question=%s</property>
-							<property name="link_value" type="data">id</property>
+							<property name="link_value" type="data">question</property>
 						</object>
 					</object>
-				</widget>
-				<widget class="SwatActions" id="question_actions">
-					<widget class="SwatActionItem" id="question_delete">
-						<property name="title" translatable="yes">delete…</property>
-					</widget>
+					<object class="SwatTableViewColumn" id="option_title">
+						<object class="SwatTextCellRenderer">
+							<property name="text" type="data">title</property>
+						</object>
+					</object>
 				</widget>
 			</widget>
 		</widget>

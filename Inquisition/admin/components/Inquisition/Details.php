@@ -123,36 +123,43 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$model = null;
 
 		switch ($view->id) {
-			case 'question_view':
-				$model = $this->getQuestionTableModel($view);
-				break;
+		case 'question_option_view':
+			$model = $this->getQuestionOptionTableModel($view);
+			break;
 		}
 
 		return $model;
 	}
 
 	// }}}
-	// {{{ protected function getQuestionTableModel()
+	// {{{ protected function getQuestionOptionTableModel()
 
-	protected function getQuestionTableModel(SwatTableView $view)
+	protected function getQuestionOptionTableModel(SwatTableView $view)
 	{
-		$sql = 'select * from InquisitionQuestion where inquisition = %s order by %s';
+		$sql = sprintf(
+			'select InquisitionQuestionOption.id, question, bodytext, title
+				from InquisitionQuestionOption
+			inner join InquisitionQuestion on
+				InquisitionQuestionOption.question = InquisitionQuestion.id
+			where InquisitionQuestion.inquisition = %s
+			order by InquisitionQuestion.displayorder, InquisitionQuestion.id,
+				InquisitionQuestionOption.displayorder,
+				InquisitionQuestionOption.id',
+			$this->app->db->quote($this->id, 'integer'));
 
-		$sql = sprintf($sql,
-			$this->app->db->quote($this->id, 'integer'),
-			$this->getOrderByClause($view, 'displayorder'));
-
-		$questions = SwatDB::query($this->app->db, $sql,
-			SwatDBClassMap::get('InquisitionQuestionWrapper'));
+		$options = SwatDB::query($this->app->db, $sql);
 
 		$store = new SwatTableStore();
 
-		foreach ($questions as $question) {
-			$ds = new SwatDetailsStore($question);
-
-			$ds->option_count = sprintf('%s options', count($question->options));
-			$ds->bodytext = SwatString::condense($question->bodytext);
-
+		$current_question = null;
+		$index = 0;
+		foreach ($options as $option) {
+			if ($option->question != $current_question) {
+				$current_question = $option->question;
+				$index++;
+			}
+			$ds = new SwatDetailsStore($option);
+			$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
 			$store->add($ds);
 		}
 
@@ -167,6 +174,18 @@ class InquisitionInquisitionDetails extends AdminIndex
 		parent::buildNavBar();
 
 		$this->navbar->createEntry($this->inquisition->title);
+	}
+
+	// }}}
+
+	// finalize phase
+	// {{{ public function finalize()
+
+	public function finalize()
+	{
+		parent::finalize();
+		$this->layout->addHtmlHeadEntry(
+			'packages/inquisition/admin/styles/inquisition-details.css');
 	}
 
 	// }}}
