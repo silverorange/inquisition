@@ -21,12 +21,20 @@ class InquisitionInquisitionQuestionOrder extends AdminDBOrder
 	}
 
 	// }}}
+	// {{{ protected function getUpdatedMessage()
+
+	protected function getUpdatedMessage()
+	{
+		return new SwatMessage('Question order has been updated.');
+	}
+
+	// }}}
 
 	// build phase
 	// {{{ protected function buildInternal()
 	protected function buildInternal()
 	{
-		$this->ui->getWidget('order_frame')->title = 'Order Questions';
+		$this->ui->getWidget('order_frame')->title = 'Change Question Order';
 
 		$this->ui->getWidget('order')->width = '500px';
 		$this->ui->getWidget('order')->height = '500px';
@@ -40,6 +48,10 @@ class InquisitionInquisitionQuestionOrder extends AdminDBOrder
 	protected function loadData()
 	{
 		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id === null) {
+			throw new AdminNotFoundException('No inquisition specified.');
+		}
 
 		$order_widget = $this->ui->getWidget('order');
 		$order_widget->addOptionsByArray(SwatDB::getOptionArray($this->app->db,
