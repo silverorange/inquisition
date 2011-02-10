@@ -145,12 +145,20 @@ class InquisitionInquisitionDetails extends AdminIndex
 				$current_question = $option->question;
 				$index++;
 			}
-			$ds = new SwatDetailsStore($option);
-			$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
-			$store->add($ds);
+			$store->add($this->getQuestionOptionDetailsStore($option, $index));
 		}
 
 		return $store;
+	}
+
+	// }}}
+	// {{{ protected function getQuestionOptionDetailsStore()
+
+	protected function getQuestionOptionDetailsStore($option, $index)
+	{
+		$ds = new SwatDetailsStore($option);
+		$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
+		return $ds;
 	}
 
 	// }}}
@@ -178,7 +186,6 @@ class InquisitionInquisitionDetails extends AdminIndex
 	protected function buildNavBar()
 	{
 		parent::buildNavBar();
-
 		$this->navbar->createEntry($this->inquisition->title);
 	}
 
