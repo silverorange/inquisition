@@ -1,5 +1,5 @@
 #question_option_view td.option-title {
-	padding-left: 20px;
+	padding: 3px 0 3px 20px;
 }
 
 #question_option_view td.question .swat-text-cell-renderer {
@@ -11,7 +11,21 @@
 	display: block;
 	float: left;
 }
+
 #question_option_view td.question .swat-link-cell-renderer a {
 	display: block;
 	margin: 0;
+}
+
+#question_option_view tbody tr {
+	background-image: none;
+}
+
+#question_option_view .swat-table-view-group {
+	border-bottom: none;
+	padding-top: 1.5em;
+}
+
+#question_option_view tbody tr.swat-table-view-group:first-child td {
+	padding-top: 0;
 }
