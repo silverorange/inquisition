@@ -136,6 +136,28 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 	protected function getQuestionOptionTableModel(SwatTableView $view)
 	{
+		$store = new SwatTableStore();
+
+		$current_question = null;
+		$index = 0;
+		foreach ($this->getQuestionOptions($view) as $option) {
+			if ($option->question != $current_question) {
+				$current_question = $option->question;
+				$index++;
+			}
+			$ds = new SwatDetailsStore($option);
+			$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
+			$store->add($ds);
+		}
+
+		return $store;
+	}
+
+	// }}}
+	// {{{ protected function getQuestionOptions()
+
+	protected function getQuestionOptions(SwatTableView $view)
+	{
 		$sql = sprintf(
 			'select InquisitionQuestionOption.id, question, bodytext, title
 				from InquisitionQuestionOption
@@ -147,23 +169,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 				InquisitionQuestionOption.id',
 			$this->app->db->quote($this->id, 'integer'));
 
-		$options = SwatDB::query($this->app->db, $sql);
-
-		$store = new SwatTableStore();
-
-		$current_question = null;
-		$index = 0;
-		foreach ($options as $option) {
-			if ($option->question != $current_question) {
-				$current_question = $option->question;
-				$index++;
-			}
-			$ds = new SwatDetailsStore($option);
-			$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
-			$store->add($ds);
-		}
-
-		return $store;
+		return SwatDB::query($this->app->db, $sql);
 	}
 
 	// }}}
