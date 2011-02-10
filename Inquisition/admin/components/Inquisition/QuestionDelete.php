@@ -47,11 +47,23 @@ class InquisitionInquisitionQuestionDelete extends AdminDBDelete
 		$dep = new AdminListDependency();
 		$dep->setTitle('question', 'questions');
 		$dep->entries = AdminListDependency::queryEntries($this->app->db,
-			'InquisitionQuestion', 'id', null, 'text:bodytext', 'id',
-			'id in ('.$item_list.')', AdminDependency::DELETE);
+			'InquisitionQuestion', 'id', null, 'text:bodytext',
+			'displayorder, id', 'id in ('.$item_list.')',
+			AdminDependency::DELETE);
 
-		foreach ($dep->entries as $entry)
-			$entry->content_type = 'text/xml';
+		// check option dependencies
+		$dep_options = new AdminListDependency();
+		$dep_options->setTitle('option', 'options');
+		$dep_options->entries = AdminListDependency::queryEntries(
+			$this->app->db, 'InquisitionQuestionOption', 'integer:id',
+			'integer:question', 'text:title', 'displayorder, id',
+			'question in ('.$item_list.')', AdminDependency::DELETE);
+
+		$dep->addDependency($dep_options);
+
+		foreach ($dep->entries as $entry) {
+			$entry->title = SwatString::condense($entry->title);
+		}
 
 		$message = $this->ui->getWidget('confirmation_message');
 		$message->content = $dep->getMessage();
