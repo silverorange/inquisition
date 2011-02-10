@@ -21,12 +21,20 @@ class InquisitionInquisitionQuestionOptionOrder extends AdminDBOrder
 	}
 
 	// }}}
+	// {{{ protected function getUpdatedMessage()
+
+	protected function getUpdatedMessage()
+	{
+		return new SwatMessage('Question option order has been updated.');
+	}
+
+	// }}}
 
 	// build phase
 	// {{{ protected function buildInternal()
 	protected function buildInternal()
 	{
-		$this->ui->getWidget('order_frame')->title = 'Order Options';
+		$this->ui->getWidget('order_frame')->title = 'Change Option Order';
 
 		$this->ui->getWidget('order')->width = '500px';
 		$this->ui->getWidget('order')->height = '200px';
@@ -41,10 +49,14 @@ class InquisitionInquisitionQuestionOptionOrder extends AdminDBOrder
 	{
 		$question_id = SiteApplication::initVar('question');
 
+		if ($question_id === null) {
+			throw new AdminNotFoundException('No question specified.');
+		}
+
 		$order_widget = $this->ui->getWidget('order');
-		$order_widget->addOptionsByArray(SwatDB::getOptionArray($this->app->db,
-			'InquisitionQuestionOption', 'title', 'id', 'displayorder',
-			sprintf('question = %s', $question_id)));
+		$order_widget->addOptionsByArray(SwatDB::getOptionArray(
+			$this->app->db, 'InquisitionQuestionOption', 'title', 'id',
+			'displayorder', sprintf('question = %s', $question_id)));
 
 		$sql = sprintf('select sum(displayorder) from InquisitionQuestionOption
 			where question = %s', $question_id);
