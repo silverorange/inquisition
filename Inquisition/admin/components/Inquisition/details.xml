@@ -40,7 +40,7 @@
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="question_toolbar">
 					<widget class="SwatToolLink">
-						<property name="title" translatable="yes">Add Questions</property>
+						<property name="title" translatable="yes">Add Question</property>
 						<property name="link">Inquisition/QuestionEdit?inquisition=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
