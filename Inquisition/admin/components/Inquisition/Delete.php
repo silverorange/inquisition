@@ -13,7 +13,7 @@ require_once 'Admin/pages/AdminDBDelete.php';
  */
 class InquisitionInquisitionDelete extends AdminDBDelete
 {
-	// process phaes
+	// process phase
 	// {{{ protected function processDBData()
 
 	protected function processDBData()
@@ -24,13 +24,24 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 			$this->getItemList('integer'));
 
 		$num = SwatDB::exec($this->app->db, $sql);
+		$this->app->messages->add($this->getDeletedMessage($num));
+	}
 
-		$message = new SwatMessage(sprintf(ngettext(
-			'One inquisition has been deleted.',
-			'%s inquisitions have been deleted.', $num),
-			SwatString::numberFormat($num)), 'notice');
+	// }}}
+	// {{{ protected function getDeletedMessage()
 
-		$this->app->messages->add($message);
+	protected function getDeletedMessage($num)
+	{
+		return new SwatMessage(
+			sprintf(
+				ngettext(
+					'One inquisition has been deleted.',
+					'%s inquisitions have been deleted.',
+					$num
+				),
+				SwatString::numberFormat($num)
+			)
+		);
 	}
 
 	// }}}

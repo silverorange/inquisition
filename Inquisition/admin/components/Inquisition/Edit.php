@@ -60,8 +60,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 		if ($this->inquisition->isModified()) {
 			$this->inquisition->save();
-			$message = new SwatMessage('Inquisition has been saved.');
-			$this->app->messages->add($message);
+			$this->app->messages->add($this->getSavedMessage());
 		}
 	}
 
@@ -81,6 +80,14 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		}
 
 		$this->inquisition->title         = $values['title'];
+	}
+
+	// }}}
+	// {{{ protected function getSavedMessage()
+
+	protected function getSavedMessage()
+	{
+		return new SwatMessage('Inquisition has been saved.');
 	}
 
 	// }}}
