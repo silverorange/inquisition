@@ -1,7 +1,8 @@
 create table InquisitionResponse (
 	id serial,
 	inquisition integer not null references Inquisition(id) on delete cascade,
-	createdate timestamp,
+	createdate timestamp not null,
+	complete_date timestamp,
 	primary key (id)
 );
 

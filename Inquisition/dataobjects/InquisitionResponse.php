@@ -21,9 +21,14 @@ class InquisitionResponse extends SwatDBDataObject
 	public $id;
 
 	/**
-	 * @var Date
+	 * @var SwatDate
 	 */
 	public $createdate;
+
+	/**
+	 * @var SwatDate
+	 */
+	public $complete_date;
 
 	// }}}
 	// {{{ public function getGrade()
@@ -53,6 +58,7 @@ class InquisitionResponse extends SwatDBDataObject
 		$this->id_field = 'integer:id';
 
 		$this->registerDateProperty('createdate');
+		$this->registerDateProperty('complete_date');
 
 		$this->registerInternalProperty('inquisition',
 			SwatDBClassMap::get('Inquisition'));
