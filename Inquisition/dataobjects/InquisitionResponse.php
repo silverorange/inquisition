@@ -91,23 +91,6 @@ class InquisitionResponse extends SwatDBDataObject
 	}
 
 	// }}}
-
-	// saver methods
-	// {{{ protected function saveValues()
-
-	protected function saveValues()
-	{
-		$this->checkDB();
-
-		foreach ($this->values as $value) {
-			$value->response = $this;
-		}
-
-		$this->values->setDatabase($this->db);
-		$this->values->save();
-	}
-
-	// }}}
 }
 
 ?>
