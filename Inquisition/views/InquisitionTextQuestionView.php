@@ -3,7 +3,9 @@
 require_once 'Inquisition/views/InquisitionQuestionView.php';
 require_once 'Swat/SwatTextarea.php';
 
-/*
+/**
+ * Text question view
+ *
  * @package   Inquisition
  * @copyright 2011 silverorange
  */

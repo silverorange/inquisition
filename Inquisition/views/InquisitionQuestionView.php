@@ -3,7 +3,9 @@
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseValue.php';
 
-/*
+/**
+ * Base class for question views
+ *
  * @package   Inquisition
  * @copyright 2011 silverorange
  */
