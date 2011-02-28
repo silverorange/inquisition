@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Inquisition/views/InquisitionQuestionView.php';
-require_once 'Swat/SwatRadioTable.php';
+require_once 'Swat/SwatRadioList.php';
 
 /*
  * @package   Inquisition
@@ -13,7 +13,7 @@ class InquisitionMultipleChoiceQuestionView extends InquisitionQuestionView
 
 	public function getWidget()
 	{
-		$control = new SwatRadioTable('question'.$this->question->id);
+		$control = new SwatRadioList('question'.$this->question->id);
 		$control->required = true;
 
 		foreach ($this->question->options as $option)
