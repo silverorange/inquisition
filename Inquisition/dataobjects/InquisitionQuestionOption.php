@@ -30,6 +30,11 @@ class InquisitionQuestionOption extends SwatDBDataObject
 	 */
 	public $displayorder;
 
+	/**
+	 * @var boolean
+	 */
+	public $include_text;
+
 	// }}}
 	// {{{ protected function init()
 

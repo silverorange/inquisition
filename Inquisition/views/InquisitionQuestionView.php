@@ -12,7 +12,6 @@ abstract class InquisitionQuestionView
 	// {{{ protected properties
 
 	protected $question;
-	protected $response_value;
 
 	// }}}
 	// {{{ public function __construct()
@@ -25,15 +24,12 @@ abstract class InquisitionQuestionView
 	// }}}
 	// {{{ abstract public function getWidget()
 
-	abstract public function getWidget();
+	abstract public function getWidget(InquisitionResponseValue $value = null);
 
 	// }}}
-	// {{{ public function setResponseValue()
+	// {{{ abstract public function getResponseValue()
 
-	public function setResponseValue(InquisitionResponseValue $value)
-	{
-		$this->response_value = $value;
-	}
+	abstract public function getResponseValue();
 
 	// }}}
 }

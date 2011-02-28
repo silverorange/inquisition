@@ -15,11 +15,10 @@ class InquisitionQuestion extends SwatDBDataObject
 {
 	// {{{ class constants
 
-	// Choose one (list of radio buttons)
 	const TYPE_RADIO_LIST = 1;
-
-	// True or False
-	const TYPE_BOOLEAN = 2;
+	const TYPE_FLYDOWN = 2;
+	const TYPE_RADIO_LIST_WITH_TEXT = 3;
+	const TYPE_TEXT = 4;
 
 	// }}}
 	// {{{ public properties
@@ -74,8 +73,25 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	public function getView($response_value = null)
 	{
-		require_once 'Inquisition/views/InquisitionMultipleChoiceQuestionView.php';
-		$view = new InquisitionMultipleChoiceQuestionView($this);
+		switch ($this->question_type) {
+		default:
+		case self::TYPE_RADIO_LIST:
+			require_once 'Inquisition/views/InquisitionRadioListQuestionView.php';
+			$view = new InquisitionRadioListQuestionView($this);
+			break;
+		case self::TYPE_FLYDOWN:
+			require_once 'Inquisition/views/InquisitionFlydownQuestionView.php';
+			$view = new InquisitionFlydownQuestionView($this);
+			break;
+		case self::TYPE_RADIO_LIST_WITH_TEXT:
+			require_once 'Inquisition/views/InquisitionRadioListWithTextQuestionView.php';
+			$view = new InquisitionRadioListWithTextQuestionView($this);
+			break;
+		case self::TYPE_TEXT:
+			require_once 'Inquisition/views/InquisitionTextQuestionView.php';
+			$view = new InquisitionTextQuestionView($this);
+			break;
+		}
 
 		return $view;
 	}
