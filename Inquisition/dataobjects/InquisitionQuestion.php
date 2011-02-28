@@ -70,6 +70,17 @@ class InquisitionQuestion extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ public function getView()
+
+	public function getView($response_value = null)
+	{
+		require_once 'Inquisition/views/InquisitionMultipleChoiceQuestionView.php';
+		$view = new InquisitionMultipleChoiceQuestionView($this);
+
+		return $view;
+	}
+
+	// }}}
 
 	// loader methods
 	// {{{ protected function loadOptions()
