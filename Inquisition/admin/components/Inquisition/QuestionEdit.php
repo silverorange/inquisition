@@ -38,7 +38,7 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		$form = $this->ui->getWidget('edit_form');
 		$form->addHiddenField('inquisition', $this->inquisition->id);
 
-		$view = $this->ui->getWidget('table_view');
+		$view = $this->ui->getWidget('question_option_table_view');
 		$view->model = $this->getOptionsTableStore();
 	}
 
@@ -133,9 +133,11 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	{
 		$count = 0;
 
-		$view = $this->ui->getWidget('table_view');
-		$title_renderer = $view->getColumn('title')->getRenderer('title_renderer');
-		$correct_option_renderer = $view->getColumn('correct_option')->getRenderer('correct_option_renderer');
+		$view = $this->ui->getWidget('question_option_table_view');
+		$title_column = $view->getColumn('title');
+		$title_renderer = $title_column->getFirstRenderer();
+		$correct_column = $view->getColumn('correct_option');
+		$correct_option_renderer = $correct_column->getFirstRenderer();
 
 		foreach ($this->question->options as $option) {
 			$title_widget = $title_renderer->getWidget($option->id);
@@ -147,8 +149,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 				$this->question->correct_option = $option;
 		}
 
-		foreach ($this->question->options as $option)
+		foreach ($this->question->options as $option) {
 			$option->save();
+		}
 	}
 
 	// }}}
@@ -156,14 +159,16 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 	protected function removeOptions()
 	{
-		$items = $this->ui->getWidget('table_view')->getSelection();
+		$view  = $this->ui->getWidget('question_option_table_view');
+		$items = $view->getSelection();
 
 		$ids = array();
-		foreach ($items as $id)
+		foreach ($items as $id) {
 			$ids[] = $id;
+		}
 
 		$sql = sprintf('delete from InquisitionQuestionOption where id in (%s)',
-				$this->app->db->datatype->implodeArray($ids, 'integer'));
+			$this->app->db->datatype->implodeArray($ids, 'integer'));
 
 		SwatDB::exec($this->app->db, $sql);
 	}
@@ -175,7 +180,7 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	{
 		$count = 0;
 
-		$view = $this->ui->getWidget('table_view');
+		$view = $this->ui->getWidget('question_option_table_view');
 		$input_row = $view->getRow('input_row');
 
 		$displayorder_base = SwatDB::queryOne($this->app->db,
@@ -255,6 +260,18 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 		$this->navbar->popEntry();
 		$this->navbar->createEntry('Edit Question');
+	}
+
+	// }}}
+
+	// finalize phase
+	// {{{ public function finalize()
+
+	public function finalize()
+	{
+		parent::finalize();
+		$this->layout->addHtmlHeadEntry(
+			'packages/inquisition/admin/styles/inquisition-question-edit.css');
 	}
 
 	// }}}

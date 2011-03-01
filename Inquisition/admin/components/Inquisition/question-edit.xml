@@ -15,7 +15,7 @@
 			<widget class="SwatFormField" id="options_field">
 				<property name="title" translatable="yes">Question Options</property>
 				<property name="display_messages" type="boolean">false</property>
-				<widget class="SwatTableView" id="table_view">
+				<widget class="SwatTableView" id="question_option_table_view">
 					<object class="SwatTableViewColumn" id="title">
 						<object class="SwatWidgetCellRenderer" id="title_renderer">
 							<property name="replicator_id" type="data">id</property>
