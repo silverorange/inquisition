@@ -14,13 +14,15 @@ abstract class InquisitionQuestionView
 	// {{{ protected properties
 
 	protected $question;
+	protected $db;
 
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct(InquisitionQuestion $question)
+	public function __construct(InquisitionQuestion $question, $db = null)
 	{
 		$this->question = $question;
+		$this->db = $db;
 	}
 
 	// }}}
