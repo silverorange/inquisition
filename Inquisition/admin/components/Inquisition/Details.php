@@ -100,17 +100,18 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$toolbar = $this->ui->getWidget('details_toolbar');
 		$toolbar->setToolLinkValues($this->inquisition->id);
 
-		$this->ui->getWidget('details_view')->data = $this->getDetailsStore();
+		$this->ui->getWidget('details_view')->data =
+			$this->getDetailsStore($this->inquisition);
 	}
 
 	// }}}
 	// {{{ protected function getDetailsStore()
 
-	protected function getDetailsStore()
+	protected function getDetailsStore(Inquisition $inquisition)
 	{
-		$ds = new SwatDetailsStore($this->inquisition);
-
-		$ds->description = SwatString::ellipsizeRight($ds->description, 300);
+		$ds = new SwatDetailsStore($inquisition);
+		$ds->description = SwatString::ellipsizeRight(
+			$inquisition->description, 300);
 
 		return $ds;
 	}
