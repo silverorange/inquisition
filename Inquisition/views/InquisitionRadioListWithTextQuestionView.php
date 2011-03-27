@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Inquisition/views/InquisitionQuestionView.php';
+require_once 'Inquisition/views/InquisitionRadioListQuestionView.php';
 require_once 'Swat/SwatContainer.php';
 require_once 'Swat/SwatEntry.php';
 
