@@ -1,5 +1,6 @@
 <?php
 
+require_once 'MDB2.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseValue.php';
 
@@ -13,13 +14,21 @@ abstract class InquisitionQuestionView
 {
 	// {{{ protected properties
 
+	/**
+	 * @var InquisitionQuestion
+	 */
 	protected $question;
+
+	/**
+	 * @var MDB2_Driver_Common
+	 */
 	protected $db;
 
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct(InquisitionQuestion $question, $db = null)
+	public function __construct(InquisitionQuestion $question,
+		MDB2_Driver_Common $db = null)
 	{
 		$this->question = $question;
 		$this->db = $db;
