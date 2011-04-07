@@ -38,7 +38,8 @@ class InquisitionFlydownQuestionView extends InquisitionQuestionView
 	// }}}
 	// {{{ public function getResponseValue()
 
-	public function getResponseValue() {
+	public function getResponseValue()
+	{
 		$class_name = SwatDBClassMap::get('InquisitionResponseValue');
 		$value = new $class_name();
 
