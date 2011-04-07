@@ -40,11 +40,8 @@ class InquisitionFlydownQuestionView extends InquisitionQuestionView
 
 	public function getResponseValue()
 	{
-		$class_name = SwatDBClassMap::get('InquisitionResponseValue');
-		$value = new $class_name();
-
+		$value = parent::getResponseValue();
 		$value->question_option = $this->flydown->value;
-
 		return $value;
 	}
 

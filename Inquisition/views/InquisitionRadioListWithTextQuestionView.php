@@ -42,9 +42,7 @@ class InquisitionRadioListWithTextQuestionView extends InquisitionRadioListQuest
 	public function getResponseValue()
 	{
 		$value = parent::getResponseValue();
-
 		$value->text_value = $this->entry->value;
-
 		return $value;
 	}
 

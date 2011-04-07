@@ -40,9 +40,15 @@ abstract class InquisitionQuestionView
 	abstract public function getWidget(InquisitionResponseValue $value = null);
 
 	// }}}
-	// {{{ abstract public function getResponseValue()
+	// {{{ public function getResponseValue()
 
-	abstract public function getResponseValue();
+	public function getResponseValue()
+	{
+		$class_name = SwatDBClassMap::get('InquisitionResponseValue');
+		$value = new $class_name();
+		$value->question = $this->question->id;
+		return $value;
+	}
 
 	// }}}
 }
