@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Admin/pages/AdminIndex.php';
-require_once 'Inquisition/dataobjects/InquisitionWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisitionWrapper.php';
 
 /**
  * Inquisition index
@@ -48,7 +48,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 			order by %s',
 			$this->getOrderByClause($view, 'title asc'));
 
-		$wrapper = SwatDBClassMap::get('InquisitionWrapper');
+		$wrapper = SwatDBClassMap::get('InquisitionInquisitionWrapper');
 		$inquisitions = SwatDB::query($this->app->db, $sql, $wrapper);
 
 		$store = new SwatTableStore();

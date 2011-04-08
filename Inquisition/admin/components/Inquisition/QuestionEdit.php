@@ -15,7 +15,7 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	// {{{ protected properties
 
 	/**
-	 * @var Inquisition
+	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
@@ -59,7 +59,7 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 			$this->inquisition = $this->question->inquisition;
 		} else {
-			$class = SwatDBClassMap::get('Inquisition');
+			$class = SwatDBClassMap::get('InquisitionInquisition');
 			$this->inquisition = new $class;
 			$this->inquisition->setDatabase($this->app->db);
 
@@ -110,8 +110,8 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			$this->question->inquisition = $this->inquisition->id;
 		}
 
-		$this->question->bodytext       = $values['bodytext'];
-		$this->question->question_type  = InquisitionQuestion::TYPE_RADIO_LIST;
+		$this->question->bodytext      = $values['bodytext'];
+		$this->question->question_type = InquisitionQuestion::TYPE_RADIO_LIST;
 
 		$this->updateOptions();
 		$this->removeOptions();

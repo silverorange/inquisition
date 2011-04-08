@@ -3,7 +3,7 @@
 require_once 'Swat/SwatDate.php';
 require_once 'Admin/exceptions/AdminNotFoundException.php';
 require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Inquisition/dataobjects/Inquisition.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 
 /**
  * @package   Inquisition
@@ -14,7 +14,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	// {{{ protected properties
 
 	/**
-	 * @var Inquisition
+	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
@@ -37,7 +37,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function initInquisition()
 	{
-		$class = SwatDBClassMap::get('Inquisition');
+		$class = SwatDBClassMap::get('InquisitionInquisition');
 		$this->inquisition = new $class;
 		$this->inquisition->setDatabase($this->app->db);
 

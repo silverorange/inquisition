@@ -23,7 +23,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 	protected $id;
 
 	/**
-	 * @var Inquisition
+	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
@@ -54,7 +54,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 	protected function initInquisition()
 	{
-		$class = SwatDBClassMap::get('Inquisition');
+		$class = SwatDBClassMap::get('InquisitionInquisition');
 		$this->inquisition = new $class;
 		$this->inquisition->setDatabase($this->app->db);
 
@@ -107,7 +107,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 	// }}}
 	// {{{ protected function getDetailsStore()
 
-	protected function getDetailsStore(Inquisition $inquisition)
+	protected function getDetailsStore(InquisitionInquisition $inquisition)
 	{
 		$ds = new SwatDetailsStore($inquisition);
 		$ds->description = SwatString::ellipsizeRight(
