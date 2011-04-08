@@ -1,0 +1,34 @@
+##
+## Static Web-resource dependencies for the Inquisition package
+##
+## Copyright (c) 2010 silverorange
+##
+## This library is free software; you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as
+## published by the Free Software Foundation; either version 2.1 of the
+## License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+##
+Inquisition:
+  Depends:
+    # Package Dependencies
+    - Swat
+
+  Provides:
+
+    # JavaScript resources
+    packages/inquisition/javascript/inquisition-radio-list-with-text-question-view.js:
+
+    # Style-sheet resources
+    packages/inquisition/admin/styles/inquisition-details.css:
+    packages/inquisition/admin/styles/inquisition-question-edit.css:
+
+# vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2:
