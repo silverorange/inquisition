@@ -2,7 +2,7 @@
 
 require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/Inquisition.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseValueWrapper.php';
 
 /**
@@ -31,25 +31,6 @@ class InquisitionResponse extends SwatDBDataObject
 	public $complete_date;
 
 	// }}}
-	// {{{ public function getGrade()
-
-	public function getGrade()
-	{
-		$correct = 0;
-
-		foreach ($this->values as $value) {
-			$question           = $value->question_option->question;
-			$correct_option_id  = $question->getInternalValue('correct_option');
-			$response_option_id = $value->question_option->id;
-			if ($response_option_id == $correct_option_id) {
-				$correct++;
-			}
-		}
-
-		return $correct / count($this->inquisition->questions);
-	}
-
-	// }}}
 	// {{{ protected function init()
 
 	protected function init()
@@ -61,7 +42,7 @@ class InquisitionResponse extends SwatDBDataObject
 		$this->registerDateProperty('complete_date');
 
 		$this->registerInternalProperty('inquisition',
-			SwatDBClassMap::get('Inquisition'));
+			SwatDBClassMap::get('InquisitionInquisition'));
 	}
 
 	// }}}

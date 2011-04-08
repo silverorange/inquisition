@@ -12,7 +12,7 @@ require_once 'Inquisition/dataobjects/InquisitionResponseWrapper.php';
  * @package   Inquisition
  * @copyright 2011 silverorange
  */
-class Inquisition extends SwatDBDataObject
+class InquisitionInquisition extends SwatDBDataObject
 {
 	// {{{ public properties
 

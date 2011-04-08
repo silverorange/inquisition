@@ -2,7 +2,7 @@
 
 require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/Inquisition.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
 
 /**
@@ -52,7 +52,7 @@ class InquisitionQuestion extends SwatDBDataObject
 		$this->id_field = 'integer:id';
 
 		$this->registerInternalProperty('inquisition',
-			SwatDBClassMap::get('Inquisition'));
+			SwatDBClassMap::get('InquisitionInquisition'));
 
 		$this->registerInternalProperty('correct_option',
 			SwatDBClassMap::get('InquisitionQuestionOption'));

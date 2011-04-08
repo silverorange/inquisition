@@ -2,10 +2,10 @@
 
 require_once 'SwatDB/SwatDBRecordsetWrapper.php';
 require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/Inquisition.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 
 /**
- * A recordset wrapper class for Inquisition objects
+ * A recordset wrapper class for InquisitionInquisition objects
  *
  * @package   Inquisition
  * @copyright 2011 silverorange
@@ -19,7 +19,9 @@ class InquisitionWrapper extends SwatDBRecordsetWrapper
 	{
 		parent::init();
 
-		$this->row_wrapper_class = SwatDBClassMap::get('Inquisition');
+		$this->row_wrapper_class =
+			SwatDBClassMap::get('InquisitionInquisition');
+
 		$this->index_field = 'id';
 	}
 
