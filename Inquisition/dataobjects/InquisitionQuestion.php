@@ -17,7 +17,7 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	const TYPE_RADIO_LIST = 1;
 	const TYPE_FLYDOWN = 2;
-	const TYPE_RADIO_LIST_WITH_TEXT = 3;
+	const TYPE_RADIO_ENTRY = 3;
 	const TYPE_TEXT = 4;
 
 	// }}}
@@ -83,9 +83,9 @@ class InquisitionQuestion extends SwatDBDataObject
 			require_once 'Inquisition/views/InquisitionFlydownQuestionView.php';
 			$view = new InquisitionFlydownQuestionView($this);
 			break;
-		case self::TYPE_RADIO_LIST_WITH_TEXT:
-			require_once 'Inquisition/views/InquisitionRadioListWithTextQuestionView.php';
-			$view = new InquisitionRadioListWithTextQuestionView($this);
+		case self::TYPE_RADIO_ENTRY:
+			require_once 'Inquisition/views/InquisitionRadioEntryQuestionView.php';
+			$view = new InquisitionRadioEntryQuestionView($this);
 			break;
 		case self::TYPE_TEXT:
 			require_once 'Inquisition/views/InquisitionTextQuestionView.php';
