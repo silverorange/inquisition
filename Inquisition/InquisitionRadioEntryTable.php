@@ -60,7 +60,12 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 
 	public function getEntryValue($option_value)
 	{
-		return $this->getCompositeWidget('entry_'.$option_value)->value;
+		$value = null;
+
+		if ($this->hasEntry($option_value))
+			$value = $this->getCompositeWidget('entry_'.$option_value)->value;
+
+		return $value;
 	}
 
 	// }}}
@@ -68,7 +73,8 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 
 	public function setEntryValue($option_value, $text)
 	{
-		$this->getCompositeWidget('entry_'.$option_value)->value = $text;
+		if ($this->hasEntry($option_value))
+			$this->getCompositeWidget('entry_'.$option_value)->value = $text;
 	}
 
 	// }}}
