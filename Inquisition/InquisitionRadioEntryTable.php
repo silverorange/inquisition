@@ -29,12 +29,12 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 	{
 		parent::__construct($id);
 
-		/*
-		$this->addJavaScript('javascript/radio-entry-table.js');
+		$this->addJavaScript(
+			'packages/inquisition/javascript/inquisition-radio-entry-table.js',
+			Inquisition::PACKAGE_ID);
 
 		$yui = new SwatYUI(array('dom', 'event'));
 		$this->html_head_entry_set->addEntrySet($yui->getHtmlHeadEntrySet());
-		*/
 	}
 
 	// }}}
@@ -99,7 +99,7 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 	public function display()
 	{
 		parent::display();
-		//Swat::displayInlineJavaScript($this->getInlineJavaScript());
+		Swat::displayInlineJavaScript($this->getInlineJavaScript());
 	}
 
 	// }}}
@@ -114,19 +114,6 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 	}
 
 	// }}}
-	// {{{ protected function getTrTag()
-
-	protected function getTrTag(SwatOption $option, $index)
-	{
-		$tr_tag = new SwatHtmlTag('tr');
-
-		if ($this->hasEntry($option->value))
-			$tr_tag->class = 'entry-option';
-
-		return $tr_tag;
-	}
-
-	// }}}
 	// {{{ protected function createCompositeWidgets()
 
 	protected function createCompositeWidgets()
@@ -138,6 +125,17 @@ class InquisitionRadioEntryTable extends SwatRadioTable
 			$entry->maxlength = 255;
 			$this->addCompositeWidget($entry, 'entry_'.$value);
 		}
+	}
+
+	// }}}
+	// {{{ protected function getInlineJavaScript()
+
+	protected function getInlineJavaScript()
+	{
+		return sprintf(
+			"var %s_obj = new InquisitionRadioEntryTable(%s);",
+			$this->id,
+			SwatString::quoteJavaScriptString($this->id));
 	}
 
 	// }}}
