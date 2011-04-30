@@ -1,6 +1,7 @@
 <?php
 
 require_once 'SwatDB/SwatDB.php';
+require_once 'SwatI18N/SwatI18NLocale.php';
 require_once 'Admin/AdminListDependency.php';
 require_once 'Admin/AdminSummaryDependency.php';
 require_once 'Admin/pages/AdminDBDelete.php';
@@ -20,6 +21,8 @@ class InquisitionInquisitionQuestionDelete extends AdminDBDelete
 	{
 		parent::processDBData();
 
+		$locale = SwatI18NLocale::get();
+
 		$sql = sprintf('delete from InquisitionQuestion where id in (%s)',
 			$this->getItemList('integer'));
 
@@ -28,9 +31,19 @@ class InquisitionInquisitionQuestionDelete extends AdminDBDelete
 		$message = new SwatMessage(sprintf(ngettext(
 			'One question has been deleted.',
 			'%s questions have been deleted.', $num),
-			SwatString::numberFormat($num)), 'notice');
+			$locale->formatNumber($num)));
 
 		$this->app->messages->add($message);
+	}
+
+	// }}}
+	// {{{ protected function relocate()
+
+	protected function relocate()
+	{
+		// don't do any of the details page detection in AdminDBDelete as there
+		// is no question details page.
+		AdminDBConfirmation::relocate();
 	}
 
 	// }}}
