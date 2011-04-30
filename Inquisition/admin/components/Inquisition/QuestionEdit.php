@@ -124,6 +124,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		}
 
 		$this->addOptions();
+
+		// save again so that the correct option is saved from addOptions
+		$this->question->save();
 	}
 
 	// }}}
