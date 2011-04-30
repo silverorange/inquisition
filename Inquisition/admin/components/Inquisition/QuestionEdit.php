@@ -108,6 +108,17 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			$now = new SwatDate();
 			$now->toUTC();
 			$this->question->inquisition = $this->inquisition->id;
+
+			// set displayorder so the new question appears at the end of the
+			// list of the current questions by default.
+			$sql = sprintf(
+				'select max(displayorder) from InquisitionQuestion
+				where inquisition = %s',
+				$this->app->db->quote($this->inquisition->id, 'integer'));
+
+			$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
+			$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
+			$this->question->displayorder = $new_displayorder;
 		}
 
 		$this->question->bodytext      = $values['bodytext'];
