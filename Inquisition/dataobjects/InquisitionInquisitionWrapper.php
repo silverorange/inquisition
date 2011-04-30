@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
  * @copyright 2011 silverorange
  * @see       Inquisition
  */
-class InquisitionWrapper extends SwatDBRecordsetWrapper
+class InquisitionInquisitionWrapper extends SwatDBRecordsetWrapper
 {
 	// {{{ protected function init()
 
