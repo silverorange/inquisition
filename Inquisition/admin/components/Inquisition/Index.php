@@ -48,7 +48,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 			order by %s',
 			$this->getOrderByClause($view, 'title asc'));
 
-		$wrapper = SwatDBClassMap::get('InquisitionInquisitionWrapper');
+		$wrapper = SwatDBClassMap::get('InquisitionWrapper');
 		$inquisitions = SwatDB::query($this->app->db, $sql, $wrapper);
 
 		$store = new SwatTableStore();
