@@ -55,7 +55,7 @@ class InquisitionInquisitionQuestionOrder extends AdminDBOrder
 
 		$order_widget = $this->ui->getWidget('order');
 		$order_widget->addOptionsByArray(SwatDB::getOptionArray($this->app->db,
-			'InquisitionQuestion', 'bodytext', 'id', 'displayorder',
+			'InquisitionQuestion', 'bodytext', 'id', 'displayorder, id',
 			sprintf('inquisition = %s', $inquisition_id)), 'text/xml');
 
 		$sql = sprintf('select sum(displayorder) from InquisitionQuestion
