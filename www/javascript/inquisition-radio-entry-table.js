@@ -37,14 +37,10 @@ InquisitionRadioEntryTable.prototype.updateEntries = function()
 		entry = this.entries[i];
 		radio = this.radios_by_entry[entry.id];
 		if (radio.checked) {
-			YAHOO.util.Dom.removeClass(entry,
-				'inquisition-radio-entry-table-insensitive');
-
+			YAHOO.util.Dom.removeClass(entry, 'swat-insensitive');
 			entry.disabled = false;
 		} else {
-			YAHOO.util.Dom.addClass(entry,
-				'inquisition-radio-entry-table-insensitive');
-
+			YAHOO.util.Dom.addClass(entry, 'swat-insensitive');
 			entry.disabled = true;
 		}
 	}
