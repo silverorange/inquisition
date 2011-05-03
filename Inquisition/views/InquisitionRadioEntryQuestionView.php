@@ -23,7 +23,7 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
 		$table = new InquisitionRadioEntryTable('question'.$this->question->id);
-		$table->required = true;
+		$table->required = $this->question->required;
 
 		foreach ($this->question->options as $option) {
 			$table->addOption($option->id, $option->title);

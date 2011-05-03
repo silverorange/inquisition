@@ -1,9 +1,10 @@
 create table InquisitionQuestion (
 	id serial,
 	inquisition integer not null references Inquisition(id) on delete cascade,
-	bodytext      text,
+	bodytext text,
 	question_type integer not null,
-	displayorder  integer not null default 0,
+	displayorder integer not null default 0,
+	required boolean not null default true,
 	primary key (id)
 );
 
