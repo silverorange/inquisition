@@ -1,6 +1,8 @@
 <?php
 
 require_once 'Swat/SwatDate.php';
+require_once 'Swat/SwatTableStore.php';
+require_once 'Swat/SwatDetailsStore.php';
 require_once 'Admin/exceptions/AdminNotFoundException.php';
 require_once 'Admin/pages/AdminDBEdit.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
