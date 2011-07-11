@@ -275,7 +275,14 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		parent::buildNavBar();
 
 		$this->navbar->popEntry();
-		$this->navbar->createEntry('Edit Question');
+
+		$this->navbar->addEntry(new SwatNavBarEntry($this->inquisition->title,
+			sprintf('Inquisition/Details?id=%s', $this->inquisition->id)));
+
+		if ($this->id === null)
+			$this->navbar->createEntry('New Question');
+		else
+			$this->navbar->createEntry('Edit Question');
 	}
 
 	// }}}

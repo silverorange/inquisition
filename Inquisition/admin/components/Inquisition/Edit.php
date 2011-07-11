@@ -51,6 +51,25 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	// }}}
 
+	// build phase
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$last = $this->navbar->popEntry();
+
+		if ($this->id !== null)
+			$this->navbar->addEntry(new SwatNavBarEntry(
+				$this->inquisition->title,
+				sprintf('Inquisition/Details?id=%s', $this->inquisition->id)));
+
+		$this->navbar->addEntry($last);
+	}
+
+	// }}}
+
 	// process phase
 	// {{{ protected function saveDBData()
 

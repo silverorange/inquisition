@@ -3,7 +3,7 @@
 <swatml>
 	<widget class="SwatMessageDisplay" id="message_display" />
 	<widget class="SwatFrame" id="edit_frame">
-		<property name="title">Inquisition Details</property>
+		<property name="title">Inquisition</property>
 		<widget class="SwatForm" id="edit_form">
 			<widget class="SwatFormField">
 				<property name="title">Title</property>

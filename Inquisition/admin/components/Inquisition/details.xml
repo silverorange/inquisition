@@ -9,7 +9,7 @@
 				<property name="link">Inquisition/Edit?id=%s</property>
 				<property name="stock_id">edit</property>
 			</widget>
-			<widget class="SwatToolLink">
+			<widget class="SwatToolLink" id="delete_link">
 				<property name="title" translatable="yes">Delete</property>
 				<property name="link">Inquisition/Delete?id=%s</property>
 				<property name="stock_id">delete</property>
