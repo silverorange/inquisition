@@ -37,6 +37,12 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		$this->ui->loadFromXML(dirname(__FILE__).'/question-edit.xml');
 		$this->initQuestion();
 
+		if ($this->question->id === null) {
+			$view = $this->ui->getWidget('question_option_table_view');
+			$row  = $view->getRow('input_row');
+			$row->number = 4;
+		}
+
 		$form = $this->ui->getWidget('edit_form');
 		$form->addHiddenField('inquisition', $this->inquisition->id);
 
@@ -98,6 +104,77 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	// }}}
 
 	// process phase
+	// {{{ protected function validate()
+
+	protected function validate()
+	{
+		parent::validate();
+
+		$field = $this->ui->getWidget('options_field');
+
+		$view = $this->ui->getWidget('question_option_table_view');
+		$items = $view->getSelection();
+
+		$has_correct   = false;
+		$current_count = count($this->question->options);
+		$removed_count = count($items);
+		$added_count   = 0;
+
+		// check for correct option in current options
+		$correct_column = $view->getColumn('correct_option');
+		if ($correct_column->isVisible()) {
+			$correct_option_renderer = $correct_column->getFirstRenderer();
+			foreach ($this->question->options as $option) {
+				// don't check removed options
+				if (!$items->contains($option->id)) {
+					$correct = $correct_option_renderer->getWidget($option->id);
+					if ($correct->isVisible() && !$has_correct) {
+						$has_correct = $correct->value;
+					}
+				}
+			}
+		} else {
+			// correct column is hidden, don't bother checking
+			$has_correct = true;
+		}
+
+		// get added added row count and check for correct option in added rows
+		$input_row = $view->getRow('input_row');
+		$replicators = $input_row->getReplicators();
+		foreach ($replicators as $replicator_id) {
+			if (!$input_row->rowHasMessage($replicator_id)) {
+				$title = $input_row->getWidget(
+					'title', $replicator_id)->value;
+
+				if ($title == '') {
+					continue;
+				}
+
+				$added_count++;
+				$correct = $input_row->getWidget(
+					'correct_option', $replicator_id);
+
+				if ($correct->isVisible() && !$has_correct) {
+					$has_correct = $correct->value;
+				}
+			}
+		}
+
+		if ($current_count + $added_count - $removed_count <= 0) {
+			$message = new SwatMessage(
+				'Question requires at least one question option.');
+
+			$field->addMessage($message);
+		} elseif (!$has_correct) {
+			$message = new SwatMessage(
+				'Question requires a correct option to be selected.');
+
+			$field->addMessage($message);
+		}
+
+	}
+
+	// }}}
 	// {{{ protected function saveDBData()
 
 	protected function saveDBData()
@@ -160,9 +237,12 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			if ($title_widget !== null && $title_widget->value != $option->title)
 				$option->title = $title_widget->value;
 
-			$radio = $correct_option_renderer->getWidget($option->id);
-			if ($radio !== null && $radio->value)
-				$this->question->correct_option = $option;
+			if ($correct_column->isVisible()) {
+				$radio = $correct_option_renderer->getWidget($option->id);
+				if ($radio !== null && $radio->value) {
+					$this->question->correct_option = $option;
+				}
+			}
 		}
 
 		foreach ($this->question->options as $option) {
@@ -224,11 +304,15 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 				$option->save();
 
-				$is_correct_option = $input_row->getWidget(
-					'correct_option', $replicator_id)->value;
+				$correct_widget = $input_row->getWidget(
+					'correct_option', $replicator_id);
 
-				if ($is_correct_option)
+				$is_correct_option = ($correct_widget->isVisible() &&
+					$correct_widget->value);
+
+				if ($is_correct_option) {
 					$this->question->correct_option = $option;
+				}
 
 				$input_row->removeReplicatedRow($replicator_id);
 			}

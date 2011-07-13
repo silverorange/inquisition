@@ -14,7 +14,6 @@
 			</widget>
 			<widget class="SwatFormField" id="options_field">
 				<property name="title" translatable="yes">Question Options</property>
-				<property name="display_messages" type="boolean">false</property>
 				<widget class="SwatTableView" id="question_option_table_view">
 					<object class="SwatTableViewColumn" id="title">
 						<object class="SwatWidgetCellRenderer" id="title_renderer">
@@ -31,7 +30,6 @@
 							<widget class="SwatTextarea">
 								<property name="rows" type="integer">2</property>
 								<property name="resizeable" type="boolean">false</property>
-								<property name="required" type="boolean">true</property>
 								<property name="maxlength" type="integer">255</property>
 							</widget>
 						</object>
@@ -57,7 +55,7 @@
 						<object class="SwatRemoveInputCell" />
 					</object>
 					<object class="SwatTableViewInputRow" id="input_row">
-						<property name="number" type="integer">2</property>
+						<property name="number" type="integer">0</property>
 						<property name="enter_text">add another option</property>
 					</object>
 				</widget>
