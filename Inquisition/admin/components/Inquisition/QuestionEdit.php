@@ -162,12 +162,14 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 
 		if ($current_count + $added_count - $removed_count <= 0) {
 			$message = new SwatMessage(
-				'Question requires at least one question option.');
+				Inquisition::_(
+					'Question requires at least one question option.'));
 
 			$field->addMessage($message);
 		} elseif (!$has_correct) {
 			$message = new SwatMessage(
-				'Question requires a correct option to be selected.');
+				Inquisition::_(
+					'Question requires a correct option to be selected.'));
 
 			$field->addMessage($message);
 		}
@@ -209,7 +211,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		if ($this->question->isModified()) {
 			$this->question->save();
 
-			$message = new SwatMessage('Question has been saved.');
+			$message = new SwatMessage(
+				Inquisition::_('Question has been saved.'));
+
 			$this->app->messages->add($message);
 		}
 
@@ -363,10 +367,11 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		$this->navbar->addEntry(new SwatNavBarEntry($this->inquisition->title,
 			sprintf('Inquisition/Details?id=%s', $this->inquisition->id)));
 
-		if ($this->id === null)
-			$this->navbar->createEntry('New Question');
-		else
-			$this->navbar->createEntry('Edit Question');
+		if ($this->id === null) {
+			$this->navbar->createEntry(Inquisition::_('New Question'));
+		} else {
+			$this->navbar->createEntry(Inquisition::_('Edit Question'));
+		}
 	}
 
 	// }}}
