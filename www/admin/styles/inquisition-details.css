@@ -29,3 +29,7 @@
 #question_option_view tbody tr.swat-table-view-group:first-child td {
 	padding-top: 0;
 }
+
+#question_option_view .inquisition-question-option-correct {
+	color: #438d04;
+}

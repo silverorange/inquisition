@@ -159,6 +159,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		$ds = new SwatDetailsStore($option);
 		$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
+		$ds->correct = ($option->id == $option->correct_option);
+
 		return $ds;
 	}
 
@@ -168,7 +170,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 	protected function getQuestionOptions(SwatTableView $view)
 	{
 		$sql = sprintf(
-			'select InquisitionQuestionOption.id, question, bodytext, title
+			'select InquisitionQuestionOption.id, question, bodytext, title,
+				correct_option
 				from InquisitionQuestionOption
 			inner join InquisitionQuestion on
 				InquisitionQuestionOption.question = InquisitionQuestion.id
