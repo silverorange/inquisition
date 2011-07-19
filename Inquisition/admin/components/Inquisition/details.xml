@@ -44,7 +44,7 @@
 						<property name="link">Inquisition/QuestionEdit?inquisition=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
-					<widget class="SwatToolLink">
+					<widget class="SwatToolLink" id="question_order">
 						<property name="title" translatable="yes">Change Question Order</property>
 						<property name="link">Inquisition/QuestionOrder?inquisition=%s</property>
 						<property name="stock_id">change-order</property>

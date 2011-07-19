@@ -149,6 +149,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 			$store->add($this->getQuestionOptionDetailsStore($option, $index));
 		}
 
+		$this->ui->getWidget('question_order')->sensitive = (count($store) > 1);
+
 		return $store;
 	}
 
