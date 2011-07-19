@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
 <swatml>
+	<widget class="SwatMessageDisplay" id="message_display" />
 	<widget class="SwatFrame" id="edit_frame">
 		<property name="title" translatable="yes">Question</property>
 		<widget class="SwatForm" id="edit_form">
-			<widget class="SwatMessageDisplay" id="message_display" />
 			<widget class="SwatFormField" id="bodytext_field">
 				<property name="title" translatable="yes">Question</property>
 				<widget class="SwatTextareaEditor" id="bodytext">
@@ -64,7 +64,7 @@
 				<widget class="SwatButton" id="submit_button" />
 				<widget class="SwatButton" id="another_button">
 					<property name="visible" type="boolean">false</property>
-					<property name="title">Add Another Question</property>
+					<property name="title">Create and Add Another</property>
 				</widget>
 			</widget>
 		</widget>

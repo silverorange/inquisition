@@ -110,6 +110,15 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function relocate()
+
+	protected function relocate()
+	{
+		$uri = 'Inquisition/Details?id='.$this->inquisition->id;
+		$this->app->relocate($uri);
+	}
+
+	// }}}
 
 	// build phase
 	// {{{ protected function loadDBData()
