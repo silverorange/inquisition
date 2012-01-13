@@ -9,7 +9,7 @@ require_once 'Swat/SwatRadioList.php';
  * A custom radio list with text entries
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2012 silverorange
  */
 class InquisitionRadioEntryList extends SwatRadioList
 {

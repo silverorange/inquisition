@@ -9,7 +9,7 @@ require_once 'Swat/SwatEntry.php';
  * Radio list with text question view
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2012 silverorange
  */
 class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 {
