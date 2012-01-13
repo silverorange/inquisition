@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Inquisition/views/InquisitionQuestionView.php';
-require_once 'Inquisition/InquisitionRadioEntryTable.php';
+require_once 'Inquisition/InquisitionRadioEntryList.php';
 require_once 'Swat/SwatContainer.php';
 require_once 'Swat/SwatEntry.php';
 
@@ -22,7 +22,7 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
-		$table = new InquisitionRadioEntryTable('question'.$this->question->id);
+		$table = new InquisitionRadioEntryList('question'.$this->question->id);
 		$table->required = $this->question->required;
 
 		foreach ($this->question->options as $option) {

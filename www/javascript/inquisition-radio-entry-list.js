@@ -1,4 +1,4 @@
-function InquisitionRadioEntryTable(id)
+function InquisitionRadioEntryList(id)
 {
 	this.id = id;
 	this.entries = [];
@@ -6,12 +6,12 @@ function InquisitionRadioEntryTable(id)
 	YAHOO.util.Event.onDOMReady(this.init, this, true);
 }
 
-InquisitionRadioEntryTable.prototype.init = function()
+InquisitionRadioEntryList.prototype.init = function()
 {
-	this.table = document.getElementById(this.id);
+	this.list = document.getElementById(this.id);
 	this.radio_buttons = YAHOO.util.Dom.getElementsBy(function (el) {
 		return (el.type == 'radio');
-	}, 'input', this.table);
+	}, 'input', this.list);
 
 	var id_parts, entry_id, entry;
 	for (var i = 0; i < this.radio_buttons.length; i++) {
@@ -30,7 +30,7 @@ InquisitionRadioEntryTable.prototype.init = function()
 	this.updateEntries();
 }
 
-InquisitionRadioEntryTable.prototype.updateEntries = function()
+InquisitionRadioEntryList.prototype.updateEntries = function()
 {
 	var radio, entry;
 	for (var i = 0; i < this.entries.length; i++) {
