@@ -4,6 +4,7 @@ require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionGroup.php';
 
 /**
  * An inquisition question
@@ -61,6 +62,9 @@ class InquisitionQuestion extends SwatDBDataObject
 
 		$this->registerInternalProperty('correct_option',
 			SwatDBClassMap::get('InquisitionQuestionOption'));
+
+		$this->registerInternalProperty('question_group',
+			SwatDBClassMap::get('InquisitionQuestionGroup'));
 	}
 
 	// }}}
