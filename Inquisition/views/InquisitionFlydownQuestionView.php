@@ -20,19 +20,20 @@ class InquisitionFlydownQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
-		$flydown = new SwatFlydown('question'.$this->question->id);
-		$flydown->required = $this->question->required;
+		if ($this->flydown === null) {
+			$this->flydown = new SwatFlydown('question'.$this->question->id);
+			$this->flydown->required = $this->question->required;
 
-		foreach ($this->question->options as $option)
-			$flydown->addOption($option->id, $option->title);
+			foreach ($this->question->options as $option)
+				$this->flydown->addOption($option->id, $option->title);
+		}
 
-		if ($value !== null)
-			$flydown->value = intval(
+		if ($value !== null) {
+			$this->flydown->value = intval(
 				$value->getInternalValue('question_option'));
+		}
 
-		$this->flydown = $flydown;
-
-		return $flydown;
+		return $this->flydown;
 	}
 
 	// }}}

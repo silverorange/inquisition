@@ -20,19 +20,22 @@ class InquisitionRadioListQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
-		$list = new SwatRadioList('question'.$this->question->id);
-		$list->required = $this->question->required;
+		if ($this->radio_list === null) {
+			$this->radio_list =
+				new SwatRadioList('question'.$this->question->id);
 
-		foreach ($this->question->options as $option)
-			$list->addOption($option->id, $option->title);
+			$this->radio_list->required = $this->question->required;
 
-		if ($value !== null)
-			$list->value = intval(
+			foreach ($this->question->options as $option)
+				$this->radio_list->addOption($option->id, $option->title);
+		}
+
+		if ($value !== null) {
+			$this->radio_list->value = intval(
 				$value->getInternalValue('question_option'));
+		}
 
-		$this->radio_list = $list;
-
-		return $list;
+		return $this->radio_list;
 	}
 
 	// }}}
