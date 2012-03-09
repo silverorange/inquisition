@@ -26,6 +26,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	 */
 	protected $question;
 
+	protected $ui_xml =
+		'Inquisition/admin/components/Inquisition/question-edit.xml';
+
 	// }}}
 
 	// init phase
@@ -34,7 +37,7 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	protected function initInternal()
 	{
 		parent::initInternal();
-		$this->ui->loadFromXML(dirname(__FILE__).'/question-edit.xml');
+		$this->ui->loadFromXML($this->ui_xml);
 		$this->initQuestion();
 
 		if ($this->question->id === null) {
