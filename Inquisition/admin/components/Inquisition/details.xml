@@ -6,12 +6,12 @@
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink">
 				<property name="title" translatable="yes">Edit</property>
-				<property name="link">Inquisition/Edit?id=%s</property>
+				<property name="link">%s/Edit?id=%s</property>
 				<property name="stock_id">edit</property>
 			</widget>
 			<widget class="SwatToolLink" id="delete_link">
 				<property name="title" translatable="yes">Delete</property>
-				<property name="link">Inquisition/Delete?id=%s</property>
+				<property name="link">%s/Delete?id=%s</property>
 				<property name="stock_id">delete</property>
 			</widget>
 		</widget>
@@ -41,12 +41,12 @@
 				<widget class="SwatToolbar" id="question_toolbar">
 					<widget class="SwatToolLink">
 						<property name="title" translatable="yes">Add Question</property>
-						<property name="link">Inquisition/QuestionEdit?inquisition=%s</property>
+						<property name="link">%s/QuestionEdit?inquisition=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
 					<widget class="SwatToolLink" id="question_order">
 						<property name="title" translatable="yes">Change Question Order</property>
-						<property name="link">Inquisition/QuestionOrder?inquisition=%s</property>
+						<property name="link">%s/QuestionOrder?inquisition=%s</property>
 						<property name="stock_id">change-order</property>
 					</widget>
 				</widget>
@@ -59,18 +59,21 @@
 						</object>
 						<object class="AdminGroupLinkCellRenderer">
 							<property name="text">Edit Question</property>
-							<property name="link">Inquisition/QuestionEdit?id=%s</property>
-							<property name="link_value" type="data">question</property>
+							<property name="link">%s/QuestionEdit?id=%s</property>
+							<property name="link_value[]" type="data">component</property>
+							<property name="link_value[]" type="data">question</property>
 						</object>
 						<object class="AdminGroupLinkCellRenderer">
 							<property name="text">Delete Question</property>
-							<property name="link">Inquisition/QuestionDelete?id=%s</property>
-							<property name="link_value" type="data">question</property>
+							<property name="link">%s/QuestionDelete?id=%s</property>
+							<property name="link_value[]" type="data">component</property>
+							<property name="link_value[]" type="data">question</property>
 						</object>
 						<object class="AdminGroupLinkCellRenderer">
 							<property name="text">Change Option Order</property>
-							<property name="link">Inquisition/QuestionOptionOrder?question=%s</property>
-							<property name="link_value" type="data">question</property>
+							<property name="link">%s/QuestionOptionOrder?question=%s</property>
+							<property name="link_value[]" type="data">component</property>
+							<property name="link_value[]" type="data">question</property>
 						</object>
 					</object>
 					<object class="SwatTableViewColumn" id="option_title">

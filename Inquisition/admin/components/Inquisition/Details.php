@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
  * Details page for inquisitions
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2012 silverorange
  */
 class InquisitionInquisitionDetails extends AdminIndex
 {
@@ -95,13 +95,21 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$this->ui->getWidget('details_frame')->title = $this->inquisition->title;
 
 		$toolbar = $this->ui->getWidget('question_toolbar');
-		$toolbar->setToolLinkValues($this->inquisition->id);
+		$toolbar->setToolLinkValues(array(
+			$this->getComponentName(),
+			$this->inquisition->id));
 
 		$toolbar = $this->ui->getWidget('details_toolbar');
-		$toolbar->setToolLinkValues($this->inquisition->id);
+		$toolbar->setToolLinkValues(array(
+			$this->getComponentName(),
+			$this->inquisition->id));
 
-		$this->ui->getWidget('details_view')->data =
-			$this->getDetailsStore($this->inquisition);
+		$view = $this->ui->getWidget('details_view');
+		$view->data = $this->getDetailsStore($this->inquisition);
+
+		$field = $view->getField('createdate');
+		$renderer = $field->getFirstRenderer();
+		$renderer->display_time_zone = $this->app->default_time_zone;
 	}
 
 	// }}}
@@ -162,6 +170,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$ds = new SwatDetailsStore($option);
 		$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
 		$ds->correct = ($option->id == $option->correct_option);
+		$ds->component = $this->getComponentName();
 
 		return $ds;
 	}
