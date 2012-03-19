@@ -63,7 +63,9 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		if ($this->id !== null)
 			$this->navbar->addEntry(new SwatNavBarEntry(
 				$this->inquisition->title,
-				sprintf('Inquisition/Details?id=%s', $this->inquisition->id)));
+				sprintf('%s/Details?id=%s',
+					$this->getComponentName(),
+					$this->inquisition->id)));
 
 		$this->navbar->addEntry($last);
 	}
@@ -114,7 +116,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function relocate()
 	{
-		$uri = 'Inquisition/Details?id='.$this->inquisition->id;
+		$uri = $this->getComponentName().'/Details?id='.$this->inquisition->id;
 		$this->app->relocate($uri);
 	}
 

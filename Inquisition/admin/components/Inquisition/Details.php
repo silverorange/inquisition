@@ -75,7 +75,9 @@ class InquisitionInquisitionDetails extends AdminIndex
 		case 'question_view':
 			switch ($actions->selected->id) {
 			case 'question_delete':
-				$this->app->replacePage('Inquisition/QuestionDelete');
+				$this->app->replacePage($this->getComponentName().
+					'/QuestionDelete');
+
 				$this->app->getPage()->setItems($view->getSelection());
 				break;
 			}

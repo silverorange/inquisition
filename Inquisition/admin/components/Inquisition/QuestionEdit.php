@@ -339,7 +339,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 			$url = sprintf('%s?inquisition=%s',
 				$this->source, $this->inquisition->id);
 		} else {
-			$url = sprintf('Inquisition/Details?id=%s', $this->inquisition->id);
+			$url = sprintf('%s/Details?id=%s',
+				$this->getComponentName(),
+				$this->inquisition->id);
 		}
 
 		$this->app->relocate($url);
@@ -368,7 +370,9 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 		$this->navbar->popEntry();
 
 		$this->navbar->addEntry(new SwatNavBarEntry($this->inquisition->title,
-			sprintf('Inquisition/Details?id=%s', $this->inquisition->id)));
+			sprintf('%s/Details?id=%s',
+				$this->getComponentName(),
+				$this->inquisition->id)));
 
 		if ($this->id === null) {
 			$this->navbar->createEntry(Inquisition::_('New Question'));
