@@ -390,7 +390,8 @@ class InquisitionInquisitionQuestionEdit extends AdminDBEdit
 	{
 		parent::finalize();
 		$this->layout->addHtmlHeadEntry(
-			'packages/inquisition/admin/styles/inquisition-question-edit.css');
+			'packages/inquisition/admin/styles/inquisition-question-edit.css',
+			Inquisition::PACKAGE_ID);
 	}
 
 	// }}}
