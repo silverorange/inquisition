@@ -1,5 +1,6 @@
-#question_option_view td.option-title {
-	padding: 3px 0 3px 20px;
+#question_option_view td.option-index {
+	padding-left: 24px;
+	width: 16px;
 }
 
 #question_option_view td.question .swat-text-cell-renderer {
@@ -7,7 +8,7 @@
 }
 
 #question_option_view td.question .swat-link-cell-renderer {
-	margin: 2px 0.5em 2px 0;
+	margin: 2px 4px 0 0;
 	display: block;
 	float: left;
 }
@@ -17,13 +18,13 @@
 	margin: 0;
 }
 
-#question_option_view tbody tr {
-	background-image: none;
+#question_option_view tbody tr td {
+	border: none;
 }
 
 #question_option_view .swat-table-view-group {
 	border-bottom: none;
-	padding-top: 1.5em;
+	padding: 16px 4px 0;
 }
 
 #question_option_view tbody tr.swat-table-view-group:first-child td {

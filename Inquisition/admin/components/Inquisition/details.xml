@@ -76,6 +76,13 @@
 							<property name="link_value[]" type="data">question</property>
 						</object>
 					</object>
+					<object class="SwatTableViewColumn" id="option_index">
+						<object class="SwatTextCellRenderer">
+							<property name="classes[]">inquisition-option-index</property>
+							<property name="text">%s.</property>
+							<property name="value" type="data">option_index</property>
+						</object>
+					</object>
 					<object class="SwatTableViewColumn" id="option_title">
 						<object class="SwatTextCellRenderer">
 							<property name="text" type="data">title</property>

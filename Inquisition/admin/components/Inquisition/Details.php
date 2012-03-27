@@ -150,13 +150,26 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$store = new SwatTableStore();
 
 		$current_question = null;
-		$index = 0;
+		$question_index = 0;
+		$option_index = 1;
 		foreach ($this->getQuestionOptions($view) as $option) {
+
 			if ($option->question != $current_question) {
 				$current_question = $option->question;
-				$index++;
+				$question_index++;
+				$option_index = 1;
 			}
-			$store->add($this->getQuestionOptionDetailsStore($option, $index));
+
+			$store->add(
+				$this->getQuestionOptionDetailsStore(
+					$option,
+					$question_index,
+					$option_index
+				)
+			);
+
+			$option_index++;
+
 		}
 
 		$this->ui->getWidget('question_order')->sensitive = (count($store) > 1);
@@ -167,12 +180,16 @@ class InquisitionInquisitionDetails extends AdminIndex
 	// }}}
 	// {{{ protected function getQuestionOptionDetailsStore()
 
-	protected function getQuestionOptionDetailsStore($option, $index)
+	protected function getQuestionOptionDetailsStore($option, $question_index,
+		$option_index)
 	{
 		$ds = new SwatDetailsStore($option);
-		$ds->bodytext = $index.'. '.SwatString::condense($option->bodytext);
+		$ds->bodytext = $question_index.'. '.
+			SwatString::condense($option->bodytext);
+
 		$ds->correct = ($option->id == $option->correct_option);
 		$ds->component = $this->getComponentName();
+		$ds->option_index = $option_index;
 
 		return $ds;
 	}
