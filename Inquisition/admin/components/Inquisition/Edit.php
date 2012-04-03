@@ -57,27 +57,6 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	// }}}
 
-	// build phase
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$last = $this->navbar->popEntry();
-
-		if ($this->id !== null)
-			$this->navbar->addEntry(new SwatNavBarEntry(
-				$this->inquisition->title,
-				sprintf('%s/Details?id=%s',
-					$this->getComponentName(),
-					$this->inquisition->id)));
-
-		$this->navbar->addEntry($last);
-	}
-
-	// }}}
-
 	// process phase
 	// {{{ protected function saveDBData()
 
@@ -134,6 +113,25 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	protected function loadDBData()
 	{
 		$this->ui->setValues(get_object_vars($this->inquisition));
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$last = $this->navbar->popEntry();
+
+		if ($this->id !== null)
+			$this->navbar->addEntry(new SwatNavBarEntry(
+				$this->inquisition->title,
+				sprintf('%s/Details?id=%s',
+					$this->getComponentName(),
+					$this->inquisition->id)));
+
+		$this->navbar->addEntry($last);
 	}
 
 	// }}}
