@@ -18,8 +18,6 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	 */
 	protected $inquisition;
 
-	protected $ui_xml = 'Inquisition/admin/components/Inquisition/edit.xml';
-
 	// }}}
 
 	// init phase
@@ -28,7 +26,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	protected function initInternal()
 	{
 		parent::initInternal();
-		$this->ui->loadFromXML($this->ui_xml);
+		$this->ui->loadFromXML($this->getUiXml());
 		$this->initInquisition();
 	}
 
@@ -47,6 +45,14 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 					sprintf('Inquisition with id ‘%s’ not found.', $this->id));
 			}
 		}
+	}
+
+	// }}}
+	// {{{ protected function getUiXml()
+
+	protected function getUiXml()
+	{
+		return 'Inquisition/admin/components/Inquisition/edit.xml';
 	}
 
 	// }}}
