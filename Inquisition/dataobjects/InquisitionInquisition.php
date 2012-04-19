@@ -75,6 +75,21 @@ class InquisitionInquisition extends SwatDBDataObject
 
 	// }}}
 
+	// saver methods
+	// {{{ protected function saveQuestions()
+
+	protected function saveQuestions()
+	{
+		foreach ($this->questions as $question) {
+			$question->inquisition = $this;
+		}
+
+		$this->questions->setDatabase($this->db);
+		$this->questions->save();
+	}
+
+	// }}}
+
 	// loader methods
 	// {{{ protected function loadQuestions()
 
