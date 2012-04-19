@@ -123,6 +123,21 @@ class InquisitionQuestion extends SwatDBDataObject
 	}
 
 	// }}}
+
+	// saver methods
+	// {{{ protected function saveOptions()
+
+	protected function saveOptions()
+	{
+		foreach ($this->options as $option) {
+			$option->question = $this;
+		}
+
+		$this->options->setDatabase($this->db);
+		$this->options->save();
+	}
+
+	// }}}
 }
 
 ?>
