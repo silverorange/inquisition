@@ -32,6 +32,7 @@ class InquisitionInquisitionQuestionOptionOrder extends AdminDBOrder
 
 	// build phase
 	// {{{ protected function buildInternal()
+
 	protected function buildInternal()
 	{
 		$this->ui->getWidget('order_frame')->title = 'Change Option Order';
