@@ -20,6 +20,7 @@ class InquisitionQuestion extends SwatDBDataObject
 	const TYPE_FLYDOWN = 2;
 	const TYPE_RADIO_ENTRY = 3;
 	const TYPE_TEXT = 4;
+	const TYPE_CHECKBOX_LIST = 5;
 
 	// }}}
 	// {{{ public properties
@@ -99,6 +100,10 @@ class InquisitionQuestion extends SwatDBDataObject
 		case self::TYPE_TEXT:
 			require_once 'Inquisition/views/InquisitionTextQuestionView.php';
 			$view = new InquisitionTextQuestionView($this);
+			break;
+		case self::TYPE_CHECKBOX_LIST:
+			require_once 'Inquisition/views/InquisitionCheckboxListQuestionView.php';
+			$view = new InquisitionCheckboxListQuestionView($this);
 			break;
 		}
 
