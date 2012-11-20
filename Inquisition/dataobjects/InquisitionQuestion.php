@@ -5,12 +5,13 @@ require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionGroup.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
 
 /**
  * An inquisition question
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2012 silverorange
  */
 class InquisitionQuestion extends SwatDBDataObject
 {
@@ -123,6 +124,24 @@ class InquisitionQuestion extends SwatDBDataObject
 			$this->db->quote($this->id, 'integer'));
 
 		$wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
+
+		return SwatDB::query($this->db, $sql, $wrapper);
+	}
+
+	// }}}
+	// {{{ protected function loadImages()
+
+	protected function loadImages()
+	{
+		$sql = sprintf('select * from Image
+			inner join InquisitionQuestionImageBinding
+				on InquisitionQuestionImageBinding.image = Image.id
+			where InquisitionQuestionImageBinding.question = %s
+			order by InquisitionQuestionImageBinding.displayorder,
+				InquisitionQuestionImageBinding.image',
+			$this->db->quote($this->id, 'integer'));
+
+		$wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
