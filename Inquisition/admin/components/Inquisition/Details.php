@@ -94,7 +94,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		parent::buildInternal();
 
-		$this->ui->getWidget('details_frame')->title = $this->inquisition->title;
+		$this->ui->getWidget('details_frame')->title =
+			$this->inquisition->title;
 
 		$toolbar = $this->ui->getWidget('question_toolbar');
 		$toolbar->setToolLinkValues(array($this->inquisition->id));
