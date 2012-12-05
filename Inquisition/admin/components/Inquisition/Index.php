@@ -24,9 +24,6 @@ class InquisitionInquisitionIndex extends AdminIndex
 		$view->setDefaultOrderbyColumn(
 			$view->getColumn('title'),
 			SwatTableViewOrderableColumn::ORDER_BY_DIR_ASCENDING);
-
-		$this->ui->getWidget('toolbar')->setToolLinkValues(
-			$this->getComponentName());
 	}
 
 	// }}}
@@ -58,7 +55,6 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 		foreach ($inquisitions as $inquisition) {
 			$ds = new SwatDetailsStore($inquisition);
-			$ds->component = $this->getComponentName();
 			$ds->question_count = sprintf(
 				'%s questions', count($inquisition->questions));
 

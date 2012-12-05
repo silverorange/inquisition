@@ -1,0 +1,123 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
+<swatml>
+	<widget class="SwatMessageDisplay" id="message_display" />
+	<widget class="SwatFrame" id="details_frame">
+		<widget class="SwatToolbar" id="details_toolbar">
+			<widget class="SwatToolLink">
+				<property name="title" translatable="yes">Edit</property>
+				<property name="link">Question/Edit?id=%s</property>
+				<property name="stock_id">edit</property>
+			</widget>
+		</widget>
+		<!-- {{{ Details -->
+
+		<widget class="SwatDetailsView" id="details_view">
+			<object class="SwatDetailsViewVerticalField">
+				<property name="title" translatable="yes">Bodytext</property>
+				<object class="SwatNullTextCellRenderer">
+					<property name="text" type="data">bodytext</property>
+					<property name="content_type">text/xml</property>
+				</object>
+			</object>
+		</widget>
+
+		<!-- }}} -->
+		<!-- {{{ Images -->
+
+		<widget class="SwatFrame">
+			<property name="title" translatable="yes">Images</property>
+			<widget class="SwatForm">
+				<widget class="SwatToolbar" id="image_toolbar">
+					<widget class="SwatToolLink">
+						<property name="title" translatable="yes">Add Image</property>
+						<property name="link">Question/ImageUpload?id=%s</property>
+						<property name="stock_id">add</property>
+					</widget>
+					<widget class="SwatToolLink" id="image_order">
+						<property name="title" translatable="yes">Change Image Order</property>
+						<property name="link">Question/ImageOrder?id=%s</property>
+						<property name="stock_id">change-order</property>
+					</widget>
+				</widget>
+				<widget class="SwatTileView" id="image_view">
+					<object class="SwatTile">
+						<object class="SwatWidgetCellRenderer">
+							<widget class="SwatImagePreviewDisplay">
+								<property name="image" type="data">image</property>
+								<property name="width" type="data">width</property>
+								<property name="height" type="data">height</property>
+								<property name="preview_image" type="data">preview_image</property>
+								<property name="preview_width" type="data">preview_width</property>
+								<property name="preview_height" type="data">preview_height</property>
+								<property name="show_icon" type="boolean">false</property>
+							</widget>
+						</object>
+						<object class="SwatCheckboxCellRenderer" id="items">
+							<property name="value" type="data">id</property>
+						</object>
+					</object>
+				</widget>
+				<widget class="SwatActions" id="image_actions">
+					<widget class="SwatActionItem" id="image_delete">
+						<property name="title" translatable="yes">delete…</property>
+					</widget>
+				</widget>
+			</widget>
+		</widget>
+
+		<!-- }}} -->
+		<!-- {{{ Option -->
+
+		<widget class="SwatFrame">
+			<property name="title" translatable="yes">Options</property>
+			<widget class="SwatForm">
+				<widget class="SwatToolbar" id="option_toolbar">
+					<widget class="SwatToolLink">
+						<property name="title" translatable="yes">Add Option</property>
+						<property name="link">Option/Edit?question=%s</property>
+						<property name="stock_id">add</property>
+					</widget>
+					<widget class="SwatToolLink" id="option_order">
+						<property name="title" translatable="yes">Change Option Order</property>
+						<property name="link">Option/Order?id=%s</property>
+						<property name="stock_id">change-order</property>
+					</widget>
+				</widget>
+				<widget class="SwatTableView" id="option_view">
+					<object class="SwatTableViewCheckboxColumn">
+						<object class="SwatCheckboxCellRenderer" id="items">
+							<property name="value" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<object class="AdminTitleLinkCellRenderer">
+							<property name="text" type="data">title</property>
+							<property name="link">Option/Details?id=%s</property>
+							<property name="link_value[]" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn" id="correct_option">
+						<property name="title">Correct Answer</property>
+						<object class="SwatBooleanCellRenderer">
+							<property name="value" type="data">correct</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<property name="title"># of Images</property>
+						<object class="SwatNumericCellRenderer">
+							<property name="value" type="data">image_count</property>
+						</object>
+					</object>
+				</widget>
+				<widget class="SwatActions" id="option_actions">
+					<widget class="SwatActionItem" id="option_delete">
+						<property name="title" translatable="yes">delete…</property>
+					</widget>
+				</widget>
+			</widget>
+		</widget>
+
+		<!-- }}} -->
+	</widget>
+</swatml>

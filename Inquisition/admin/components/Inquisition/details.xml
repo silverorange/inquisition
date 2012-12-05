@@ -6,12 +6,12 @@
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink">
 				<property name="title" translatable="yes">Edit</property>
-				<property name="link">%s/Edit?id=%s</property>
+				<property name="link">Inquisition/Edit?id=%s</property>
 				<property name="stock_id">edit</property>
 			</widget>
 			<widget class="SwatToolLink" id="delete_link">
 				<property name="title" translatable="yes">Delete</property>
-				<property name="link">%s/Delete?id=%s</property>
+				<property name="link">Inquisition/Delete?id=%s</property>
 				<property name="stock_id">delete</property>
 			</widget>
 		</widget>
@@ -41,53 +41,51 @@
 				<widget class="SwatToolbar" id="question_toolbar">
 					<widget class="SwatToolLink">
 						<property name="title" translatable="yes">Add Question</property>
-						<property name="link">%s/QuestionEdit?inquisition=%s</property>
+						<property name="link">Question/Add?id=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
 					<widget class="SwatToolLink" id="question_order">
 						<property name="title" translatable="yes">Change Question Order</property>
-						<property name="link">%s/QuestionOrder?inquisition=%s</property>
+						<property name="link">Question/Order?id=%s</property>
 						<property name="stock_id">change-order</property>
 					</widget>
 				</widget>
-				<widget class="SwatTableView" id="question_option_view">
-					<object class="SwatTableViewGroup" id="question">
-						<property name="title" translatable="yes">Question</property>
-						<property name="group_by">question</property>
+				<widget class="SwatTableView" id="question_view">
+					<object class="SwatTableViewCheckboxColumn">
+						<object class="SwatCheckboxCellRenderer" id="items">
+							<property name="value" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<object class="AdminTitleLinkCellRenderer">
+							<property name="text" type="data">title</property>
+							<property name="link">Question/Details?id=%s</property>
+							<property name="link_value[]" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<property name="title"># of Options</property>
+						<object class="SwatNumericCellRenderer">
+							<property name="value" type="data">option_count</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<property name="title"># of Images</property>
+						<object class="SwatNumericCellRenderer">
+							<property name="value" type="data">image_count</property>
+						</object>
+					</object>
+					<object class="SwatTableViewSpanningColumn">
 						<object class="SwatTextCellRenderer">
 							<property name="text" type="data">bodytext</property>
-						</object>
-						<object class="AdminGroupLinkCellRenderer">
-							<property name="text">Edit Question</property>
-							<property name="link">%s/QuestionEdit?id=%s</property>
-							<property name="link_value[]" type="data">component</property>
-							<property name="link_value[]" type="data">question</property>
-						</object>
-						<object class="AdminGroupLinkCellRenderer">
-							<property name="text">Delete Question</property>
-							<property name="link">%s/QuestionDelete?id=%s</property>
-							<property name="link_value[]" type="data">component</property>
-							<property name="link_value[]" type="data">question</property>
-						</object>
-						<object class="AdminGroupLinkCellRenderer">
-							<property name="text">Change Option Order</property>
-							<property name="link">%s/QuestionOptionOrder?question=%s</property>
-							<property name="link_value[]" type="data">component</property>
-							<property name="link_value[]" type="data">question</property>
+							<property name="content_type">text/xml</property>
 						</object>
 					</object>
-					<object class="SwatTableViewColumn" id="option_index">
-						<object class="SwatTextCellRenderer">
-							<property name="classes[]">inquisition-option-index</property>
-							<property name="text">%s.</property>
-							<property name="value" type="data">option_index</property>
-						</object>
-					</object>
-					<object class="SwatTableViewColumn" id="option_title">
-						<object class="SwatTextCellRenderer">
-							<property name="text" type="data">title</property>
-						</object>
-					</object>
+				</widget>
+				<widget class="SwatActions" id="question_actions">
+					<widget class="SwatActionItem" id="question_delete">
+						<property name="title" translatable="yes">delete…</property>
+					</widget>
 				</widget>
 			</widget>
 		</widget>

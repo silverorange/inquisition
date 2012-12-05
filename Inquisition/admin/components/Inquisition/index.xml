@@ -7,7 +7,7 @@
 		<widget class="SwatToolbar" id="toolbar">
 			<widget class="SwatToolLink">
 				<property name="title" translatable="yes">New Inquisition</property>
-				<property name="link">%s/Edit</property>
+				<property name="link">Inquisition/Edit</property>
 				<property name="stock_id">add</property>
 			</widget>
 		</widget>
@@ -16,8 +16,7 @@
 				<property name="title">Title</property>
 				<object class="AdminTitleLinkCellRenderer">
 					<property name="text" type="data">title</property>
-					<property name="link">%s/Details?id=%s</property>
-					<property name="link_value[]" type="data">component</property>
+					<property name="link">Inquisition/Details?id=%s</property>
 					<property name="link_value[]" type="data">id</property>
 				</object>
 			</object>

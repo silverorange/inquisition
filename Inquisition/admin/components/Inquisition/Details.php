@@ -75,9 +75,9 @@ class InquisitionInquisitionDetails extends AdminIndex
 		case 'question_view':
 			switch ($actions->selected->id) {
 			case 'question_delete':
-				$this->app->replacePage($this->getComponentName().
-					'/QuestionDelete');
+				$this->app->replacePage('Question/Delete');
 
+				$this->app->getPage()->setId($this->inquisition->id);
 				$this->app->getPage()->setItems($view->getSelection());
 				break;
 			}
@@ -97,14 +97,10 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$this->ui->getWidget('details_frame')->title = $this->inquisition->title;
 
 		$toolbar = $this->ui->getWidget('question_toolbar');
-		$toolbar->setToolLinkValues(array(
-			$this->getComponentName(),
-			$this->inquisition->id));
+		$toolbar->setToolLinkValues(array($this->inquisition->id));
 
 		$toolbar = $this->ui->getWidget('details_toolbar');
-		$toolbar->setToolLinkValues(array(
-			$this->getComponentName(),
-			$this->inquisition->id));
+		$toolbar->setToolLinkValues(array($this->inquisition->id));
 
 		$view = $this->ui->getWidget('details_view');
 		$view->data = $this->getDetailsStore($this->inquisition);
@@ -134,8 +130,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$model = null;
 
 		switch ($view->id) {
-		case 'question_option_view':
-			$model = $this->getQuestionOptionTableModel($view);
+		case 'question_view':
+			$model = $this->getOptionTableModel($view);
 			break;
 		}
 
@@ -143,33 +139,14 @@ class InquisitionInquisitionDetails extends AdminIndex
 	}
 
 	// }}}
-	// {{{ protected function getQuestionOptionTableModel()
+	// {{{ protected function getOptionTableModel()
 
-	protected function getQuestionOptionTableModel(SwatTableView $view)
+	protected function getOptionTableModel(SwatTableView $view)
 	{
 		$store = new SwatTableStore();
 
-		$current_question = null;
-		$question_index = 0;
-		$option_index = 1;
-		foreach ($this->getQuestionOptions($view) as $option) {
-
-			if ($option->question != $current_question) {
-				$current_question = $option->question;
-				$question_index++;
-				$option_index = 1;
-			}
-
-			$store->add(
-				$this->getQuestionOptionDetailsStore(
-					$option,
-					$question_index,
-					$option_index
-				)
-			);
-
-			$option_index++;
-
+		foreach ($this->inquisition->questions as $question) {
+			$store->add($this->getQuestionDetailsStore($question));
 		}
 
 		$this->ui->getWidget('question_order')->sensitive = (count($store) > 1);
@@ -178,40 +155,17 @@ class InquisitionInquisitionDetails extends AdminIndex
 	}
 
 	// }}}
-	// {{{ protected function getQuestionOptionDetailsStore()
+	// {{{ protected function getQuestionDetailsStore()
 
-	protected function getQuestionOptionDetailsStore($option, $question_index,
-		$option_index)
+	protected function getQuestionDetailsStore(InquisitionQuestion $question)
 	{
-		$ds = new SwatDetailsStore($option);
-		$ds->bodytext = $question_index.'. '.
-			SwatString::condense($option->bodytext);
+		$ds = new SwatDetailsStore($question);
 
-		$ds->correct = ($option->id == $option->correct_option);
-		$ds->component = $this->getComponentName();
-		$ds->option_index = $option_index;
+		$ds->title = sprintf(Inquisition::_('Question %s'), $question->position);
+		$ds->image_count = count($question->images);
+		$ds->option_count = count($question->options);
 
 		return $ds;
-	}
-
-	// }}}
-	// {{{ protected function getQuestionOptions()
-
-	protected function getQuestionOptions(SwatTableView $view)
-	{
-		$sql = sprintf(
-			'select InquisitionQuestionOption.id, question, bodytext, title,
-				correct_option
-				from InquisitionQuestionOption
-			inner join InquisitionQuestion on
-				InquisitionQuestionOption.question = InquisitionQuestion.id
-			where InquisitionQuestion.inquisition = %s
-			order by InquisitionQuestion.displayorder, InquisitionQuestion.id,
-				InquisitionQuestionOption.displayorder,
-				InquisitionQuestionOption.id',
-			$this->app->db->quote($this->id, 'integer'));
-
-		return SwatDB::query($this->app->db, $sql);
 	}
 
 	// }}}

@@ -6,8 +6,10 @@ require_once 'Admin/pages/AdminDBEdit.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 
 /**
+ * Edit page for inquisitions
+ *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2012 silverorange
  */
 class InquisitionInquisitionEdit extends AdminDBEdit
 {
@@ -39,7 +41,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		$this->inquisition = new $class;
 		$this->inquisition->setDatabase($this->app->db);
 
-		if ($this->id !== null) {
+		if ($this->id != '') {
 			if (!$this->inquisition->load($this->id)) {
 				throw new AdminNotFoundException(
 					sprintf('Inquisition with id ‘%s’ not found.', $this->id));
@@ -85,7 +87,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 			$this->inquisition->createdate = $now;
 		}
 
-		$this->inquisition->title         = $values['title'];
+		$this->inquisition->title = $values['title'];
 	}
 
 	// }}}
@@ -101,8 +103,12 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function relocate()
 	{
-		$uri = $this->getComponentName().'/Details?id='.$this->inquisition->id;
-		$this->app->relocate($uri);
+		$this->app->relocate(
+			sprintf(
+				'Inquisition/Details?id=%s',
+				$this->inquisition->id
+			)
+		);
 	}
 
 	// }}}
@@ -124,12 +130,15 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 		$last = $this->navbar->popEntry();
 
-		if ($this->id !== null)
-			$this->navbar->addEntry(new SwatNavBarEntry(
+		if ($this->id != '') {
+			$this->navbar->createEntry(
 				$this->inquisition->title,
-				sprintf('%s/Details?id=%s',
-					$this->getComponentName(),
-					$this->inquisition->id)));
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->addEntry($last);
 	}
