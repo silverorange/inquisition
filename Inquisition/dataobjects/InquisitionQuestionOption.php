@@ -83,6 +83,23 @@ class InquisitionQuestionOption extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ protected function loadPosition()
+
+	protected function loadPosition()
+	{
+		$sql = sprintf(
+			'select position from (
+				select id, rank() over (
+					partition by question order by displayorder, id
+				) as position from InquisitionQuestionOption
+			) as temp where id = %s',
+			$this->id
+		);
+
+		return SwatDB::queryOne($this->db, $sql);
+	}
+
+	// }}}
 }
 
 ?>
