@@ -308,6 +308,17 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function buildFrame()
+
+	protected function buildFrame()
+	{
+		parent::buildFrame();
+
+		$frame = $this->ui->getWidget('edit_frame');
+		$frame->title = Inquisition::_('New Question');
+	}
+
+	// }}}
 
 	// finalize phase
 	// {{{ public function finalize()
