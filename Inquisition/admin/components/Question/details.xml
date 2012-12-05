@@ -78,6 +78,11 @@
 						<property name="link">Option/Edit?question=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
+					<widget class="SwatToolLink" id="correct_option">
+						<property name="title" translatable="yes">Change Correct Option</property>
+						<property name="link">Question/CorrectOption?id=%s</property>
+						<property name="stock_id">edit</property>
+					</widget>
 					<widget class="SwatToolLink" id="option_order">
 						<property name="title" translatable="yes">Change Option Order</property>
 						<property name="link">Option/Order?id=%s</property>
