@@ -13,6 +13,44 @@ require_once 'Admin/pages/AdminDBDelete.php';
  */
 class InquisitionInquisitionDelete extends AdminDBDelete
 {
+	// {{{ protected properties
+
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
+
+	// }}}
+
+	// init phase
+	// {{{ protected function initInternal()
+
+	protected function initInternal()
+	{
+		parent::initInternal();
+
+		$this->initInquisition();
+	}
+
+	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$this->inquisition = new $class;
+		$this->inquisition->setDatabase($this->app->db);
+
+		$id = $this->getFirstItem();
+
+		if (!$this->inquisition->load($id)) {
+			throw new AdminNotFoundException(sprintf(
+				'A inquisition with the id of “%s” does not exist', $id));
+		}
+	}
+
+	// }}}
+
 	// process phase
 	// {{{ protected function processDBData()
 
@@ -76,6 +114,26 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		if ($dep->getStatusLevelCount(AdminDependency::DELETE) == 0) {
 			$this->switchToCancelButton();
 		}
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$last = $this->navbar->popEntry();
+
+		$this->navbar->createEntry(
+			$this->inquisition->title,
+			sprintf(
+				'Inquisition/Details?id=%s',
+				$this->inquisition->id
+			)
+		);
+
+		$this->navbar->addEntry($last);
 	}
 
 	// }}}

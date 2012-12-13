@@ -164,7 +164,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
 		$this->updateQuestion();
 		$this->question->save();
 
-		$this->addOptions($question);
+		$this->addOptions($this->question);
 
 		$this->app->messages->add(
 			new SwatMessage(
