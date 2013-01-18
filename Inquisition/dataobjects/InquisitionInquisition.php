@@ -10,7 +10,7 @@ require_once 'Inquisition/dataobjects/InquisitionResponseWrapper.php';
  * An inquisition
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionInquisition extends SwatDBDataObject
 {
@@ -70,7 +70,8 @@ class InquisitionInquisition extends SwatDBDataObject
 	{
 		return array_merge(
 			parent::getSerializableSubDataObjects(),
-			array('questions'));
+			array('questions')
+		);
 	}
 
 	// }}}
@@ -80,6 +81,8 @@ class InquisitionInquisition extends SwatDBDataObject
 
 	protected function saveQuestions()
 	{
+		// TODO: how to save bindings. Below won't work. Will need to be
+		// displayorder aware as well.
 		foreach ($this->questions as $question) {
 			$question->inquisition = $this;
 		}
@@ -95,12 +98,22 @@ class InquisitionInquisition extends SwatDBDataObject
 
 	protected function loadQuestions()
 	{
-		$sql = sprintf('select * from InquisitionQuestion
-			where inquisition = %s
-			order by displayorder, id',
-			$this->db->quote($this->id, 'integer'));
+		$sql = sprintf(
+			'select * from InquisitionQuestion
+			inner join InquisitionInquisitionQuestionBinding
+				on InquisitionQuestion.id =
+					InquisitionInquisitionQuestionBinding.question
+			where InquisitionInquisitionQuestionBinding.inquisition = %s
+			order by InquisitionInquisitionQuestionBinding.displayorder,
+				InquisitionQuestion.id',
+			$this->db->quote($this->id, 'integer')
+		);
 
-		return SwatDB::query($this->db, $sql, 'InquisitionQuestionWrapper');
+		return SwatDB::query(
+			$this->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionQuestionWrapper')
+		);
 	}
 
 	// }}}
@@ -108,12 +121,18 @@ class InquisitionInquisition extends SwatDBDataObject
 
 	protected function loadResponses()
 	{
-		$sql = sprintf('select * from InquisitionResponse
+		$sql = sprintf(
+			'select * from InquisitionResponse
 			where inquisition = %s
 			order by createdate, id',
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
-		return SwatDB::query($this->db, $sql, 'InquisitionResponseWrapper');
+		return SwatDB::query(
+			$this->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionResponseWrapper')
+		);
 	}
 
 	// }}}

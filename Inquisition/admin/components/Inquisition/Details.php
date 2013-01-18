@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
  * Details page for inquisitions
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionInquisitionDetails extends AdminIndex
 {
@@ -162,7 +162,11 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		$ds = new SwatDetailsStore($question);
 
-		$ds->title = sprintf(Inquisition::_('Question %s'), $question->position);
+		$ds->title = sprintf(
+			Inquisition::_('Question %s'),
+			$question->position
+		);
+
 		$ds->image_count = count($question->images);
 		$ds->option_count = count($question->options);
 
@@ -186,8 +190,10 @@ class InquisitionInquisitionDetails extends AdminIndex
 	public function finalize()
 	{
 		parent::finalize();
+
 		$this->layout->addHtmlHeadEntry(
-			'packages/inquisition/admin/styles/inquisition-details.css');
+			'packages/inquisition/admin/styles/inquisition-details.css'
+		);
 	}
 
 	// }}}

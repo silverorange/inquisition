@@ -6,12 +6,13 @@ require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionGroup.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
 
 /**
  * An inquisition question
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionQuestion extends SwatDBDataObject
 {
@@ -59,14 +60,15 @@ class InquisitionQuestion extends SwatDBDataObject
 		$this->table = 'InquisitionQuestion';
 		$this->id_field = 'integer:id';
 
-		$this->registerInternalProperty('inquisition',
-			SwatDBClassMap::get('InquisitionInquisition'));
+		$this->registerInternalProperty(
+			'correct_option',
+			SwatDBClassMap::get('InquisitionQuestionOption')
+		);
 
-		$this->registerInternalProperty('correct_option',
-			SwatDBClassMap::get('InquisitionQuestionOption'));
-
-		$this->registerInternalProperty('question_group',
-			SwatDBClassMap::get('InquisitionQuestionGroup'));
+		$this->registerInternalProperty(
+			'question_group',
+			SwatDBClassMap::get('InquisitionQuestionGroup')
+		);
 	}
 
 	// }}}
@@ -76,7 +78,8 @@ class InquisitionQuestion extends SwatDBDataObject
 	{
 		return array_merge(
 			parent::getSerializableSubDataObjects(),
-			array('options'));
+			array('options')
+		);
 	}
 
 	// }}}
@@ -118,12 +121,31 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	protected function loadOptions()
 	{
-		$sql = sprintf('select * from InquisitionQuestionOption
+		$sql = sprintf(
+			'select * from InquisitionQuestionOption
 			where question = %s
 			order by displayorder',
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
 		$wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
+
+		return SwatDB::query($this->db, $sql, $wrapper);
+	}
+
+	// }}}
+	// {{{ protected function loadHints()
+
+	protected function loadHints()
+	{
+		$sql = sprintf(
+			'select * from InquisitionQuestionHint
+			where question = %s
+			order by displayorder',
+			$this->db->quote($this->id, 'integer')
+		);
+
+		$wrapper = SwatDBClassMap::get('InquisitionQuestionHintWrapper');
 
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
@@ -133,13 +155,15 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	protected function loadImages()
 	{
-		$sql = sprintf('select * from Image
+		$sql = sprintf(
+			'select * from Image
 			inner join InquisitionQuestionImageBinding
 				on InquisitionQuestionImageBinding.image = Image.id
 			where InquisitionQuestionImageBinding.question = %s
 			order by InquisitionQuestionImageBinding.displayorder,
 				InquisitionQuestionImageBinding.image',
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
 		$wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 
