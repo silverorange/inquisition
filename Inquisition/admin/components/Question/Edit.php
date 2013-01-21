@@ -12,7 +12,7 @@ require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
  * Edit page for a question
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionQuestionEdit extends AdminDBEdit
 {
@@ -22,6 +22,11 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	 * @var InquisitionQuestion
 	 */
 	protected $question;
+
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
 
 	// }}}
 
@@ -33,6 +38,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		parent::initInternal();
 
 		$this->initQuestion();
+		$this->initInquisition();
 
 		$this->ui->loadFromXML($this->getUiXml());
 	}
@@ -46,19 +52,36 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		$this->question = new $class;
 		$this->question->setDatabase($this->app->db);
 
-		if ($this->id == '') {
-			throw new AdminNotFoundException(
-				'Question id not provided.'
-			);
-		}
-
-		if (!$this->question->load($this->id)) {
+		if ($this->id !== null && !$this->question->load($this->id)) {
 			throw new AdminNotFoundException(
 				sprintf(
 					'Question with id ‘%s’ not found.',
 					$this->id
 				)
 			);
+		}
+	}
+
+	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$class = SwatDBClassMap::get('Inquisition');
+			$this->inquisition = new $class;
+			$this->inquisition->setDatabase($this->app->db);
+
+			if (!$this->inquisition->load($this->id)) {
+				throw new AdminNotFoundException(
+					sprintf(
+						'Inquisition with id ‘%s’ not found.',
+						$this->id
+					)
+				);
+			}
 		}
 	}
 
@@ -77,11 +100,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 	protected function saveDBData()
 	{
-		$values = $this->ui->getValues(array(
-			'bodytext',
-		));
-
-		$this->question->bodytext = $values['bodytext'];
+		$this->updateQuestion();
 		$this->question->save();
 
 		$this->app->messages->add(
@@ -89,6 +108,20 @@ class InquisitionQuestionEdit extends AdminDBEdit
 				Inquisition::_('Question has been saved.')
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function updateQuestion()
+
+	protected function updateQuestion()
+	{
+		$values = $this->ui->getValues(
+			array(
+				'bodytext',
+			)
+		);
+
+		$this->question->bodytext = $values['bodytext'];
 	}
 
 	// }}}
@@ -115,6 +148,19 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function buildForm()
+
+	protected function buildForm()
+	{
+		parent::buildForm();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form = $this->ui->getWidget('edit_form');
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
+	}
+
+	// }}}
 	// {{{ protected function buildNavBar()
 
 	protected function buildNavBar()
@@ -123,22 +169,34 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
-		$this->navbar->createEntry(
-			$this->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
+		$question_link_title = Inquisition::_('Question');
+		$question_link_extra = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
 
-		$this->navbar->createEntry(
-			sprintf(
+			$question_link_title = sprintf(
 				Inquisition::_('Question %s'),
 				$this->question->position
-			),
+			);
+
+			$question_link_extra = sprintf(
+				'&instance=%s',
+				$this->inquisition->id
+			);
+		}
+
+		$this->navbar->createEntry(
+			$question_link_title,
 			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$question_link_extra
 			)
 		);
 
@@ -153,9 +211,11 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	public function finalize()
 	{
 		parent::finalize();
+
 		$this->layout->addHtmlHeadEntry(
 			'packages/inquisition/admin/styles/inquisition-question-edit.css',
-			Inquisition::PACKAGE_ID);
+			Inquisition::PACKAGE_ID
+		);
 	}
 
 	// }}}
