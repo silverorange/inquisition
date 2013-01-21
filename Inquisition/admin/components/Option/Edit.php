@@ -9,7 +9,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
  * Edit page for an option
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionOptionEdit extends AdminDBEdit
 {
@@ -154,7 +154,10 @@ class InquisitionOptionEdit extends AdminDBEdit
 		);
 
 		$this->navbar->createEntry(
-			sprintf(Inquisition::_('Question %s'), $this->question->position),
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->question->id

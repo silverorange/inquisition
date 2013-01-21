@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
  * Change order page for option images
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionOptionImageOrder extends AdminDBOrder
 {
@@ -132,7 +132,10 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		);
 
 		$this->navbar->createEntry(
-			sprintf('Question %s', $this->option->question->position),
+			sprintf(
+				'Question %s',
+				$this->option->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->option->question->id

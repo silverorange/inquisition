@@ -10,7 +10,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
  * Upload page for question images
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 {
@@ -116,7 +116,10 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 		);
 
 		$this->navbar->createEntry(
-			sprintf('Question %s', $this->question->position),
+			sprintf(
+				'Question %s',
+				$this->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->question->id
@@ -132,7 +135,11 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 	protected function buildFrame()
 	{
 		$frame = $this->ui->getWidget('edit_frame');
-		$frame->title = sprintf('Question %s', $this->question->position);
+		$frame->title = sprintf(
+			'Question %s',
+			$this->question->getPosition($this->inquisition)
+		);
+
 		$frame->subtitle = 'Add Image';
 	}
 

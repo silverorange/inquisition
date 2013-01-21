@@ -10,7 +10,7 @@ require_once 'Admin/pages/AdminDBDelete.php';
  * Delete confirmation page for options
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionOptionDelete extends AdminDBDelete
 {
@@ -162,7 +162,7 @@ class InquisitionOptionDelete extends AdminDBDelete
 		$this->navbar->createEntry(
 			sprintf(
 				Inquisition::_('Question %s'),
-				$this->question->position
+				$this->question->getPosition($this->inquisition)
 			),
 			sprintf(
 				'Question/Details?id=%s',

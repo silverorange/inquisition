@@ -7,7 +7,7 @@ require_once 'Admin/pages/AdminDBOrder.php';
  * Change order page for options
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionOptionOrder extends AdminDBOrder
 {
@@ -126,7 +126,10 @@ class InquisitionOptionOrder extends AdminDBOrder
 		);
 
 		$this->navbar->createEntry(
-			sprintf(Inquisition::_('Question %s'), $this->question->position),
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->question->id

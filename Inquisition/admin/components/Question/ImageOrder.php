@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
  * Change order page for question images
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionQuestionImageOrder extends AdminDBOrder
 {
@@ -126,7 +126,10 @@ class InquisitionQuestionImageOrder extends AdminDBOrder
 		);
 
 		$this->navbar->createEntry(
-			sprintf('Question %s', $this->question->position),
+			sprintf(
+				'Question %s',
+				$this->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->question->id

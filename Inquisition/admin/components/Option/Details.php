@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
  * Details page for an option
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionOptionDetails extends AdminIndex
 {
@@ -179,7 +179,10 @@ class InquisitionOptionDetails extends AdminIndex
 		);
 
 		$this->navbar->createEntry(
-			sprintf('Question %s', $this->option->question->position),
+			sprintf(
+				'Question %s',
+				$this->option->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->option->question->id

@@ -11,7 +11,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
  * Upload page for option images
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 {
@@ -117,7 +117,10 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		);
 
 		$this->navbar->createEntry(
-			sprintf('Question %s', $this->option->question->position),
+			sprintf(
+				'Question %s',
+				$this->option->question->getPosition($this->inquisition)
+			),
 			sprintf(
 				'Question/Details?id=%s',
 				$this->option->question->id
