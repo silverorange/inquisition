@@ -37,10 +37,10 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	{
 		parent::initInternal();
 
+		$this->ui->loadFromXML($this->getUiXml());
+
 		$this->initQuestion();
 		$this->initInquisition();
-
-		$this->ui->loadFromXML($this->getUiXml());
 	}
 
 	// }}}
@@ -169,7 +169,6 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
-		$question_link_title = Inquisition::_('Question');
 		$question_link_extra = null;
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(
@@ -180,11 +179,6 @@ class InquisitionQuestionEdit extends AdminDBEdit
 				)
 			);
 
-			$question_link_title = sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->position
-			);
-
 			$question_link_extra = sprintf(
 				'&instance=%s',
 				$this->inquisition->id
@@ -192,7 +186,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		}
 
 		$this->navbar->createEntry(
-			$question_link_title,
+			$this->getQuestionTitle(),
 			sprintf(
 				'Question/Details?id=%s%s',
 				$this->question->id,
@@ -201,6 +195,19 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		);
 
 		$this->navbar->createEntry(Inquisition::_('Edit Question'));
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->position
+			) :
+			Inquisition::_('Question');
 	}
 
 	// }}}

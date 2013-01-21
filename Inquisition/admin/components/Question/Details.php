@@ -10,7 +10,7 @@ require_once 'Admin/exceptions/AdminNotFoundException.php';
  * Details page for a question
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionQuestionDetails extends AdminIndex
 {
@@ -20,6 +20,11 @@ class InquisitionQuestionDetails extends AdminIndex
 	 * @var InquisitionQuestion
 	 */
 	protected $question;
+
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
 
 	// }}}
 
@@ -33,6 +38,7 @@ class InquisitionQuestionDetails extends AdminIndex
 		$this->ui->loadFromXML($this->getUiXml());
 
 		$this->initQuestion();
+		$this->initInquisition();
 	}
 
 	// }}}
@@ -60,6 +66,29 @@ class InquisitionQuestionDetails extends AdminIndex
 	}
 
 	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$class = SwatDBClassMap::get('Inquisition');
+			$this->inquisition = new $class;
+			$this->inquisition->setDatabase($this->app->db);
+
+			if (!$this->inquisition->load($this->id)) {
+				throw new AdminNotFoundException(
+					sprintf(
+						'Inquisition with id ‘%s’ not found.',
+						$this->id
+					)
+				);
+			}
+		}
+	}
+
+	// }}}
 	// {{{ protected function getUiXml()
 
 	protected function getUiXml()
@@ -81,6 +110,7 @@ class InquisitionQuestionDetails extends AdminIndex
 				$this->app->replacePage('Option/Delete');
 
 				$this->app->getPage()->setId($this->question->id);
+				$this->app->getPage()->setInquisition($this->inquisition);
 				$this->app->getPage()->setItems($view->getSelection());
 				break;
 			}
@@ -92,6 +122,7 @@ class InquisitionQuestionDetails extends AdminIndex
 				$this->app->replacePage('Question/ImageDelete');
 
 				$this->app->getPage()->setId($this->question->id);
+				$this->app->getPage()->setInquisition($this->inquisition);
 				$this->app->getPage()->setItems($view->getSelection());
 				break;
 			}
@@ -224,51 +255,18 @@ class InquisitionQuestionDetails extends AdminIndex
 
 	protected function getOptions(SwatTableView $view)
 	{
-		/*
 		$sql = sprintf(
-			'select InquisitionQuestionOption.id, question, bodytext, title,
-				correct_option
-				from InquisitionQuestionOption
-			inner join InquisitionQuestion on
-				InquisitionQuestionOption.question = InquisitionQuestion.id
-			where InquisitionQuestion.inquisition = %s
-			order by InquisitionQuestion.displayorder, InquisitionQuestion.id,
-				InquisitionQuestionOption.displayorder,
-				InquisitionQuestionOption.id',
-			$this->app->db->quote($this->id, 'integer'));
-
-		return SwatDB::query($this->app->db, $sql);
-		*/
-
-		$sql = sprintf('select * from InquisitionQuestionOption
+			'select * from InquisitionQuestionOption
 			where InquisitionQuestionOption.question = %s
 			order by InquisitionQuestionOption.displayorder,
 				InquisitionQuestionOption.question',
 			$this->app->db->quote($this->question->id, 'integer')
 		);
 
-		$wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
-
-		return SwatDB::query($this->app->db, $sql, $wrapper);
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->createEntry(
-			$this->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf('Question %s', $this->question->position)
+		return SwatDB::query(
+			$this->app->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionQuestionOptionWrapper')
 		);
 	}
 
@@ -278,7 +276,7 @@ class InquisitionQuestionDetails extends AdminIndex
 	protected function buildFrame()
 	{
 		$frame = $this->ui->getWidget('details_frame');
-		$frame->title = sprintf('Question %s', $this->question->position);
+		$frame->title = sprintf($this->getQuestionTitle());
 	}
 
 	// }}}
@@ -294,6 +292,41 @@ class InquisitionQuestionDetails extends AdminIndex
 
 		$toolbar = $this->ui->getWidget('option_toolbar');
 		$toolbar->setToolLinkValues(array($this->question->id));
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+
+		$this->navbar->createEntry(
+			$this->getQuestionTitle()
+		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->position
+			) :
+			Inquisition::_('Question');
 	}
 
 	// }}}
