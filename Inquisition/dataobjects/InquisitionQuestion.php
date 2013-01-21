@@ -115,6 +115,26 @@ class InquisitionQuestion extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ public function getPosition()
+
+	public function getPosition(InquisitionInquisition $inquisition)
+	{
+		$sql = sprintf(
+			'select position from (
+				select question, rank() over (
+					partition by inquisition order by displayorder, question
+				) as position from InquisitionInquisitionQuestionBinding
+				where inquisition = %s
+			) as temp where question = %s',
+			$inquisition->id,
+			$this->id
+		);
+
+		return SwatDB::queryOne($this->db, $sql);
+	}
+
+	// }}}
+
 
 	// loader methods
 	// {{{ protected function loadOptions()
@@ -168,23 +188,6 @@ class InquisitionQuestion extends SwatDBDataObject
 		$wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 
 		return SwatDB::query($this->db, $sql, $wrapper);
-	}
-
-	// }}}
-	// {{{ protected function loadPosition()
-
-	protected function loadPosition()
-	{
-		$sql = sprintf(
-			'select position from (
-				select id, rank() over (
-					partition by inquisition order by displayorder, id
-				) as position from InquisitionQuestion
-			) as temp where id = %s',
-			$this->id
-		);
-
-		return SwatDB::queryOne($this->db, $sql);
 	}
 
 	// }}}

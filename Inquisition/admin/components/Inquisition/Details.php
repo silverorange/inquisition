@@ -170,7 +170,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		$ds->title = sprintf(
 			Inquisition::_('Question %s'),
-			$question->position
+			$question->getPosition($this->inquisition)
 		);
 
 		$ds->image_count = count($question->images);

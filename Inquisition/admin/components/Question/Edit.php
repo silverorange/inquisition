@@ -205,7 +205,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		return ($this->inquisition instanceof InquisitionInquisition) ?
 			sprintf(
 				Inquisition::_('Question %s'),
-				$this->question->position
+				$this->question->getPosition($this->inquisition)
 			) :
 			Inquisition::_('Question');
 	}
