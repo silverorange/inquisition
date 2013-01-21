@@ -314,14 +314,15 @@ class InquisitionQuestionDetails extends AdminIndex
 
 	protected function buildToolbar()
 	{
-		$toolbar = $this->ui->getWidget('details_toolbar');
-		$toolbar->setToolLinkValues(array($this->question->id));
-
-		$toolbar = $this->ui->getWidget('image_toolbar');
-		$toolbar->setToolLinkValues(array($this->question->id));
-
-		$toolbar = $this->ui->getWidget('option_toolbar');
-		$toolbar->setToolLinkValues(array($this->question->id));
+		// TODO: Set inquisition as well.
+		foreach ($this->ui->getRoot()->getDescendants('SwatToolBar') as
+			$toolbar) {
+			$toolbar->setToolLinkValues(
+				array(
+					$this->question->id,
+				)
+			);
+		}
 	}
 
 	// }}}
