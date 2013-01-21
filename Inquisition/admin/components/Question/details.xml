@@ -13,7 +13,7 @@
 		<!-- {{{ Details -->
 
 		<widget class="SwatDetailsView" id="details_view">
-			<object class="SwatDetailsViewVerticalField">
+			<object class="SwatDetailsViewVerticalField" id="bodytext_field">
 				<property name="title" translatable="yes">Bodytext</property>
 				<object class="SwatNullTextCellRenderer">
 					<property name="text" type="data">bodytext</property>
@@ -60,6 +60,46 @@
 				</widget>
 				<widget class="SwatActions" id="image_actions">
 					<widget class="SwatActionItem" id="image_delete">
+						<property name="title" translatable="yes">delete…</property>
+					</widget>
+				</widget>
+			</widget>
+		</widget>
+
+		<!-- }}} -->
+		<!-- {{{ Hints -->
+
+		<widget class="SwatFrame">
+			<property name="title" translatable="yes">Hints</property>
+			<widget class="SwatForm">
+				<widget class="SwatToolbar" id="hint_toolbar">
+					<widget class="SwatToolLink">
+						<property name="title" translatable="yes">Add Hint</property>
+						<property name="link">Question/HintEdit?question=%s</property>
+						<property name="stock_id">add</property>
+					</widget>
+					<widget class="SwatToolLink" id="hint_order">
+						<property name="title" translatable="yes">Change Hint Order</property>
+						<property name="link">Question/HintOrder?question=%s</property>
+						<property name="stock_id">change-order</property>
+					</widget>
+				</widget>
+				<widget class="SwatTableView" id="hint_view">
+					<object class="SwatTableViewCheckboxColumn">
+						<object class="SwatCheckboxCellRenderer" id="items">
+							<property name="value" type="data">id</property>
+						</object>
+					</object>
+					<object class="SwatTableViewColumn">
+						<object class="AdminTitleLinkCellRenderer">
+							<property name="text" type="data">bodytext</property>
+							<property name="link">Question/HintEdit?question=%s</property>
+							<property name="link_value[]" type="data">id</property>
+						</object>
+					</object>
+				</widget>
+				<widget class="SwatActions" id="hint_actions">
+					<widget class="SwatActionItem" id="hint_delete">
 						<property name="title" translatable="yes">delete…</property>
 					</widget>
 				</widget>

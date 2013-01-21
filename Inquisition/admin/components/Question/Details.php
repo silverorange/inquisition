@@ -104,10 +104,10 @@ class InquisitionQuestionDetails extends AdminIndex
 	protected function processActions(SwatView $view, SwatActions $actions)
 	{
 		switch ($view->id) {
-		case 'option_view':
+		case 'image_view':
 			switch ($actions->selected->id) {
-			case 'option_delete':
-				$this->app->replacePage('Option/Delete');
+			case 'image_delete':
+				$this->app->replacePage('Question/ImageDelete');
 
 				$this->app->getPage()->setId($this->question->id);
 				$this->app->getPage()->setInquisition($this->inquisition);
@@ -116,10 +116,22 @@ class InquisitionQuestionDetails extends AdminIndex
 			}
 			break;
 
-		case 'image_view':
+		case 'hint_view':
 			switch ($actions->selected->id) {
-			case 'image_delete':
-				$this->app->replacePage('Question/ImageDelete');
+			case 'hint_delete':
+				$this->app->replacePage('Question/HintDelete');
+
+				$this->app->getPage()->setId($this->question->id);
+				$this->app->getPage()->setInquisition($this->inquisition);
+				$this->app->getPage()->setItems($view->getSelection());
+				break;
+			}
+			break;
+
+		case 'option_view':
+			switch ($actions->selected->id) {
+			case 'option_delete':
+				$this->app->replacePage('Option/Delete');
 
 				$this->app->getPage()->setId($this->question->id);
 				$this->app->getPage()->setInquisition($this->inquisition);
@@ -152,10 +164,6 @@ class InquisitionQuestionDetails extends AdminIndex
 	protected function getDetailsStore(InquisitionQuestion $question)
 	{
 		$ds = new SwatDetailsStore($question);
-		/*
-		$ds->description = SwatString::ellipsizeRight(
-			$inquisition->description, 300);
-		*/
 
 		return $ds;
 	}
@@ -170,6 +178,9 @@ class InquisitionQuestionDetails extends AdminIndex
 		switch ($view->id) {
 		case 'image_view':
 			$model = $this->getImageTableModel($view);
+			break;
+		case 'hint_view':
+			$model = $this->getHintTableModel($view);
 			break;
 		case 'option_view':
 			$model = $this->getOptionTableModel($view);
@@ -191,6 +202,25 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 
 		$this->ui->getWidget('image_order')->sensitive = (count($store) > 1);
+
+		return $store;
+	}
+
+	// }}}
+	// {{{ protected function getHintTableModel()
+
+	protected function getHintTableModel(SwatView $view)
+	{
+		$store = new SwatTableStore();
+
+		foreach ($this->question->hints as $hints) {
+			$ds = new SwatDataStore($hint);
+			$ds->bodytext = SwatString::condense($hint->bodytext, 50);
+
+			$store->add($ds);
+		}
+
+		$this->ui->getWidget('hint_order')->sensitive = (count($store) > 1);
 
 		return $store;
 	}
