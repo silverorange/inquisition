@@ -17,9 +17,9 @@ class InquisitionQuestionIndex extends AdminSearch
 
 	protected function initInternal()
 	{
-		$this->ui->loadFromXML($this->getUiXml());
-
 		parent::initInternal();
+
+		$this->ui->loadFromXML($this->getUiXml());
 
 		$view = $this->ui->getWidget('index_view');
 		$view->setDefaultOrderbyColumn(

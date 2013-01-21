@@ -17,15 +17,23 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function initInternal()
 	{
-		$this->ui->loadFromXML(dirname(__FILE__).'/index.xml');
-
 		parent::initInternal();
+
+		$this->ui->loadFromXML($this->getUiXml());
 
 		$view = $this->ui->getWidget('inquisition_view');
 		$view->setDefaultOrderbyColumn(
 			$view->getColumn('title'),
 			SwatTableViewOrderableColumn::ORDER_BY_DIR_ASCENDING
 		);
+	}
+
+	// }}}
+	// {{{ protected function getUiXml()
+
+	protected function getUiXml()
+	{
+		return 'Inquisition/admin/components/Inquisition/index.xml';
 	}
 
 	// }}}

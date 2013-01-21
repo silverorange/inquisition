@@ -27,8 +27,6 @@ class InquisitionInquisitionDetails extends AdminIndex
 	 */
 	protected $inquisition;
 
-	protected $ui_xml = 'Inquisition/admin/components/Inquisition/details.xml';
-
 	// }}}
 
 	// init phase
@@ -46,7 +44,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		$this->initInquisition();
 
-		$this->ui->loadFromXML($this->ui_xml);
+		$this->ui->loadFromXML($this->getUiXml());
 	}
 
 	// }}}
@@ -62,6 +60,14 @@ class InquisitionInquisitionDetails extends AdminIndex
 			throw new AdminNotFoundException(sprintf(
 				'A inquisition with the id of “%s” does not exist', $this->id));
 		}
+	}
+
+	// }}}
+	// {{{ protected function getUiXml()
+
+	protected function getUiXml()
+	{
+		return 'Inquisition/admin/components/Inquisition/details.xml';
 	}
 
 	// }}}
