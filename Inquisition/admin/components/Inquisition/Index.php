@@ -2,12 +2,13 @@
 
 require_once 'Admin/pages/AdminIndex.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisitionWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
 
 /**
  * Inquisition index
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionInquisitionIndex extends AdminIndex
 {
@@ -23,7 +24,8 @@ class InquisitionInquisitionIndex extends AdminIndex
 		$view = $this->ui->getWidget('inquisition_view');
 		$view->setDefaultOrderbyColumn(
 			$view->getColumn('title'),
-			SwatTableViewOrderableColumn::ORDER_BY_DIR_ASCENDING);
+			SwatTableViewOrderableColumn::ORDER_BY_DIR_ASCENDING
+		);
 	}
 
 	// }}}
@@ -44,19 +46,56 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function getInquisitionTableModel(SwatView $view)
 	{
-		$sql = sprintf('select * from Inquisition
+		$sql = sprintf(
+			'select * from Inquisition
 			order by %s',
-			$this->getOrderByClause($view, 'title asc'));
+			$this->getOrderByClause($view, 'title asc')
+		);
 
 		$wrapper = SwatDBClassMap::get('InquisitionInquisitionWrapper');
 		$inquisitions = SwatDB::query($this->app->db, $sql, $wrapper);
 
+		// efficiently load the questions
+		$wrapper = SwatDBClassMap::get('InquisitionQuestionWrapper');
+		$sql = 'select InquisitionQuestion.*,
+				InquisitionInquisitionQuestionBinding.inquisition
+			from InquisitionQuestion
+			inner join InquisitionInquisitionQuestionBinding on
+				InquisitionQuestion.id =
+					InquisitionInquisitionQuestionBinding.question
+			where InquisitionInquisitionQuestionBinding.inquisition in (%s)
+			order by InquisitionInquisitionQuestionBinding.inquisition,
+				InquisitionInquisitionQuestionBinding.displayorder,
+				InquisitionQuestion.id';
+
+		$sql = sprintf(
+			$sql,
+			$this->app->db->implodeArray(
+				$inquisitions->getIndexes(),
+				'integer'
+			)
+		);
+
+		$questions = SwatDB::query($this->app->db, $sql, $wrapper);
+		$inquisitions->attachSubDataObjects(
+			'questions',
+			$questions
+		);
+
+		$locale = SwatI18NLocale::get();
 		$store = new SwatTableStore();
 
 		foreach ($inquisitions as $inquisition) {
 			$ds = new SwatDetailsStore($inquisition);
+			$question_count = count($inquisition->questions);
 			$ds->question_count = sprintf(
-				'%s questions', count($inquisition->questions));
+				Inquisition::ngettext(
+					'%s question',
+					'%s questions',
+					$question_count
+				),
+				$locale->formatNumber($question_count)
+			);
 
 			$store->add($ds);
 		}
