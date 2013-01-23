@@ -7,7 +7,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionImage.php';
  * A recordset wrapper class for InquisitionaQuestionImage objects
  *
  * @package   Store
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  * @see       InquisitionQuestionImage
  */
 class InquisitionQuestionImageWrapper extends SiteImageWrapper
@@ -18,7 +18,8 @@ class InquisitionQuestionImageWrapper extends SiteImageWrapper
 	{
 		parent::init();
 
-		$this->row_wrapper_class = SwatDBClassMap::get('InquisitionQuestionImage');
+		$this->row_wrapper_class =
+			SwatDBClassMap::get('InquisitionQuestionImage');
 	}
 
 	// }}}
