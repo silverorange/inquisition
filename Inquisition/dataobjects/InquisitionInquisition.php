@@ -81,14 +81,30 @@ class InquisitionInquisition extends SwatDBDataObject
 
 	protected function saveQuestions()
 	{
-		// TODO: how to save bindings. Below won't work. Will need to be
-		// displayorder aware as well.
-		foreach ($this->questions as $question) {
-			$question->inquisition = $this;
-		}
-
 		$this->questions->setDatabase($this->db);
 		$this->questions->save();
+
+		$displayorder = 0;
+		$values = array();
+		$sql = 'insert into InquisitionInquisitionQuestionBinding
+			(inquisition, question, displayorder) values %s';
+
+		foreach ($this->questions as $question) {
+			$displayorder+= 10;
+			$values[] = sprintf(
+				'(%s, %s, %s)',
+				$this->db->quote($this->id, 'integer'),
+				$this->db->quote($question->id, 'integer'),
+				$this->db->quote($displayorder, 'integer')
+			);
+		}
+
+		$sql = sprintf(
+			$sql,
+			implode(',', $values)
+		);
+
+		SwatDB::exec($this->db, $sql);
 	}
 
 	// }}}
