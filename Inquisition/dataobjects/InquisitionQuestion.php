@@ -87,26 +87,28 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	public function getView($response_value = null)
 	{
+		$view_dir = 'Inquisition/views/';
+
 		switch ($this->question_type) {
 		default:
 		case self::TYPE_RADIO_LIST:
-			require_once 'Inquisition/views/InquisitionRadioListQuestionView.php';
+			require_once $view_dir.'InquisitionRadioListQuestionView.php';
 			$view = new InquisitionRadioListQuestionView($this);
 			break;
 		case self::TYPE_FLYDOWN:
-			require_once 'Inquisition/views/InquisitionFlydownQuestionView.php';
+			require_once $view_dir.'InquisitionFlydownQuestionView.php';
 			$view = new InquisitionFlydownQuestionView($this);
 			break;
 		case self::TYPE_RADIO_ENTRY:
-			require_once 'Inquisition/views/InquisitionRadioEntryQuestionView.php';
+			require_once $view_dir.'InquisitionRadioEntryQuestionView.php';
 			$view = new InquisitionRadioEntryQuestionView($this);
 			break;
 		case self::TYPE_TEXT:
-			require_once 'Inquisition/views/InquisitionTextQuestionView.php';
+			require_once $view_dir.'InquisitionTextQuestionView.php';
 			$view = new InquisitionTextQuestionView($this);
 			break;
 		case self::TYPE_CHECKBOX_LIST:
-			require_once 'Inquisition/views/InquisitionCheckboxListQuestionView.php';
+			require_once $view_dir.'InquisitionCheckboxListQuestionView.php';
 			$view = new InquisitionCheckboxListQuestionView($this);
 			break;
 		}
