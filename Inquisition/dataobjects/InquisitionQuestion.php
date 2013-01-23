@@ -137,7 +137,6 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	// }}}
 
-
 	// loader methods
 	// {{{ protected function loadOptions()
 
