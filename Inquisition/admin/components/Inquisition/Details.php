@@ -1,3 +1,5 @@
+TODO: add inquisition to view links...
+
 <?php
 
 require_once 'Swat/SwatTableStore.php';
@@ -100,17 +102,14 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		parent::buildInternal();
 
+		$view = $this->ui->getWidget('details_view');
+		$view->data = $this->getDetailsStore($this->inquisition);
+
 		$this->ui->getWidget('details_frame')->title =
 			$this->inquisition->title;
 
-		$toolbar = $this->ui->getWidget('question_toolbar');
-		$toolbar->setToolLinkValues(array($this->inquisition->id));
-
-		$toolbar = $this->ui->getWidget('details_toolbar');
-		$toolbar->setToolLinkValues(array($this->inquisition->id));
-
-		$view = $this->ui->getWidget('details_view');
-		$view->data = $this->getDetailsStore($this->inquisition);
+		$this->buildToolbars();
+		$this->buildViewRendererLinks();
 
 		$field = $view->getField('createdate');
 		$renderer = $field->getFirstRenderer();
@@ -175,9 +174,44 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		$ds->image_count = count($question->images);
 		$ds->option_count = count($question->options);
-		$ds->inquisition = $this->inquisition->id;
 
 		return $ds;
+	}
+
+	// }}}
+	// {{{ protected function buildToolbars()
+
+	protected function buildToolbars()
+	{
+		foreach ($this->ui->getRoot()->getDescendants('SwatToolBar') as
+			$toolbar) {
+			$toolbar->setToolLinkValues(
+				array(
+					$this->inquisition->id,
+				)
+			);
+		}
+	}
+
+	// }}}
+	// {{{ protected function buildViewRendererLinks()
+
+	protected function buildViewRendererLinks()
+	{
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$link_suffix = $this->getLinkSuffix();
+
+			foreach ($this->ui->getRoot()->getDescendants('SwatTableView') as
+				$view) {
+				foreach ($view->getColumns() as $column) {
+					foreach ($column->getRenderers() as $renderer) {
+						if ($renderer instanceof SwatLinkCellRenderer) {
+							$renderer->link.= $link_suffix;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// }}}
@@ -187,6 +221,22 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		parent::buildNavBar();
 		$this->navbar->createEntry($this->inquisition->title);
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

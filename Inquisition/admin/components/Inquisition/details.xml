@@ -59,9 +59,8 @@
 					<object class="SwatTableViewColumn">
 						<object class="AdminTitleLinkCellRenderer">
 							<property name="text" type="data">title</property>
-							<property name="link"><![CDATA[Question/Details?id=%s&inquisition=%s]]></property>
+							<property name="link">Question/Details?id=%s</property>
 							<property name="link_value[]" type="data">id</property>
-							<property name="link_value[]" type="data">inquisition</property>
 						</object>
 					</object>
 					<object class="SwatTableViewColumn">
