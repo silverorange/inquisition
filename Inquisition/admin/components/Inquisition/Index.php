@@ -17,6 +17,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function initInternal()
 	{
+SwatDB::setDebug();
 		parent::initInternal();
 
 		$this->ui->loadFromXML($this->getUiXml());
@@ -85,8 +86,10 @@ class InquisitionInquisitionIndex extends AdminIndex
 		);
 
 		$questions = SwatDB::query($this->app->db, $sql, $wrapper);
-		$inquisitions->attachSubDataObjects(
+		$inquisitions->attachSubRecordset(
 			'questions',
+			$wrapper,
+			'inquisition',
 			$questions
 		);
 

@@ -52,6 +52,14 @@ class InquisitionQuestion extends SwatDBDataObject
 	 */
 	public $required;
 
+	/**
+	 * Internal reference to the inquisition this question was loaded for. Not
+	 * for saving.
+	 *
+	 * @var integer
+	 */
+	public $inquisition;
+
 	// }}}
 	// {{{ protected function init()
 
