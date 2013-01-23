@@ -101,7 +101,7 @@ class InquisitionInquisition extends SwatDBDataObject
 			(inquisition, question, displayorder) values %s';
 
 		foreach ($this->questions as $question) {
-			$displayorder+= 10;
+			$displayorder += 10;
 			$values[] = sprintf(
 				'(%s, %s, %s)',
 				$this->db->quote($this->id, 'integer'),
