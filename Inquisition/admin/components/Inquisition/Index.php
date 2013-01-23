@@ -17,7 +17,6 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function initInternal()
 	{
-SwatDB::setDebug();
 		parent::initInternal();
 
 		$this->ui->loadFromXML($this->getUiXml());
