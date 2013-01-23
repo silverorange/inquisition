@@ -1,5 +1,3 @@
-TODO: add inquisition to view links...
-
 <?php
 
 require_once 'Swat/SwatTableStore.php';
