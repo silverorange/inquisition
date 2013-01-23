@@ -162,7 +162,7 @@ class InquisitionQuestionDetails extends AdminIndex
 		parent::buildInternal();
 
 		$this->buildFrame();
-		$this->buildToolbar();
+		$this->buildToolbars();
 		$this->buildViewRendererLinks();
 
 		$view = $this->ui->getWidget('details_view');
@@ -321,9 +321,9 @@ class InquisitionQuestionDetails extends AdminIndex
 	}
 
 	// }}}
-	// {{{ protected function buildToolbar()
+	// {{{ protected function buildToolbars()
 
-	protected function buildToolbar()
+	protected function buildToolbars()
 	{
 		foreach ($this->ui->getRoot()->getDescendants('SwatToolBar') as
 			$toolbar) {
