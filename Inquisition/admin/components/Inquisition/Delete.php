@@ -9,7 +9,7 @@ require_once 'Admin/pages/AdminDBDelete.php';
  * Delete confirmation page for inquisitions
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionInquisitionDelete extends AdminDBDelete
 {
@@ -58,11 +58,35 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 	{
 		parent::processDBData();
 
-		$sql = sprintf('delete from Inquisition where id in (%s)',
-			$this->getItemList('integer'));
+		$item_list = $this->getItemList('integer');
+
+		$this->deleteQuestions($item_list);
+
+		$sql = sprintf(
+			'delete from Inquisition where id in (%s)',
+			$item_list
+		);
 
 		$num = SwatDB::exec($this->app->db, $sql);
 		$this->app->messages->add($this->getDeletedMessage($num));
+	}
+
+	// }}}
+	// {{{ protected function deleteQuestions()
+
+	protected function deleteQuestions($item_list)
+	{
+		// By default delete questions that don't belong to other inquisitions
+		// instead of leaving orphan questions.
+		$sql = sprintf(
+			'delete from InquisitionQuestion where id in (
+				select question from InquisitionInquisitionQuestionBinding
+				where %s
+			)',
+			$this->getSingleQuizQuestionsWhere($item_list)
+		);
+
+		SwatDB::exec($this->app->db, $sql);
 	}
 
 	// }}}
@@ -102,8 +126,13 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		$dep_questions = new AdminSummaryDependency();
 		$dep_questions->setTitle('question', 'questions');
 		$dep_questions->summaries = AdminSummaryDependency::querySummaries(
-			$this->app->db, 'InquisitionQuestion', 'integer:id', 'integer:inquisition',
-			'inquisition in ('.$item_list.')', AdminDependency::DELETE);
+			$this->app->db,
+			'InquisitionInquisitionQuestionBinding',
+			'integer:question',
+			'integer:inquisition',
+			$this->getSingleQuizQuestionsWhere($item_list),
+			AdminDependency::DELETE
+		);
 
 		$dep->addDependency($dep_questions);
 
@@ -134,6 +163,25 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		);
 
 		$this->navbar->addEntry($last);
+	}
+
+	// }}}
+
+	// helper methods
+	// {{{ protected function getSingleQuizQuestionsWhere()
+
+	protected function getSingleQuizQuestionsWhere($item_list)
+	{
+		$where = sprintf(
+			'inquisition in (%1$s)
+			and question not in (
+				select question from InquisitionInquisitionQuestionBinding
+				where inquisition not in (%1$s)
+			)',
+			$item_list
+		);
+
+		return $where;
 	}
 
 	// }}}
