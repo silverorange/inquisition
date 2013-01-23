@@ -12,7 +12,7 @@ require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
  * Page for creating new questions
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionQuestionAdd extends AdminDBEdit
 {
@@ -162,17 +162,16 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	protected function saveDBData()
 	{
 		$this->updateQuestion();
-		$this->question->save();
-
 		$this->addOptions($this->question);
+
+		$this->inquisition->questions->add($this->question);
+		$this->inquisition->save();
 
 		$this->app->messages->add(
 			new SwatMessage(
 				Inquisition::_('Question has been saved.')
 			)
 		);
-		// save again so that the correct option is saved from addOptions
-		$this->question->save();
 	}
 
 	// }}}
@@ -186,19 +185,6 @@ class InquisitionQuestionAdd extends AdminDBEdit
 
 		$now = new SwatDate();
 		$now->toUTC();
-
-		$this->question->inquisition = $this->inquisition->id;
-
-		// set displayorder so the new question appears at the end of the
-		// list of the current questions by default.
-		$sql = sprintf(
-			'select max(displayorder) from InquisitionQuestion
-			where inquisition = %s',
-			$this->app->db->quote($this->inquisition->id, 'integer'));
-
-		$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
-		$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
-		$this->question->displayorder = $new_displayorder;
 
 		$this->question->bodytext      = $values['bodytext'];
 		$this->question->question_type = InquisitionQuestion::TYPE_RADIO_LIST;
@@ -233,10 +219,9 @@ class InquisitionQuestionAdd extends AdminDBEdit
 				$option = new $class;
 				$option->setDatabase($this->app->db);
 				$option->displayorder = $displayorder_base + $count;
-				$option->question = $question->id;
 				$option->title = $title;
 
-				$option->save();
+				$question->options->add($option);
 
 				$correct_widget = $input_row->getWidget(
 					'correct_option', $replicator_id);

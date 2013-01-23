@@ -70,19 +70,29 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		$inquisition_id = SiteApplication::initVar('inquisition');
 
 		if ($inquisition_id !== null) {
-			$class = SwatDBClassMap::get('Inquisition');
-			$this->inquisition = new $class;
-			$this->inquisition->setDatabase($this->app->db);
-
-			if (!$this->inquisition->load($this->id)) {
-				throw new AdminNotFoundException(
-					sprintf(
-						'Inquisition with id ‘%s’ not found.',
-						$this->id
-					)
-				);
-			}
+			$this->inquisition = $this->loadInquisition($inquisition_id);
 		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -132,7 +142,8 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		$this->app->relocate(
 			sprintf(
 				'Question/Details?id=%s',
-				$this->question->id
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -169,7 +180,6 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
-		$question_link_extra = null;
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(
 				$this->inquisition->title,
@@ -178,11 +188,6 @@ class InquisitionQuestionEdit extends AdminDBEdit
 					$this->inquisition->id
 				)
 			);
-
-			$question_link_extra = sprintf(
-				'&instance=%s',
-				$this->inquisition->id
-			);
 		}
 
 		$this->navbar->createEntry(
@@ -190,7 +195,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 			sprintf(
 				'Question/Details?id=%s%s',
 				$this->question->id,
-				$question_link_extra
+				$this->getLinkSuffix()
 			)
 		);
 
@@ -208,6 +213,22 @@ class InquisitionQuestionEdit extends AdminDBEdit
 				$this->question->getPosition($this->inquisition)
 			) :
 			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

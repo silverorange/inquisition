@@ -77,9 +77,11 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function updateInquisition()
 	{
-		$values = $this->ui->getValues(array(
-			'title',
-		));
+		$values = $this->ui->getValues(
+			array(
+				'title',
+			)
+		);
 
 		if ($this->inquisition->id === null) {
 			$now = new SwatDate();
@@ -95,7 +97,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function getSavedMessage()
 	{
-		return new SwatMessage('Inquisition has been saved.');
+		return new SwatMessage(Inquisition::_('Inquisition has been saved.'));
 	}
 
 	// }}}

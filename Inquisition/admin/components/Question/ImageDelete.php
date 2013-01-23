@@ -58,21 +58,11 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 		parent::buildNavBar();
 
 		$this->navbar->createEntry(
-			$this->question->inquisition->title,
+			$this->getQuestionTitle(),
 			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
@@ -83,6 +73,19 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 				count($this->images)
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
 	}
 
 	// }}}

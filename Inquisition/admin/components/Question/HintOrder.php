@@ -19,6 +19,11 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	 */
 	protected $question;
 
+	/**
+	 * @var InquisitionQuestion
+	 */
+	protected $inquisition;
+
 	// }}}
 
 	// init phase
@@ -29,6 +34,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		parent::initInternal();
 
 		$this->initQuestion();
+		$this->initInquisition();
 	}
 
 	// }}}
@@ -36,7 +42,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 
 	protected function initQuestion()
 	{
-		$id = SiteApplication::initVar('question');
+		$id = SiteApplication::initVar('id');
 
 		if ($id == '') {
 			throw new AdminNotFoundException(
@@ -48,7 +54,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 			$id = intval($id);
 		}
 
-		$class = SwatDBClassMap::get('InquisitionQuestionHint');
+		$class = SwatDBClassMap::get('InquisitionQuestion');
 		$this->question = new $class;
 		$this->question->setDatabase($this->app->db);
 
@@ -62,6 +68,39 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	}
 
 	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
+	}
+
+	// }}}
 
 	// process phase
 	// {{{ protected function saveIndex()
@@ -69,7 +108,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	protected function saveIndex($id, $index)
 	{
 		SwatDB::updateColumn(
-			$this->app->db, 'InquisitionQuestionHints',
+			$this->app->db, 'InquisitionQuestionHint',
 			'integer:displayorder', $index, 'integer:id', array($id)
 		);
 	}
@@ -89,8 +128,9 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	{
 		$this->app->relocate(
 			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -98,47 +138,35 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	// }}}
 
 	// build phase
+	// {{{ protected function loadData()
+
+	protected function loadData()
+	{
+		$sum = 0;
+		$order_widget = $this->ui->getWidget('order');
+
+		foreach ($this->question->hints as $hint) {
+			$sum += $hint->displayorder;
+
+			$order_widget->addOption(
+				$hint->id,
+				SwatString::condense($hint->bodytext, 50),
+				'text/xml'
+			);
+		}
+
+		$options_list = $this->ui->getWidget('options');
+		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
+	}
+
+	// }}}
 	// {{{ protected function buildInternal()
 
 	protected function buildInternal()
 	{
-		$this->ui->getWidget('order_frame')->title = 'Change Hint Order';
+		$this->ui->getWidget('order_frame')->title = $this->getTitle();
 
 		parent::buildInternal();
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		// TODO
-		if (1==0) {
-			$this->navbar->createEntry(
-				$this->question->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->question->inquisition->id
-				)
-			);
-
-			$this->navbar->createEntry(
-				sprintf(
-					'Question %s',
-					$this->question->getPosition($this->inquisition)
-				),
-				sprintf(
-					'Question/Details?id=%s',
-					$this->question->id
-				)
-			);
-		}
-
-		$this->navbar->createEntry(Inquisition::_('Change Hint Order'));
 	}
 
 	// }}}
@@ -149,33 +177,79 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		parent::buildForm();
 
 		$form = $this->ui->getWidget('order_form');
-		$form->addHiddenField('question', $this->question->id);
+		$form->addHiddenField('id', $this->question->id);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
 	}
 
 	// }}}
-	// {{{ protected function loadData()
+	// {{{ protected function buildNavBar()
 
-	protected function loadData()
+	protected function buildNavBar()
 	{
-		$order_widget = $this->ui->getWidget('order');
+		parent::buildNavBar();
 
-		foreach ($this->question->hints as $hint) {
-			$order_widget->addOption(
-				$hint->id,
-				SwatString::condense($hint->bodytext, 50)
+		$this->navbar->popEntries(2);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
 			);
 		}
 
-		$sql = sprintf(
-			'select sum(displayorder) from InquisitionQuestionHint
-			where question = %s',
-			$this->app->db->quote($this->question->id, 'integer')
+		$this->navbar->createEntry(
+			$this->getQuestionTitle(),
+			sprintf(
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
+			)
 		);
 
-		$sum = SwatDB::queryOne($this->app->db, $sql, 'integer');
+		$this->navbar->createEntry($this->getTitle());
+	}
 
-		$options_list = $this->ui->getWidget('options');
-		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
+	}
+
+	// }}}
+	// {{{ protected function getTitle()
+
+	protected function getTitle()
+	{
+		return Inquisition::_('Change Hint Order');
 	}
 
 	// }}}

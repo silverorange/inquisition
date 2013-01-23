@@ -73,19 +73,29 @@ class InquisitionQuestionDetails extends AdminIndex
 		$inquisition_id = SiteApplication::initVar('inquisition');
 
 		if ($inquisition_id !== null) {
-			$class = SwatDBClassMap::get('Inquisition');
-			$this->inquisition = new $class;
-			$this->inquisition->setDatabase($this->app->db);
-
-			if (!$this->inquisition->load($this->id)) {
-				throw new AdminNotFoundException(
-					sprintf(
-						'Inquisition with id ‘%s’ not found.',
-						$this->id
-					)
-				);
-			}
+			$this->inquisition = $this->loadInquisition($inquisition_id);
 		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -153,6 +163,7 @@ class InquisitionQuestionDetails extends AdminIndex
 
 		$this->buildFrame();
 		$this->buildToolbar();
+		$this->buildViewRendererLinks();
 
 		$view = $this->ui->getWidget('details_view');
 		$view->data = $this->getDetailsStore($this->question);
@@ -213,8 +224,8 @@ class InquisitionQuestionDetails extends AdminIndex
 	{
 		$store = new SwatTableStore();
 
-		foreach ($this->question->hints as $hints) {
-			$ds = new SwatDataStore($hint);
+		foreach ($this->question->hints as $hint) {
+			$ds = new SwatDetailsStore($hint);
 			$ds->bodytext = SwatString::condense($hint->bodytext, 50);
 
 			$store->add($ds);
@@ -314,7 +325,6 @@ class InquisitionQuestionDetails extends AdminIndex
 
 	protected function buildToolbar()
 	{
-		// TODO: Set inquisition as well.
 		foreach ($this->ui->getRoot()->getDescendants('SwatToolBar') as
 			$toolbar) {
 			$toolbar->setToolLinkValues(
@@ -322,6 +332,37 @@ class InquisitionQuestionDetails extends AdminIndex
 					$this->question->id,
 				)
 			);
+
+			if ($this->inquisition instanceof InquisitionInquisition) {
+				$link_suffix = $this->getLinkSuffix();
+				foreach ($toolbar->getToolLinks() as $tool_link) {
+					if (substr($tool_link->link, -5) === 'id=%s' ||
+					substr($tool_link->link, -11) === 'question=%s') {
+						$tool_link->link.= $link_suffix;
+					}
+				}
+			}
+		}
+	}
+
+	// }}}
+	// {{{ protected function buildViewRendererLinks()
+
+	protected function buildViewRendererLinks()
+	{
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$link_suffix = $this->getLinkSuffix();
+
+			foreach ($this->ui->getRoot()->getDescendants('SwatTableView') as
+				$view) {
+				foreach ($view->getColumns() as $column) {
+					foreach ($column->getRenderers() as $renderer) {
+						if ($renderer instanceof SwatLinkCellRenderer) {
+							$renderer->link.= $link_suffix;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -358,6 +399,22 @@ class InquisitionQuestionDetails extends AdminIndex
 				$this->question->getPosition($this->inquisition)
 			) :
 			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

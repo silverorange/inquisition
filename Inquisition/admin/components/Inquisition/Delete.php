@@ -96,7 +96,7 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 	{
 		return new SwatMessage(
 			sprintf(
-				ngettext(
+				Inquisition::ngettext(
 					'One inquisition has been deleted.',
 					'%s inquisitions have been deleted.',
 					$num

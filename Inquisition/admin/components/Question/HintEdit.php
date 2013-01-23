@@ -73,11 +73,28 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function initQuestion()
 	{
-		// TODO
-		return;
-		$class_name = SwatDBClassMap::get('InquisitionQuestion');
-		$this->question = new $class_name();
-		$this->question->setDatabase($this->app->db);
+		if ($this->hint->id != null) {
+			$this->question = $this->hint->question;
+		} else {
+			$question_id = SiteApplication::initVar('question');
+
+			if (is_numeric($question_id)) {
+				$question_id = intval($question_id);
+			}
+
+			$class = SwatDBClassMap::get('InquisitionQuestion');
+			$this->question = new $class;
+			$this->question->setDatabase($this->app->db);
+
+			if (!$this->question->load($question_id)) {
+				throw new AdminNotFoundException(
+					sprintf(
+						'A question with the id of “%s” does not exist',
+						$id
+					)
+				);
+			}
+		}
 	}
 
 	// }}}
@@ -85,26 +102,32 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function initInquisition()
 	{
-		// TODO
-		return;
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$this->inquisition = new $class;
-		$this->inquisition->setDatabase($this->app->db);
+		$inquisition_id = SiteApplication::initVar('inquisition');
 
-		if ($this->id == '') {
-			throw new AdminNotFoundException(
-				'Inquisition id not provided.'
-			);
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
 		}
+	}
 
-		if (!$this->inquisition->load($this->id)) {
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
 			throw new AdminNotFoundException(
 				sprintf(
 					'Inquisition with id ‘%s’ not found.',
-					$this->id
+					$inquisition_id
 				)
 			);
 		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -167,19 +190,19 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		$button = $this->ui->getWidget('another_button');
 
 		if ($button->hasBeenClicked()) {
-			$url = sprintf(
-				'%s?question=%s',
-				$this->source,
-				$this->question->id
-			);
+			$uri = '%1$s?question=%2$s%3$s';
 		} else {
-			$url = sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
-			);
+			$uri = 'Question/Details?id=%2$s%3$s';
 		}
 
-		$this->app->relocate($url);
+		$this->app->relocate(
+			sprintf(
+				$uri,
+				$this->source,
+				$this->question->id,
+				$this->getLinkSuffix()
+			)
+		);
 	}
 
 	// }}}
@@ -193,26 +216,18 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 	}
 
 	// }}}
-	// {{{ protected function buildNavBar()
+	// {{{ protected function buildForm()
 
-	protected function buildNavBar()
+	protected function buildForm()
 	{
-		parent::buildNavBar();
+		parent::buildForm();
 
-		$this->navbar->popEntry();
+		$form = $this->ui->getWidget('edit_form');
+		$form->addHiddenField('question', $this->question->id);
 
-		// TODO
-		if (1==0) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form->addHiddenField('inquisition', $this->inquisition->id);
 		}
-
-		$this->navbar->createEntry($this->getTitle());
 	}
 
 	// }}}
@@ -227,11 +242,74 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$this->navbar->popEntries(2);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+
+		$this->navbar->createEntry(
+			$this->getQuestionTitle(),
+			sprintf(
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
+			)
+		);
+
+		$this->navbar->createEntry($this->getTitle());
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
+	}
+
+	// }}}
+
 	// {{{ protected function getTitle()
 
 	protected function getTitle()
 	{
-		return Inquisition::_('New Hint');
+		return ($this->hint->id === null) ?
+			Inquisition::_('New Hint') :
+			Inquisition::_('Edit Hint');
 	}
 
 	// }}}

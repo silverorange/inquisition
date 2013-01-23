@@ -23,6 +23,11 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 	 */
 	protected $images;
 
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
+
 	// }}}
 
 	// helper methods
@@ -49,14 +54,25 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 	}
 
 	// }}}
+	// {{{ public function setInquisition()
+
+	public function setInquisition(InquisitionInquisition $inquisition = null)
+	{
+		if ($inquisition instanceof InquisitionInquisition) {
+			$this->inquisition = $inquisition;
+
+			$form = $this->ui->getWidget('confirmation_form');
+			$form->addHiddenField('inquisition_id', $this->inquisition->id);
+		}
+	}
+
+	// }}}
 
 	// init phase
 	// {{{ protected function initInternal()
 
 	protected function initInternal()
 	{
-		$this->ui_xml = dirname(__FILE__).'/image-delete.xml';
-
 		parent::initInternal();
 
 		$form = $this->ui->getWidget('confirmation_form');
@@ -64,6 +80,33 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		if ($id != '') {
 			$this->setId($id);
 		}
+
+		$inquisition_id = $form->getHiddenField('inquisition_id');
+		if ($inquisition_id != '') {
+			$inquisition = $this->loadInquisition($inquisition_id);
+			$this->setInquisition($inquisition);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -87,7 +130,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		$this->app->messages->add(
 			new SwatMessage(
 				sprintf(
-					ngettext(
+					Inquisition::ngettext(
 						'One image has been deleted.',
 						'%s images have been deleted.',
 						$delete_count
@@ -129,10 +172,14 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 
 		$message = $this->ui->getWidget('confirmation_message');
 		$message->content_type = 'text/xml';
-		$message->content = sprintf('<strong>%s</strong>', ngettext(
-			'Are you sure you want to delete the following image?',
-			'Are you sure you want to delete the following images?',
-			count($this->images)));
+		$message->content = sprintf(
+			'<strong>%s</strong>',
+			Inquisition::ngettext(
+				'Are you sure you want to delete the following image?',
+				'Are you sure you want to delete the following images?',
+				count($this->images)
+			)
+		);
 	}
 
 	// }}}
@@ -143,7 +190,41 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		parent::buildForm();
 
 		$yes_button = $this->ui->getWidget('yes_button');
-		$yes_button->title = 'Delete';
+		$yes_button->title = Inquisition::_('Delete');
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

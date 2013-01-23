@@ -175,6 +175,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		$ds->image_count = count($question->images);
 		$ds->option_count = count($question->options);
+		$ds->inquisition = $this->inquisition->id;
 
 		return $ds;
 	}

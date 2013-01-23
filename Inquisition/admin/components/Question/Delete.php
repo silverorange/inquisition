@@ -10,7 +10,7 @@ require_once 'Admin/pages/AdminDBDelete.php';
  * Delete confirmation page for questions
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionQuestionDelete extends AdminDBDelete
 {
@@ -79,15 +79,17 @@ class InquisitionQuestionDelete extends AdminDBDelete
 
 		$locale = SwatI18NLocale::get();
 
-		$sql = sprintf('delete from InquisitionQuestion where id in (%s)',
-			$this->getItemList('integer'));
+		$sql = sprintf(
+			'delete from InquisitionQuestion where id in (%s)',
+			$this->getItemList('integer')
+		);
 
 		$num = SwatDB::exec($this->app->db, $sql);
 
 		$this->app->messages->add(
 			new SwatMessage(
 				sprintf(
-					ngettext(
+					Inquisition::ngettext(
 						'One question has been deleted.',
 						'%s questions have been deleted.',
 						$num
@@ -103,12 +105,16 @@ class InquisitionQuestionDelete extends AdminDBDelete
 
 	protected function relocate()
 	{
-		$this->app->relocate(
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->inquisition->id
-			)
-		);
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->app->relocate(
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		} else {
+			parent::relocate();
+		}
 	}
 
 	// }}}
@@ -123,42 +129,77 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		$item_list = $this->getItemList('integer');
 
 		$dep = new AdminListDependency();
-		$dep->setTitle('question', 'questions');
-		$dep->entries = AdminListDependency::queryEntries($this->app->db,
+		$dep->setTitle(
+			Inquisition::_('question'),
+			Inquisition::_('questions')
+		);
+
+		$dep->entries = AdminListDependency::queryEntries(
+			$this->app->db,
 			'InquisitionQuestion', 'id', null, 'text:bodytext',
 			'displayorder, id', 'id in ('.$item_list.')',
-			AdminDependency::DELETE);
+			AdminDependency::DELETE
+		);
 
 		// check images dependencies
 		$dep_images = new AdminSummaryDependency();
-		$dep_images->setTitle('image', 'images');
+		$dep_images->setTitle(
+			Inquisition::_('image'),
+			Inquisition::_('images')
+		);
+
 		$dep_images->summaries = AdminSummaryDependency::querySummaries(
 			$this->app->db, 'InquisitionQuestionImageBinding',
 			'integer:image', 'integer:question', 'question in ('.$item_list.')',
-			AdminDependency::DELETE);
+			AdminDependency::DELETE
+		);
 
 		// check option dependencies
 		$dep_options = new AdminListDependency();
-		$dep_options->setTitle('option', 'options');
+		$dep_options->setTitle(
+			Inquisition::_('option'),
+			Inquisition::_('options')
+		);
+
 		$dep_options->entries = AdminListDependency::queryEntries(
 			$this->app->db, 'InquisitionQuestionOption', 'integer:id',
 			'integer:question', 'text:title', 'displayorder, id',
-			'question in ('.$item_list.')', AdminDependency::DELETE);
+			'question in ('.$item_list.')', AdminDependency::DELETE
+		);
 
 		$subquery = 'select id from InquisitionQuestionOption
 			where question in ('.$item_list.')';
 
 		$dep_option_images = new AdminSummaryDependency();
-		$dep_option_images->setTitle('image', 'images');
+		$dep_option_images->setTitle(
+			Inquisition::_('image'),
+			Inquisition::_('images')
+		);
+
 		$dep_option_images->summaries = AdminSummaryDependency::querySummaries(
 			$this->app->db, 'InquisitionQuestionOptionImageBinding',
 			'integer:image', 'integer:question_option',
-			'question_option in ('.$subquery.')', AdminDependency::DELETE);
+			'question_option in ('.$subquery.')', AdminDependency::DELETE
+		);
 
 		$dep_options->addDependency($dep_option_images);
 
+		// check option hints
+		$dep_hints = new AdminSummaryDependency();
+		$dep_hints->setTitle(
+			Inquisition::_('hint'),
+			Inquisition::_('hints')
+		);
+
+		$dep_hints->entries = AdminSummaryDependency::querySummaries(
+			$this->app->db, 'InquisitionQuestionHint', 'integer:id',
+			'integer:question', 'question in ('.$item_list.')',
+			AdminDependency::DELETE
+		);
+
 		$dep->addDependency($dep_images);
 		$dep->addDependency($dep_options);
+		$dep->addDependency($dep_hints);
 
 		foreach ($dep->entries as $entry) {
 			$entry->title = SwatString::condense($entry->title);
@@ -182,16 +223,18 @@ class InquisitionQuestionDelete extends AdminDBDelete
 
 		$this->navbar->popEntry();
 
-		$this->navbar->createEntry(
-			$this->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->inquisition->id
-			)
-		);
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
-			ngettext(
+			Inquisition::ngettext(
 				'Delete Question',
 				'Delete Questions',
 				$this->getItemCount()

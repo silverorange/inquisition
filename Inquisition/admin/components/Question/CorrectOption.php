@@ -12,7 +12,7 @@ require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
  * Edit page for a selecting the correct option to a question
  *
  * @package   Inquisition
- * @copyright 2012 silverorange
+ * @copyright 2012-2013 silverorange
  */
 class InquisitionQuestionCorrectOption extends AdminDBEdit
 {
@@ -22,6 +22,11 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 	 * @var InquisitionQuestion
 	 */
 	protected $question;
+
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
 
 	// }}}
 
@@ -33,6 +38,7 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		parent::initInternal();
 
 		$this->initQuestion();
+		$this->initInquisition();
 
 		$this->ui->loadFromXML($this->getUiXml());
 	}
@@ -60,6 +66,39 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 				)
 			);
 		}
+	}
+
+	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -96,12 +135,19 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 
 	protected function relocate()
 	{
-		$this->app->relocate(
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
-			)
+		$uri = sprintf(
+			'Question/Details?id=%s',
+			$this->question->id
 		);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$uri.= sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		$this->app->relocate($uri);
 	}
 
 	// }}}
@@ -128,15 +174,31 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function buildForm()
+
+	protected function buildForm()
+	{
+		parent::buildForm();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form = $this->ui->getWidget('edit_form');
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
+	}
+
+	// }}}
 	// {{{ protected function loadDBData()
 
 	protected function loadDBData()
 	{
-		$this->ui->setValues(
-			array(
-				'correct_option' => $this->question->correct_option->id
-			)
-		);
+		if ($this->question->correct_option instanceof
+			InquisitionQuestionOption) {
+			$this->ui->setValues(
+				array(
+					'correct_option' => $this->question->correct_option->id
+				)
+			);
+		}
 	}
 
 	// }}}
@@ -148,26 +210,55 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
-		$this->navbar->createEntry(
-			$this->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
+			$this->getQuestionTitle(),
 			sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->position
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
 		$this->navbar->createEntry(Inquisition::_('Edit Correct Question'));
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

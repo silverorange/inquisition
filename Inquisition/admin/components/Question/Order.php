@@ -68,8 +68,21 @@ class InquisitionQuestionOrder extends AdminDBOrder
 
 	protected function saveIndex($id, $index)
 	{
-		SwatDB::updateColumn($this->app->db, 'InquisitionQuestion',
-			'integer:displayorder', $index, 'integer:id', array($id));
+		$sql = 'update InquisitionInquisitionQuestionBinding
+			set displayorder = %s
+			where question = %s and inquisition = %s';
+
+		$sql = sprintf(
+			$sql,
+			$this->app->db->quote($index, 'integer'),
+			$this->app->db->quote($id, 'integer'),
+			$this->app->db->quote($this->inquisition->id, 'integer')
+		);
+
+		SwatDB::exec(
+			$this->app->db,
+			$sql
+		);
 	}
 
 	// }}}
@@ -77,7 +90,9 @@ class InquisitionQuestionOrder extends AdminDBOrder
 
 	protected function getUpdatedMessage()
 	{
-		return new SwatMessage('Question order has been updated.');
+		return new SwatMessage(
+			Inquisition::_('Question order has been updated.')
+		);
 	}
 
 	// }}}

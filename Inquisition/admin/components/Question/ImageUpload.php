@@ -68,10 +68,23 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 
 	protected function updateBindings(SiteImage $image)
 	{
-		$sql = sprintf('insert into InquisitionQuestionImageBinding
-			(question, image) values (%s, %s)',
+		// set displayorder so the new question appears at the end of the
+		// list of the current questions by default.
+		$sql = sprintf(
+			'select max(displayorder)
+			from InquisitionQuestionImageBinding where question = %s',
+			$this->app->db->quote($this->question->id, 'integer')
+		);
+
+		$displayorder = SwatDB::queryOne($this->app->db, $sql);
+
+		$sql = sprintf(
+			'insert into InquisitionQuestionImageBinding
+			(question, image, displayorder) values (%s, %s, %s)',
 			$this->app->db->quote($this->question->id, 'integer'),
-			$this->app->db->quote($image->id, 'integer'));
+			$this->app->db->quote($image->id, 'integer'),
+			$this->app->db->quote($displayorder, 'integer')
+		);
 
 		SwatDB::exec($this->app->db, $sql);
 	}
@@ -83,8 +96,9 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 	{
 		$this->app->relocate(
 			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -105,28 +119,19 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntry();
-
-		$this->navbar->createEntry(
-			$this->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
-
 		$this->navbar->createEntry(
 			sprintf(
 				'Question %s',
 				$this->question->getPosition($this->inquisition)
 			),
 			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
-		$this->navbar->createEntry('Add Image');
+		$this->navbar->createEntry(Inquisition::_('Add Image'));
 	}
 
 	// }}}
@@ -140,7 +145,7 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 			$this->question->getPosition($this->inquisition)
 		);
 
-		$frame->subtitle = 'Add Image';
+		$frame->subtitle = Inquisition::_('Add Image');
 	}
 
 	// }}}
