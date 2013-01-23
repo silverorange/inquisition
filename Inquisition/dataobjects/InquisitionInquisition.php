@@ -84,9 +84,20 @@ class InquisitionInquisition extends SwatDBDataObject
 		$this->questions->setDatabase($this->db);
 		$this->questions->save();
 
+		$delete_sql = 'delete from InquisitionInquisitionQuestionBinding
+			where question in (%s)';
+
+		$delete_sql = sprintf(
+			$delete_sql,
+			$this->db->implodeArray(
+				$this->questions->getIndexes(),
+				'integer'
+			)
+		);
+
 		$displayorder = 0;
 		$values = array();
-		$sql = 'insert into InquisitionInquisitionQuestionBinding
+		$insert_sql = 'insert into InquisitionInquisitionQuestionBinding
 			(inquisition, question, displayorder) values %s';
 
 		foreach ($this->questions as $question) {
@@ -99,12 +110,13 @@ class InquisitionInquisition extends SwatDBDataObject
 			);
 		}
 
-		$sql = sprintf(
-			$sql,
+		$insert_sql = sprintf(
+			$insert_sql,
 			implode(',', $values)
 		);
 
-		SwatDB::exec($this->db, $sql);
+		SwatDB::exec($this->db, $delete_sql);
+		SwatDB::exec($this->db, $insert_sql);
 	}
 
 	// }}}
