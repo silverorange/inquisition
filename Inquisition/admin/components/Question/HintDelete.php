@@ -235,8 +235,6 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntries(2);
-
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(
 				$this->inquisition->title,

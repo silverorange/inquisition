@@ -191,7 +191,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntries(2);
+		$this->navbar->popEntry();
 
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(

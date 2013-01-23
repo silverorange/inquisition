@@ -248,7 +248,7 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntries(2);
+		$this->navbar->popEntry();
 
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(
