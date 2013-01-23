@@ -19,6 +19,11 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 	 */
 	protected $option;
 
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
+
 	// }}}
 
 	// init phase
@@ -29,6 +34,7 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		parent::initInternal();
 
 		$this->initOption();
+		$this->initInquisition();
 	}
 
 	// }}}
@@ -65,6 +71,39 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 	}
 
 	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
+	}
+
+	// }}}
 
 	// process phase
 	// {{{ protected function saveIndex()
@@ -82,7 +121,7 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 
 	protected function getUpdatedMessage()
 	{
-		return new SwatMessage('Image order has been updated.');
+		return new SwatMessage(Inquisition::_('Image order has been updated.'));
 	}
 
 	// }}}
@@ -92,8 +131,9 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 	{
 		$this->app->relocate(
 			sprintf(
-				'Option/Details?id=%s',
-				$this->option->id
+				'Option/Details?id=%s%s',
+				$this->option->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -101,70 +141,6 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 	// }}}
 
 	// build phase
-	// {{{ protected function buildInternal()
-
-	protected function buildInternal()
-	{
-		$this->ui->getWidget('order_frame')->title =
-			Inquisition::_('Change Image Order');
-
-		$this->ui->getWidget('order')->width = '150px';
-		$this->ui->getWidget('order')->height = '300px';
-
-		parent::buildInternal();
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		$this->navbar->createEntry(
-			$this->option->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->option->question->inquisition->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf(
-				'Question %s',
-				$this->option->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->option->question->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf('Option %s', $this->option->position),
-			sprintf(
-				'Option/Details?id=%s',
-				$this->option->id
-			)
-		);
-
-		$this->navbar->createEntry(Inquisition::_('Change Image Order'));
-	}
-
-	// }}}
-	// {{{ protected function buildForm()
-
-	protected function buildForm()
-	{
-		parent::buildForm();
-
-		$form = $this->ui->getWidget('order_form');
-		$form->addHiddenField('id', $this->option->id);
-	}
-
-	// }}}
 	// {{{ protected function loadData()
 
 	protected function loadData()
@@ -180,8 +156,9 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		}
 
 		$sql = sprintf(
-			'select sum(displayorder) from InquisitionQuestionOptionImageBinding
-				where question_option = %s',
+			'select sum(displayorder)
+			from InquisitionQuestionOptionImageBinding
+			where question_option = %s',
 			$this->option->id
 		);
 
@@ -189,6 +166,120 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 
 		$options_list = $this->ui->getWidget('options');
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
+	}
+
+	// }}}
+	// {{{ protected function buildInternal()
+
+	protected function buildInternal()
+	{
+		$this->ui->getWidget('order_frame')->title = $this->getTitle();
+		$this->ui->getWidget('order')->width = '150px';
+		$this->ui->getWidget('order')->height = '300px';
+
+		parent::buildInternal();
+	}
+
+	// }}}
+	// {{{ protected function buildForm()
+
+	protected function buildForm()
+	{
+		parent::buildForm();
+
+		$form = $this->ui->getWidget('order_form');
+		$form->addHiddenField('id', $this->option->id);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$this->navbar->popEntry();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+
+		$this->navbar->createEntry(
+			$this->getQuestionTitle(),
+			sprintf(
+				'Question/Details?id=%s%s',
+				$this->option->question->id,
+				$this->getLinkSuffix()
+			)
+		);
+
+		$this->navbar->createEntry(
+			$this->getOptionTitle(),
+			sprintf(
+				'Option/Details?id=%s',
+				$this->option->id
+			)
+		);
+
+		$this->navbar->createEntry($this->getTitle());
+	}
+
+	// }}}
+	// {{{ protected function getOptionTitle()
+
+	protected function getOptionTitle()
+	{
+		return sprintf(
+			Inquisition::_('Option %s'),
+			$this->option->position
+		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->option->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
+	}
+
+	// }}}
+	// {{{ protected function getTitle()
+
+	protected function getTitle()
+	{
+		return Inquisition::_('Change Image Order');
 	}
 
 	// }}}

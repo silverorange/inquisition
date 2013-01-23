@@ -20,7 +20,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	protected $question;
 
 	/**
-	 * @var InquisitionQuestion
+	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
@@ -46,7 +46,7 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 
 		if ($id == '') {
 			throw new AdminNotFoundException(
-				Inquisition::_('No question id specified.')
+				'No question id specified.'
 			);
 		}
 
@@ -165,6 +165,9 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	protected function buildInternal()
 	{
 		$this->ui->getWidget('order_frame')->title = $this->getTitle();
+
+		$this->ui->getWidget('order')->width = '500px';
+		$this->ui->getWidget('order')->height = '200px';
 
 		parent::buildInternal();
 	}

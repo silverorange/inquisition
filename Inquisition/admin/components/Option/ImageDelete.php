@@ -58,42 +58,72 @@ class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 		parent::buildNavBar();
 
 		$this->navbar->createEntry(
-			$this->option->question->inquisition->title,
+			$this->getQuestionTitle(),
 			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->option->question->inquisition->id
+				'Question/Details?id=%s%s',
+				$this->option->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
-		$this->navbar->createEntry(
-			sprintf(
-				Inquisition::_('Question %s'),
-				$this->option->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->option->question->id
-			)
-		);
+		if ($this->option instanceof InquisitionQuestionOption) {
+			$this->navbar->createEntry(
+				$this->getOptionTitle(),
+				sprintf(
+					'Option/Details?id=%s%s',
+					$this->option->id,
+					$this->getLinkSuffix()
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
-			sprintf(
-				Inquisition::_('Option %s'),
-				$this->option->position
-			),
-			sprintf(
-				'Option/Details?id=%s',
-				$this->option->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			ngettext(
+			Inquisition::ngettext(
 				'Delete Image',
 				'Delete Images',
 				count($this->images)
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getOptionTitle()
+
+	protected function getOptionTitle()
+	{
+		return sprintf(
+				Inquisition::_('Option %s'),
+				$this->option->position
+			);
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

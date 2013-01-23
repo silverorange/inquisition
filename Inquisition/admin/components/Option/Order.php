@@ -18,6 +18,11 @@ class InquisitionOptionOrder extends AdminDBOrder
 	 */
 	protected $question;
 
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
+
 	// }}}
 
 	// init phase
@@ -28,6 +33,7 @@ class InquisitionOptionOrder extends AdminDBOrder
 		parent::initInternal();
 
 		$this->initQuestion();
+		$this->initInquisition();
 	}
 
 	// }}}
@@ -48,17 +54,49 @@ class InquisitionOptionOrder extends AdminDBOrder
 		}
 
 		$class = SwatDBClassMap::get('InquisitionQuestion');
-
 		$this->question = new $class;
 		$this->question->setDatabase($this->app->db);
 
 		if (!$this->question->load($id)) {
 			throw new AdminNotFoundException(
 				sprintf(
-					'An question with the id of “%s” does not exist', $id
+					'A question with the id of “%s” does not exist', $id
 				)
 			);
 		}
+	}
+
+	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -68,8 +106,10 @@ class InquisitionOptionOrder extends AdminDBOrder
 
 	protected function saveIndex($id, $index)
 	{
-		SwatDB::updateColumn($this->app->db, 'InquisitionQuestionOption',
-			'integer:displayorder', $index, 'integer:id', array($id));
+		SwatDB::updateColumn(
+			$this->app->db, 'InquisitionQuestionOption',
+			'integer:displayorder', $index, 'integer:id', array($id)
+		);
 	}
 
 	// }}}
@@ -77,7 +117,9 @@ class InquisitionOptionOrder extends AdminDBOrder
 
 	protected function getUpdatedMessage()
 	{
-		return new SwatMessage('Option order has been updated.');
+		return new SwatMessage(
+			Inquisition::_('Option order has been updated.')
+		);
 	}
 
 	// }}}
@@ -87,8 +129,9 @@ class InquisitionOptionOrder extends AdminDBOrder
 	{
 		$this->app->relocate(
 			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -96,61 +139,6 @@ class InquisitionOptionOrder extends AdminDBOrder
 	// }}}
 
 	// build phase
-	// {{{ protected function buildInternal()
-
-	protected function buildInternal()
-	{
-		$this->ui->getWidget('order_frame')->title = 'Change Option Order';
-
-		$this->ui->getWidget('order')->width = '500px';
-		$this->ui->getWidget('order')->height = '200px';
-
-		parent::buildInternal();
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		$this->navbar->createEntry(
-			$this->question->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
-			)
-		);
-
-		$this->navbar->createEntry(Inquisition::_('Change Option Order'));
-	}
-
-	// }}}
-	// {{{ protected function buildForm()
-
-	protected function buildForm()
-	{
-		parent::buildForm();
-
-		$form = $this->ui->getWidget('order_form');
-		$form->addHiddenField('id', $this->question->id);
-	}
-
-	// }}}
 	// {{{ protected function loadData()
 
 	protected function loadData()
@@ -170,6 +158,102 @@ class InquisitionOptionOrder extends AdminDBOrder
 
 		$options_list = $this->ui->getWidget('options');
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
+	}
+
+	// }}}
+	// {{{ protected function buildInternal()
+
+	protected function buildInternal()
+	{
+		$this->ui->getWidget('order_frame')->title = $this->getTitle();
+
+		$this->ui->getWidget('order')->width = '500px';
+		$this->ui->getWidget('order')->height = '200px';
+
+		parent::buildInternal();
+	}
+
+	// }}}
+	// {{{ protected function buildForm()
+
+	protected function buildForm()
+	{
+		parent::buildForm();
+
+		$form = $this->ui->getWidget('order_form');
+		$form->addHiddenField('id', $this->question->id);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function buildNavBar()
+
+	protected function buildNavBar()
+	{
+		parent::buildNavBar();
+
+		$this->navbar->popEntries(2);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+
+		$this->navbar->createEntry(
+			$this->getQuestionTitle(),
+			sprintf(
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
+			)
+		);
+
+		$this->navbar->createEntry($this->getTitle());
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
+	}
+
+	// }}}
+	// {{{ protected function getTitle()
+
+	protected function getTitle()
+	{
+		return Inquisition::_('Change Option Order');
 	}
 
 	// }}}

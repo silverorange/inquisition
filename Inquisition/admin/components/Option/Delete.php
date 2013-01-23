@@ -21,6 +21,11 @@ class InquisitionOptionDelete extends AdminDBDelete
 	 */
 	protected $question;
 
+	/**
+	 * @var InquisitionInquisition
+	 */
+	protected $inquisition;
+
 	// }}}
 
 	// helper methods
@@ -48,6 +53,19 @@ class InquisitionOptionDelete extends AdminDBDelete
 	}
 
 	// }}}
+	// {{{ public function setInquisition()
+
+	public function setInquisition(InquisitionInquisition $inquisition = null)
+	{
+		if ($inquisition instanceof InquisitionInquisition) {
+			$this->inquisition = $inquisition;
+
+			$form = $this->ui->getWidget('confirmation_form');
+			$form->addHiddenField('inquisition_id', $this->inquisition->id);
+		}
+	}
+
+	// }}}
 
 	// init phase
 	// {{{ protected function initInternal()
@@ -61,6 +79,33 @@ class InquisitionOptionDelete extends AdminDBDelete
 		if ($id != '') {
 			$this->setId($id);
 		}
+
+		$inquisition_id = $form->getHiddenField('inquisition_id');
+		if ($inquisition_id != '') {
+			$inquisition = $this->loadInquisition($inquisition_id);
+			$this->setInquisition($inquisition);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -74,15 +119,17 @@ class InquisitionOptionDelete extends AdminDBDelete
 
 		$locale = SwatI18NLocale::get();
 
-		$sql = sprintf('delete from InquisitionQuestionOption where id in (%s)',
-			$this->getItemList('integer'));
+		$sql = sprintf(
+			'delete from InquisitionQuestionOption where id in (%s)',
+			$this->getItemList('integer')
+		);
 
 		$num = SwatDB::exec($this->app->db, $sql);
 
 		$this->app->messages->add(
 			new SwatMessage(
 				sprintf(
-					ngettext(
+					Inquisition::ngettext(
 						'One option has been deleted.',
 						'%s options have been deleted.',
 						$num
@@ -113,19 +160,30 @@ class InquisitionOptionDelete extends AdminDBDelete
 		$item_list = $this->getItemList('integer');
 
 		$dep = new AdminListDependency();
-		$dep->setTitle('option', 'options');
-		$dep->entries = AdminListDependency::queryEntries($this->app->db,
+		$dep->setTitle(
+			Inquisition::_('option'),
+			Inquisition::_('options')
+		);
+
+		$dep->entries = AdminListDependency::queryEntries(
+			$this->app->db,
 			'InquisitionQuestionOption', 'id', null, 'text:title',
 			'displayorder, id', 'id in ('.$item_list.')',
-			AdminDependency::DELETE);
+			AdminDependency::DELETE
+		);
 
 		// check images dependencies
 		$dep_images = new AdminSummaryDependency();
-		$dep_images->setTitle('image', 'images');
+		$dep_images->setTitle(
+			Inquisition::_('image'),
+			Inquisition::_('images')
+		);
+
 		$dep_images->summaries = AdminSummaryDependency::querySummaries(
 			$this->app->db, 'InquisitionQuestionOptionImageBinding',
 			'integer:image', 'integer:question_option',
-			'question_option in ('.$item_list.')', AdminDependency::DELETE);
+			'question_option in ('.$item_list.')', AdminDependency::DELETE
+		);
 
 		$dep->addDependency($dep_images);
 
@@ -149,34 +207,63 @@ class InquisitionOptionDelete extends AdminDBDelete
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntry();
+		$this->navbar->popEntries(2);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
-			$this->question->inquisition->title,
+			$this->getQuestionTitle(),
 			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
 		$this->navbar->createEntry(
-			sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			ngettext(
+			Inquisition::ngettext(
 				'Delete Option',
 				'Delete Options',
 				$this->getItemCount()
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}

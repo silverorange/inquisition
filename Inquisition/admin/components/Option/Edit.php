@@ -16,14 +16,19 @@ class InquisitionOptionEdit extends AdminDBEdit
 	// {{{ protected properties
 
 	/**
+	 * @var InquisitionQuestionOption
+	 */
+	protected $option;
+
+	/**
 	 * @var InquisitionQuestion
 	 */
 	protected $question;
 
 	/**
-	 * @var InquisitionQuestionOption
+	 * @var InquisitionInquisition
 	 */
-	protected $option;
+	protected $inquisition;
 
 	// }}}
 
@@ -37,6 +42,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		$this->ui->loadFromXML($this->getUiXml());
 
 		$this->initOption();
+		$this->initQuestion();
+		$this->initInquisition();
 	}
 
 	// }}}
@@ -49,38 +56,76 @@ class InquisitionOptionEdit extends AdminDBEdit
 		$this->option = new $class_name;
 		$this->option->setDatabase($this->app->db);
 
-		if ($this->id != '') {
-			if (!$this->option->load($this->id)) {
-				throw new AdminNotFoundException(
-					sprintf(
-						'Question option with id ‘%s’ not found.',
-						$this->id
-					)
-				);
-			}
+		if ($this->id !== null && !$this->option->load($this->id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Question option with id ‘%s’ not found.',
+					$this->id
+				)
+			);
+		}
+	}
 
+	// }}}
+	// {{{ protected function initQuestion()
+
+	protected function initQuestion()
+	{
+		if ($this->option->id != null) {
 			$this->question = $this->option->question;
 		} else {
-			$class_name = SwatDBClassMap::get('InquisitionQuestion');
+			$question_id = SiteApplication::initVar('question');
 
-			$this->question = new $class_name;
-			$this->question->setDatabase($this->app->db);
-
-			$question_id = intval(SiteApplication::initVar('question'));
-
-			if ($question_id == '') {
-				throw new AdminNotFoundException('No question id provided.');
+			if (is_numeric($question_id)) {
+				$question_id = intval($question_id);
 			}
+
+			$class = SwatDBClassMap::get('InquisitionQuestion');
+			$this->question = new $class;
+			$this->question->setDatabase($this->app->db);
 
 			if (!$this->question->load($question_id)) {
 				throw new AdminNotFoundException(
 					sprintf(
-						'Question with id ‘%s’ not found.',
-						$question_id
+						'A question with the id of “%s” does not exist',
+						$id
 					)
 				);
 			}
 		}
+	}
+
+	// }}}
+	// {{{ protected function initInquisition()
+
+	protected function initInquisition()
+	{
+		$inquisition_id = SiteApplication::initVar('inquisition');
+
+		if ($inquisition_id !== null) {
+			$this->inquisition = $this->loadInquisition($inquisition_id);
+		}
+	}
+
+	// }}}
+	// {{{ protected function loadInquisition()
+
+	protected function loadInquisition($inquisition_id)
+	{
+		$class = SwatDBClassMap::get('InquisitionInquisition');
+		$inquisition = new $class;
+		$inquisition->setDatabase($this->app->db);
+
+		if (!$inquisition->load($inquisition_id)) {
+			throw new AdminNotFoundException(
+				sprintf(
+					'Inquisition with id ‘%s’ not found.',
+					$inquisition_id
+				)
+			);
+		}
+
+		return $inquisition;
 	}
 
 	// }}}
@@ -98,11 +143,9 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 	protected function saveDBData()
 	{
-		$values = $this->ui->getValues(array(
-			'title',
-		));
+		$this->updateOption();
 
-		$this->option->title = $values['title'];
+
 
 		if ($this->option->id === null) {
 			$this->option->question = $this->question;
@@ -112,6 +155,47 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 		$this->app->messages->add(
 			new SwatMessage(Inquisition::_('Option has been saved.'))
+		);
+	}
+
+	// }}}
+	// {{{ protected function updateHint()
+
+	protected function updateOption()
+	{
+		$values = $this->ui->getValues(
+			array(
+				'title',
+			)
+		);
+
+		$this->option->title = $values['title'];
+		$this->option->question = $this->question->id;
+
+		// set displayorder so the new question appears at the end of the
+		// list of the current options by default.
+		$sql = sprintf(
+			'select max(displayorder) from InquisitionQuestionOption
+			where question = %s',
+			$this->app->db->quote($this->question->id, 'integer')
+		);
+
+		$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
+		$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
+		$this->option->displayorder = $new_displayorder;
+	}
+
+	// }}}
+	// {{{ protected function relocate()
+
+	protected function relocate()
+	{
+		$this->app->relocate(
+			sprintf(
+				'Option/Details?id=%s%s',
+				$this->option->id,
+				$this->getLinkSuffix()
+			)
 		);
 	}
 
@@ -134,6 +218,10 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 		$form = $this->ui->getWidget('edit_form');
 		$form->addHiddenField('question', $this->question->id);
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$form->addHiddenField('inquisition', $this->inquisition->id);
+		}
 	}
 
 	// }}}
@@ -145,41 +233,88 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
+
 		$this->navbar->createEntry(
-			$this->question->inquisition->title,
+			$this->getQuestionTitle(),
 			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->question->inquisition->id
+				'Question/Details?id=%s%s',
+				$this->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
-		$this->navbar->createEntry(
+		if ($this->option->id !== null) {
+			$this->navbar->createEntry(
+				$this->getOptionTitle(),
+				sprintf(
+					'Option/Details?id=%s%s',
+					$this->option->id,
+					$this->getLinkSuffix()
+				)
+			);
+		}
+
+		$this->navbar->createEntry($this->getTitle());
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
 			sprintf(
 				Inquisition::_('Question %s'),
 				$this->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->question->id
-			)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getOptionTitle()
+
+	protected function getOptionTitle()
+	{
+		return sprintf(
+			Inquisition::_('Option %s'),
+			$this->option->position
 		);
+	}
 
-		if ($this->option->id != '') {
-			$this->navbar->createEntry(
-				sprintf(
-					Inquisition::_('Option %s'),
-					$this->option->position
-				),
-				sprintf(
-					'Option/Details?id=%s',
-					$this->option->id
-				)
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
 			);
-
-			$this->navbar->createEntry(Inquisition::_('Edit Option'));
-		} else {
-			$this->navbar->createEntry(Inquisition::_('New Option'));
 		}
+
+		return $suffix;
+	}
+
+	// }}}
+
+	// {{{ protected function getTitle()
+
+	protected function getTitle()
+	{
+		return ($this->option instanceof InquisitionQuestionOption) ?
+			Inquisition::_('New Option') :
+			Inquisition::_('Edit Option');
 	}
 
 	// }}}

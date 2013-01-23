@@ -69,10 +69,12 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 
 	protected function updateBindings(SiteImage $image)
 	{
-		$sql = sprintf('insert into InquisitionQuestionOptionImageBinding
+		$sql = sprintf(
+			'insert into InquisitionQuestionOptionImageBinding
 			(question_option, image) values (%s, %s)',
 			$this->app->db->quote($this->option->id, 'integer'),
-			$this->app->db->quote($image->id, 'integer'));
+			$this->app->db->quote($image->id, 'integer')
+		);
 
 		SwatDB::exec($this->app->db, $sql);
 	}
@@ -84,8 +86,9 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 	{
 		$this->app->relocate(
 			sprintf(
-				'Option/Details?id=%s',
-				$this->option->id
+				'Option/Details?id=%s%s',
+				$this->option->id,
+				$this->getLinkSuffix()
 			)
 		);
 	}
@@ -100,52 +103,89 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 	}
 
 	// }}}
+	// {{{ protected function buildFrame()
+
+	protected function buildFrame()
+	{
+		$frame = $this->ui->getWidget('edit_frame');
+		$frame->title = sprintf($this->getOptionTitle());
+		$frame->subtitle = $this->getTitle();
+	}
+
+	// }}}
 	// {{{ protected function buildNavBar()
 
 	protected function buildNavBar()
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntry();
-
 		$this->navbar->createEntry(
-			$this->option->question->inquisition->title,
+			$this->getQuestionTitle(),
 			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->option->question->inquisition->id
+				'Question/Details?id=%s%s',
+				$this->option->question->id,
+				$this->getLinkSuffix()
 			)
 		);
 
 		$this->navbar->createEntry(
-			sprintf(
-				'Question %s',
-				$this->option->question->getPosition($this->inquisition)
-			),
-			sprintf(
-				'Question/Details?id=%s',
-				$this->option->question->id
-			)
-		);
-
-		$this->navbar->createEntry(
-			sprintf('Option %s', $this->option->position),
+			$this->getOptionTitle(),
 			sprintf(
 				'Option/Details?id=%s',
-				$this->option->id
+				$this->option->id,
+				$this->getLinkSuffix()
 			)
 		);
 
-		$this->navbar->createEntry('Add Image');
+		$this->navbar->createEntry($this->getTitle());
 	}
 
 	// }}}
-	// {{{ protected function buildFrame()
+	// {{{ protected function getTitle()
 
-	protected function buildFrame()
+	protected function getTitle()
 	{
-		$frame = $this->ui->getWidget('edit_frame');
-		$frame->title = sprintf('Option %s', $this->option->position);
-		$frame->subtitle = 'Add Image';
+		return Inquisition::_('Add Image');
+	}
+
+	// }}}
+	// {{{ protected function getOptionTitle()
+
+	protected function getOptionTitle()
+	{
+		return sprintf(
+			Inquisition::_('Option %s'),
+			$this->option->position
+		);
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->option->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}
