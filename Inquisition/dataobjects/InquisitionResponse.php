@@ -4,6 +4,7 @@ require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseValueWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
 
 /**
  * A inquisition response
@@ -29,6 +30,23 @@ class InquisitionResponse extends SwatDBDataObject
 	 * @var SwatDate
 	 */
 	public $complete_date;
+
+	// }}}
+	// {{{ public function getUsedHintsByQuestion()
+
+	public function getUsedHintsByQuestion(InquisitionQuestion $question)
+	{
+		$class_name = SwatDBClassMap::get('InquisitionQuestionHintWrapper');
+		$wrapper = new $class_name();
+
+		foreach ($this->used_hints as $hint) {
+			if ($hint->getInternalValue('question') == $question->id) {
+				$wrapper->add($hint);
+			}
+		}
+
+		return $wrapper;
+	}
 
 	// }}}
 	// {{{ protected function init()
@@ -81,6 +99,24 @@ class InquisitionResponse extends SwatDBDataObject
 
 		$this->values->setDatabase($this->db);
 		$this->values->save();
+	}
+
+	// }}}
+	// {{{ protected function loadUsedHints()
+
+	protected function loadUsedHints()
+	{
+		$sql = sprintf('select * from InquisitionQuestionHint
+			inner join InquisitionResponseUsedHintBinding on
+				InquisitionResponseUsedHintBinding.question_hint =
+				InquisitionQuestionHint.id
+			where InquisitionResponseUsedHintBinding.response = %s',
+			$this->db->quote($this->id, 'integer'));
+
+		$hints = SwatDB::query($this->db, $sql,
+			SwatDBClassMap::get('InquisitionQuestionHintWrapper'));
+
+		return $hints;
 	}
 
 	// }}}
