@@ -71,13 +71,12 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 		// set displayorder so the new image appears at the end of the
 		// list of the current questions by default.
 		$sql = sprintf(
-			'select max(displayorder)
+			'select coalesce(max(displayorder), 0)+10
 			from InquisitionQuestionImageBinding where question = %s',
 			$this->app->db->quote($this->question->id, 'integer')
 		);
 
 		$displayorder = SwatDB::queryOne($this->app->db, $sql);
-		$displayorder += 10;
 
 		$sql = sprintf(
 			'insert into InquisitionQuestionImageBinding

@@ -200,10 +200,14 @@ class InquisitionQuestionAdd extends AdminDBEdit
 		$view = $this->ui->getWidget('question_option_table_view');
 		$input_row = $view->getRow('input_row');
 
-		$displayorder_base = SwatDB::queryOne($this->app->db,
-			sprintf('select coalesce(max(displayorder), 0)
+		$displayorder_base = SwatDB::queryOne(
+			$this->app->db,
+			sprintf(
+				'select coalesce(max(displayorder), 0)
 				from InquisitionQuestionOption where question = %s',
-				$this->app->db->quote($question->id, 'integer')));
+				$this->app->db->quote($question->id, 'integer')
+			)
+		);
 
 		$replicators = $input_row->getReplicators();
 		foreach ($replicators as $replicator_id) {
