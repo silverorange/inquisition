@@ -68,7 +68,7 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 
 	protected function updateBindings(SiteImage $image)
 	{
-		// set displayorder so the new question appears at the end of the
+		// set displayorder so the new image appears at the end of the
 		// list of the current questions by default.
 		$sql = sprintf(
 			'select max(displayorder)
@@ -77,6 +77,7 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 		);
 
 		$displayorder = SwatDB::queryOne($this->app->db, $sql);
+		$displayorder += 10;
 
 		$sql = sprintf(
 			'insert into InquisitionQuestionImageBinding
@@ -120,10 +121,7 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 		parent::buildNavBar();
 
 		$this->navbar->createEntry(
-			sprintf(
-				'Question %s',
-				$this->question->getPosition($this->inquisition)
-			),
+			$this->getQuestionTitle(),
 			sprintf(
 				'Question/Details?id=%s%s',
 				$this->question->id,
@@ -140,12 +138,38 @@ class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 	protected function buildFrame()
 	{
 		$frame = $this->ui->getWidget('edit_frame');
-		$frame->title = sprintf(
-			'Question %s',
-			$this->question->getPosition($this->inquisition)
-		);
+		$frame->title = $this->getQuestionTitle();
 
 		$frame->subtitle = Inquisition::_('Add Image');
+	}
+
+	// }}}
+	// {{{ protected function getQuestionTitle()
+
+	protected function getQuestionTitle()
+	{
+		return ($this->inquisition instanceof InquisitionInquisition) ?
+			sprintf(
+				Inquisition::_('Question %s'),
+				$this->question->getPosition($this->inquisition)
+			) :
+			Inquisition::_('Question');
+	}
+
+	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'&inquisition=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
 	}
 
 	// }}}
