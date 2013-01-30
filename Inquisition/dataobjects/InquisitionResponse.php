@@ -116,7 +116,7 @@ class InquisitionResponse extends SwatDBDataObject
 	protected function loadUsedHints()
 	{
 		$sql = sprintf(
-			'select from InquisitionQuestionHint.* from InquisitionQuestionHint
+			'select InquisitionQuestionHint.* from InquisitionQuestionHint
 			inner join InquisitionResponseUsedHintBinding on
 				InquisitionResponseUsedHintBinding.question_hint =
 				InquisitionQuestionHint.id
