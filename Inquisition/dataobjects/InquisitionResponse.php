@@ -80,8 +80,17 @@ class InquisitionResponse extends SwatDBDataObject
 
 	protected function loadValues()
 	{
-		$sql = sprintf('select * from InquisitionResponseValue
-			where response = %s',
+		$sql = sprintf('select InquisitionResponseValue.*
+				from InquisitionResponseValue
+				inner join InquisitionResponse on
+					InquisitionResponseValue.response = InquisitionResponse.id
+				inner join InquisitionInquisitionQuestionBinding on
+					InquisitionInquisitionQuestionBinding.question =
+						InquisitionResponseValue.question
+					and InquisitionInquisitionQuestionBinding.inquisition =
+						InquisitionResponse.inquisition
+			where InquisitionResponseValue.response = %s
+			order by InquisitionInquisitionQuestionBinding.displayorder',
 			$this->db->quote($this->id, 'integer'));
 
 		$wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
