@@ -7,13 +7,16 @@ require_once 'Swat/SwatRadioList.php';
  * Radio list question view
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionRadioListQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+	// {{{ protected properties
 
-	private $radio_list;
+	/**
+	 * @var SwatRadioList
+	 */
+	protected $radio_list;
 
 	// }}}
 	// {{{ public function getWidget()
