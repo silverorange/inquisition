@@ -127,7 +127,7 @@ class InquisitionInquisition extends SwatDBDataObject
 	protected function loadQuestions()
 	{
 		$sql = sprintf(
-			'select * from InquisitionQuestion
+			'select InquisitionQuestion.* from InquisitionQuestion
 			inner join InquisitionInquisitionQuestionBinding
 				on InquisitionQuestion.id =
 					InquisitionInquisitionQuestionBinding.question
