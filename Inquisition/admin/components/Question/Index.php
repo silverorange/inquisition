@@ -89,7 +89,8 @@ class InquisitionQuestionIndex extends AdminSearch
 	protected function getQuestionTableModel(SwatView $view)
 	{
 		$sql = sprintf(
-			'select * from InquisitionQuestion
+			'select InquisitionQuestion.*
+			from InquisitionQuestion
 			where %s
 			order by %s',
 			$this->getWhereClause(),
