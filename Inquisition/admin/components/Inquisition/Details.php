@@ -127,6 +127,23 @@ class InquisitionInquisitionDetails extends AdminIndex
 	}
 
 	// }}}
+	// {{{ protected function buildView()
+
+	protected function buildView(SwatView $view)
+	{
+		parent::buildView($view);
+
+		if ($view->id == 'question_view') {
+			$class_name = SwatDBClassMap::get('InquisitionQuestionImage');
+			$image_class = new $class_name();
+			$image_class->setDatabase($this->app->db);
+
+			$view->getColumn('image_count_column')->visible =
+				$image_class->hasImageSet();
+		}
+	}
+
+	// }}}
 	// {{{ protected function getTableModel()
 
 	protected function getTableModel(SwatView $view)
@@ -135,7 +152,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		switch ($view->id) {
 		case 'question_view':
-			$model = $this->getOptionTableModel($view);
+			$model = $this->getQuestionTableModel($view);
 			break;
 		}
 
@@ -143,9 +160,9 @@ class InquisitionInquisitionDetails extends AdminIndex
 	}
 
 	// }}}
-	// {{{ protected function getOptionTableModel()
+	// {{{ protected function getQuestionTableModel()
 
-	protected function getOptionTableModel(SwatTableView $view)
+	protected function getQuestionTableModel(SwatTableView $view)
 	{
 		$store = new SwatTableStore();
 
