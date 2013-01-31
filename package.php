@@ -51,7 +51,9 @@ $package->addReplacement('Inquisition/Inquisition.php', 'pear-config', '@DATA-DI
 $package->setPhpDep('5.1.5');
 $package->setPearinstallerDep('1.4.0');
 $package->addPackageDepWithChannel('required', 'Swat', 'pear.silverorange.com', '1.4.65');
-$package->addPackageDepWithChannel('optional', 'MDB2', 'pear.php.net',          '2.2.2');
+$package->addPackageDepWithChannel('required', 'Admin', 'pear.silverorange.com', '1.3.71');
+$package->addPackageDepWithChannel('optional', 'MDB2', 'pear.php.net', '2.2.2');
+
 $package->generateContents();
 
 if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
