@@ -2,6 +2,8 @@
 
 require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
 require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
+require_once
+	'Inquisition/dataobjects/InquisitionQuestionOptionImageWrapper.php';
 
 /**
  * Delete confirmation page for option images
@@ -46,6 +48,14 @@ class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 		}
 
 		parent::setId($id);
+	}
+
+	// }}}
+	// {{{ protected function getImageWrapper()
+
+	protected function getImageWrapper()
+	{
+		return SwatDBClassMap::get('InquisitionQuestionOptionImageWrapper');
 	}
 
 	// }}}

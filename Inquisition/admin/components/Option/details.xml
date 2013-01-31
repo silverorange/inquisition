@@ -24,7 +24,7 @@
 		<!-- }}} -->
 		<!-- {{{ Images -->
 
-		<widget class="SwatFrame">
+		<widget class="SwatFrame" id="images_frame">
 			<property name="title" translatable="yes">Images</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="image_toolbar">

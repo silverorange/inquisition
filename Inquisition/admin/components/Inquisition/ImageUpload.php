@@ -84,11 +84,7 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 	{
 		$original = $this->ui->getWidget('original_image');
 
-		$class_name = SwatDBClassMap::get('InquisitionQuestionImage');
-
-		$image = new $class_name();
-		$image->setDatabase($this->app->db);
-		$image->setFileBase('../images');
+		$image = $this->getImageObject();
 		$image->process($original->getTempFileName());
 
 		$this->updateBindings($image);
@@ -102,6 +98,25 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 			)
 		);
 	}
+
+	// }}}
+	// {{{ protected function getImageObject()
+
+	protected function getImageObject()
+	{
+		$class_name = $this->getImageClass();
+
+		$image = new $class_name();
+		$image->setDatabase($this->app->db);
+		$image->setFileBase('../images');
+
+		return $image;
+	}
+
+	// }}}
+	// {{{ abstract protected function getImageClass()
+
+	abstract protected function getImageClass();
 
 	// }}}
 	// {{{ abstract protected function updateBindings()

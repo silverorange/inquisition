@@ -5,8 +5,8 @@ require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionGroup.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
 
 /**
  * An inquisition question

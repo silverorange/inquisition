@@ -6,7 +6,6 @@ require_once 'Swat/SwatDetailsStore.php';
 require_once 'SwatDB/SwatDB.php';
 require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Admin/pages/AdminDBDelete.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
 
 /**
  * Delete confirmation page for inquisition images
@@ -65,6 +64,11 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 			$form->addHiddenField('inquisition_id', $this->inquisition->id);
 		}
 	}
+
+	// }}}
+	// {{{ abstract protected function getImageWrapper()
+
+	abstract protected function getImageWrapper();
 
 	// }}}
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
 require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
 
 /**
@@ -46,6 +47,14 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 		}
 
 		parent::setId($id);
+	}
+
+	// }}}
+	// {{{ protected function getImageWrapper()
+
+	protected function getImageWrapper()
+	{
+		return SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 	}
 
 	// }}}

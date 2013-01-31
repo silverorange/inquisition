@@ -5,6 +5,7 @@ require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Admin/pages/AdminDBEdit.php';
 require_once 'Admin/exceptions/AdminNotFoundException.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionOptionImage.php';
 require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
 
 /**
@@ -65,6 +66,14 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 	// }}}
 
 	// process phase
+	// {{{ abstract protected function getImageClass()
+
+	protected function getImageClass()
+	{
+		return SwatDBClassMap::get('InquisitionQuestionOptionImage');
+	}
+
+	// }}}
 	// {{{ protected function updateBindings()
 
 	protected function updateBindings(SiteImage $image)

@@ -5,7 +5,10 @@ require_once 'Swat/SwatDetailsStore.php';
 require_once 'SwatDB/SwatDB.php';
 require_once 'Admin/pages/AdminIndex.php';
 require_once 'Admin/exceptions/AdminNotFoundException.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionOptionImage.php';
+
 
 /**
  * Details page for an option
@@ -139,11 +142,25 @@ class InquisitionOptionDetails extends AdminIndex
 		parent::buildInternal();
 
 		$this->buildFrame();
+		$this->buildImageFrame();
 		$this->buildToolbar();
 		$this->buildViewRendererLinks();
 
 		$view = $this->ui->getWidget('details_view');
 		$view->data = $this->getDetailsStore($this->option);
+	}
+
+	// }}}
+	// {{{ protected function buildImageFrame()
+
+	protected function buildImageFrame()
+	{
+		$class_name = SwatDBClassMap::get('InquisitionQuestionOptionImage');
+		$image_class = new $class_name();
+		$image_class->setDatabase($this->app->db);
+
+		$this->ui->getWidget('images_frame')->visible =
+			$image_class->hasImageSet();
 	}
 
 	// }}}

@@ -25,7 +25,7 @@
 		<!-- }}} -->
 		<!-- {{{ Images -->
 
-		<widget class="SwatFrame">
+		<widget class="SwatFrame" id="images_frame">
 			<property name="title" translatable="yes">Images</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="image_toolbar">
@@ -69,7 +69,7 @@
 		<!-- }}} -->
 		<!-- {{{ Hints -->
 
-		<widget class="SwatFrame">
+		<widget class="SwatFrame" id="hints_frame">
 			<property name="title" translatable="yes">Hints</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="hint_toolbar">
@@ -110,7 +110,7 @@
 		<!-- }}} -->
 		<!-- {{{ Option -->
 
-		<widget class="SwatFrame">
+		<widget class="SwatFrame" id="options_frame">
 			<property name="title" translatable="yes">Options</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="option_toolbar">
