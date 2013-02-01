@@ -120,7 +120,8 @@ class InquisitionResponse extends SwatDBDataObject
 			inner join InquisitionResponseUsedHintBinding on
 				InquisitionResponseUsedHintBinding.question_hint =
 				InquisitionQuestionHint.id
-			where InquisitionResponseUsedHintBinding.response = %s',
+			where InquisitionResponseUsedHintBinding.response = %s
+			order by InquisitionResponseUsedHintBinding.createdate',
 			$this->db->quote($this->id, 'integer'));
 
 		$hints = SwatDB::query($this->db, $sql,
