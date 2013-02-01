@@ -42,7 +42,7 @@ class InquisitionResponse extends SwatDBDataObject
 
 		$wrapper = new $class_name();
 
-		foreach ($this->used_hints_bindings as $binding) {
+		foreach ($this->used_hint_bindings as $binding) {
 			if ($binding->hint->getInternalValue('question') == $question->id) {
 				$wrapper->add($binding);
 			}
