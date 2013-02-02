@@ -262,10 +262,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
 			);
 		}
 
-		$url = sprintf(
-			$url,
-			$this->getLinkSuffix()
-		);
+		$url.= $this->getLinkSuffix();
 
 		$this->app->relocate($url);
 	}
