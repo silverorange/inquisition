@@ -60,8 +60,6 @@ class InquisitionQuestionAdd extends AdminDBEdit
 			$this->inquisition = new $class;
 			$this->inquisition->setDatabase($this->app->db);
 
-			throw new AdminNotFoundException('Inquisition id not provided.');
-
 			if (!$this->inquisition->load($this->id)) {
 				throw new AdminNotFoundException(
 					sprintf(
