@@ -162,8 +162,12 @@ class InquisitionQuestionAdd extends AdminDBEdit
 		$this->updateQuestion();
 		$this->addOptions($this->question);
 
-		$this->inquisition->questions->add($this->question);
-		$this->inquisition->save();
+		$this->question->save();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->inquisition->questions->add($this->question);
+			$this->inquisition->save();
+		}
 
 		$this->app->messages->add(
 			new SwatMessage(
@@ -250,17 +254,20 @@ class InquisitionQuestionAdd extends AdminDBEdit
 		$button = $this->ui->getWidget('another_button');
 
 		if ($button->hasBeenClicked()) {
-			$url = sprintf(
-				'%s?id=%s',
-				$this->source,
-				$this->inquisition->id
-			);
+			$url = $this->source;
+		} elseif ($this->inquisition instanceof InquisitionInquisition) {
+			$url = 'Inquisition/Details';
 		} else {
 			$url = sprintf(
-				'Inquisition/Details?id=%s',
-				$this->inquisition->id
+				'Question/Details?id=%s',
+				$this->question->id
 			);
 		}
+
+		$url = sprintf(
+			$url,
+			$this->getLinkSuffix()
+		);
 
 		$this->app->relocate($url);
 	}
@@ -283,13 +290,15 @@ class InquisitionQuestionAdd extends AdminDBEdit
 
 		$this->navbar->popEntry();
 
-		$this->navbar->createEntry(
-			$this->inquisition->title,
-			sprintf(
-				'Inquisition/Details?id=%s',
-				$this->inquisition->id
-			)
-		);
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(Inquisition::_('New Question'));
 	}
@@ -306,6 +315,23 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function getLinkSuffix()
+
+	protected function getLinkSuffix()
+	{
+		$suffix = null;
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$suffix = sprintf(
+				'?id=%s',
+				$this->inquisition->id
+			);
+		}
+
+		return $suffix;
+	}
+
+	// }}}
 
 	// finalize phase
 	// {{{ public function finalize()
@@ -313,9 +339,11 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	public function finalize()
 	{
 		parent::finalize();
+
 		$this->layout->addHtmlHeadEntry(
 			'packages/inquisition/admin/styles/inquisition-question-edit.css',
-			Inquisition::PACKAGE_ID);
+			Inquisition::PACKAGE_ID
+		);
 	}
 
 	// }}}
