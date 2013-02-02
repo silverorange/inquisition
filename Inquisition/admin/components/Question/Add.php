@@ -55,23 +55,21 @@ class InquisitionQuestionAdd extends AdminDBEdit
 
 	protected function initInquisition()
 	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$this->inquisition = new $class;
-		$this->inquisition->setDatabase($this->app->db);
+		if ($this->id != '') {
+			$class = SwatDBClassMap::get('InquisitionInquisition');
+			$this->inquisition = new $class;
+			$this->inquisition->setDatabase($this->app->db);
 
-		if ($this->id == '') {
-			throw new AdminNotFoundException(
-				'Inquisition id not provided.'
-			);
-		}
+			throw new AdminNotFoundException('Inquisition id not provided.');
 
-		if (!$this->inquisition->load($this->id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$this->id
-				)
-			);
+			if (!$this->inquisition->load($this->id)) {
+				throw new AdminNotFoundException(
+					sprintf(
+						'Inquisition with id ‘%s’ not found.',
+						$this->id
+					)
+				);
+			}
 		}
 	}
 
