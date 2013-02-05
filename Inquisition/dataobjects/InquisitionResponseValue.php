@@ -4,12 +4,13 @@ require_once 'SwatDB/SwatDBDataObject.php';
 require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Inquisition/dataobjects/InquisitionResponse.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
 
 /**
  * A inquisition reponse value
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionResponseValue extends SwatDBDataObject
 {
@@ -44,8 +45,8 @@ class InquisitionResponseValue extends SwatDBDataObject
 		$this->registerInternalProperty('question_option',
 			SwatDBClassMap::get('InquisitionQuestionOption'));
 
-		$this->registerInternalProperty('question',
-			SwatDBClassMap::get('InquisitionQuestion'));
+		$this->registerInternalProperty('question_binding',
+			SwatDBClassMap::get('InquisitionQuestionBinding'));
 	}
 
 	// }}}

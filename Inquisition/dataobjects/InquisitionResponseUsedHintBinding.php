@@ -1,6 +1,10 @@
 <?php
 
 require_once 'SwatDB/SwatDBDataObject.php';
+require_once 'SwatDB/SwatDBClassMap.php';
+require_once 'Inquisition/dataobjects/InquisitionResponse.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
 
 /**
  * An binding for responses to used hints
@@ -31,6 +35,9 @@ class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 
 		$this->registerInternalProperty('question_hint',
 			SwatDBClassMap::get('InquisitionQuestionHint'));
+
+		$this->registerInternalProperty('question_binding',
+			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
 	}
 
 	// }}}
