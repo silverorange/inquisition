@@ -91,8 +91,8 @@ class InquisitionResponse extends SwatDBDataObject
 				inner join InquisitionResponse on
 					InquisitionResponseValue.response = InquisitionResponse.id
 				inner join InquisitionInquisitionQuestionBinding on
-					InquisitionInquisitionQuestionBinding.question =
-						InquisitionResponseValue.question
+					InquisitionInquisitionQuestionBinding.id =
+						InquisitionResponseValue.question_binding
 					and InquisitionInquisitionQuestionBinding.inquisition =
 						InquisitionResponse.inquisition
 			where InquisitionResponseValue.response = %s
