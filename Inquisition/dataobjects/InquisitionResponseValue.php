@@ -46,7 +46,7 @@ class InquisitionResponseValue extends SwatDBDataObject
 			SwatDBClassMap::get('InquisitionQuestionOption'));
 
 		$this->registerInternalProperty('question_binding',
-			SwatDBClassMap::get('InquisitionQuestionBinding'));
+			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
 	}
 
 	// }}}
