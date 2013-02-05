@@ -93,7 +93,7 @@ class InquisitionQuestion extends SwatDBDataObject
 	// }}}
 	// {{{ public function getView()
 
-	public function getView($response_value = null)
+	public function getView(InquisitionInquisitionQuestionBinding $binding)
 	{
 		$view_dir = 'Inquisition/views/';
 
@@ -101,23 +101,23 @@ class InquisitionQuestion extends SwatDBDataObject
 		default:
 		case self::TYPE_RADIO_LIST:
 			require_once $view_dir.'InquisitionRadioListQuestionView.php';
-			$view = new InquisitionRadioListQuestionView($this);
+			$view = new InquisitionRadioListQuestionView($binding);
 			break;
 		case self::TYPE_FLYDOWN:
 			require_once $view_dir.'InquisitionFlydownQuestionView.php';
-			$view = new InquisitionFlydownQuestionView($this);
+			$view = new InquisitionFlydownQuestionView($binding);
 			break;
 		case self::TYPE_RADIO_ENTRY:
 			require_once $view_dir.'InquisitionRadioEntryQuestionView.php';
-			$view = new InquisitionRadioEntryQuestionView($this);
+			$view = new InquisitionRadioEntryQuestionView($binding);
 			break;
 		case self::TYPE_TEXT:
 			require_once $view_dir.'InquisitionTextQuestionView.php';
-			$view = new InquisitionTextQuestionView($this);
+			$view = new InquisitionTextQuestionView($binding);
 			break;
 		case self::TYPE_CHECKBOX_LIST:
 			require_once $view_dir.'InquisitionCheckboxListQuestionView.php';
-			$view = new InquisitionCheckboxListQuestionView($this);
+			$view = new InquisitionCheckboxListQuestionView($binding);
 			break;
 		}
 

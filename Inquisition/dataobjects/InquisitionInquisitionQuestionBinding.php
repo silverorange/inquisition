@@ -45,6 +45,14 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ public function getView()
+
+	public function getView()
+	{
+		return $this->question->getView($this);
+	}
+
+	// }}}
 }
 
 ?>
