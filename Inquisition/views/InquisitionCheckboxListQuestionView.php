@@ -20,14 +20,17 @@ class InquisitionCheckboxListQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
-		if ($this->checkbox_list === null) {
-			$this->checkbox_list =
-				new SwatCheckboxList('question'.$this->question->id);
+		$binding = $this->question_binding;
+		$question = $this->question_binding->question;
 
-			$this->checkbox_list->required = $this->question->required;
+		if ($this->checkbox_list === null) {
+			$id = sprintf('question%s_%s', $binding->id, $question->id);
+
+			$this->checkbox_list = new SwatCheckboxList($id);
+			$this->checkbox_list->required = $question->required;
 			$this->checkbox_list->show_check_all = false;
 
-			foreach ($this->question->options as $option)
+			foreach ($question->options as $option)
 				$this->checkbox_list->addOption($option->id, $option->title);
 		}
 

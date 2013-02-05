@@ -20,9 +20,14 @@ class InquisitionTextQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
+		$binding = $this->question_binding;
+		$question = $this->question_binding->question;
+
 		if ($this->textarea === null) {
-			$this->textarea = new SwatTextarea('question'.$this->question->id);
-			$this->textarea->required = $this->question->required;
+			$id = sprintf('question%s_%s', $binding->id, $question->id);
+
+			$this->textarea = new SwatTextarea($id);
+			$this->textarea->required = $question->required;
 		}
 
 		if ($value !== null) {

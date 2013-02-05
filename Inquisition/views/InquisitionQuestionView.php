@@ -1,23 +1,23 @@
 <?php
 
 require_once 'MDB2.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseValue.php';
 
 /**
  * Base class for question views
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 abstract class InquisitionQuestionView
 {
 	// {{{ protected properties
 
 	/**
-	 * @var InquisitionQuestion
+	 * @var InquisitionInquisitionQuestionBinding
 	 */
-	protected $question;
+	protected $question_binding;
 
 	/**
 	 * @var MDB2_Driver_Common
@@ -27,10 +27,11 @@ abstract class InquisitionQuestionView
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct(InquisitionQuestion $question,
+	public function __construct(
+		InquisitionInquisitionQuestionBinding $question_binding,
 		MDB2_Driver_Common $db = null)
 	{
-		$this->question = $question;
+		$this->question_binding = $question_binding;
 		$this->db = $db;
 	}
 
@@ -46,7 +47,7 @@ abstract class InquisitionQuestionView
 	{
 		$class_name = SwatDBClassMap::get('InquisitionResponseValue');
 		$value = new $class_name();
-		$value->question = $this->question->id;
+		$value->question_binding = $this->question_binding->id;
 		return $value;
 	}
 

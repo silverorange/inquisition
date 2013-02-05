@@ -22,13 +22,16 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
+		$binding = $this->question_binding;
+		$question = $this->question_binding->question;
+
 		if ($this->radio_table === null) {
-			$this->radio_table = new InquisitionRadioEntryList(
-				'question'.$this->question->id);
+			$id = sprintf('question%s_%s', $binding->id, $question->id);
 
-			$this->radio_table->required = $this->question->required;
+			$this->radio_table = new InquisitionRadioEntryList($id);
+			$this->radio_table->required = $question->required;
 
-			foreach ($this->question->options as $option) {
+			foreach ($question->options as $option) {
 				$this->radio_table->addOption($option->id, $option->title);
 				if ($option->include_text)
 					$this->radio_table->setEntryOption($option->id);
