@@ -33,21 +33,24 @@ class InquisitionResponse extends SwatDBDataObject
 	public $complete_date;
 
 	// }}}
-	// {{{ public function getUsedHintBindingsByQuestion()
+	// {{{ public function getUsedHintBindingsByQuestionBinding()
 
-	public function getUsedHintBindingsByQuestion(InquisitionQuestion $question)
+	public function getUsedHintBindingsByQuestionBinding(
+		InquisitionInquisitionQuestionBinding $question_binding)
 	{
 		$class_name =
 			SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper');
 
 		$wrapper = new $class_name();
 
-		foreach ($this->used_hint_bindings as $binding) {
-			$question_id =
-				$binding->question_hint->getInternalValue('question');
+		foreach ($this->used_hint_bindings as $hint_binding) {
+			$question_binding_id =
+				$hint_binding->question_hint->getInternalValue(
+					'question_binding'
+				);
 
-			if ($question_id == $question->id) {
-				$wrapper->add($binding);
+			if ($question_binding_id == $question_binding->id) {
+				$wrapper->add($hint_binding);
 			}
 		}
 
