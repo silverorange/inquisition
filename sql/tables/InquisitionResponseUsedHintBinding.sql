@@ -1,5 +1,3 @@
-drop table InquisitionResponseUsedHintBinding;
-
 create table InquisitionResponseUsedHintBinding (
 	response integer not null references InquisitionResponse(id) on delete cascade,
 	question_hint integer not null references InquisitionQuestionHint(id) on delete cascade,

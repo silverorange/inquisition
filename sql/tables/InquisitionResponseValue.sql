@@ -1,7 +1,3 @@
-drop view AccountPracticeAnsweredQuestionView;
-drop table InquisitionResponseValue;
-
-
 create table InquisitionResponseValue (
 	id serial,
 	response integer not null references InquisitionResponse(id) on delete cascade,
