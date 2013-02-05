@@ -5,6 +5,7 @@ require_once 'SwatDB/SwatDBClassMap.php';
 require_once 'Site/dataobjects/SiteAccount.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
 require_once 'Inquisition/dataobjects/InquisitionResponseWrapper.php';
+require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBindingWrapper.php';
 
 /**
  * An inquisition
@@ -160,6 +161,25 @@ class InquisitionInquisition extends SwatDBDataObject
 			$this->db,
 			$sql,
 			SwatDBClassMap::get('InquisitionResponseWrapper')
+		);
+	}
+
+	// }}}
+
+	// {{{ protected function loadQuestionBindings()
+
+	protected function loadQuestionBindings()
+	{
+		$sql = sprintf(
+			'select * from InquisitionInquisitionQuestionBinding
+			where inquisition = %s order by displayorder, question',
+			$this->db->quote($this->id, 'integer')
+		);
+
+		return SwatDB::query(
+			$this->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper')
 		);
 	}
 
