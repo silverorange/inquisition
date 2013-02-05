@@ -26,6 +26,33 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	public $displayorder;
 
 	// }}}
+	// {{{ public function getView()
+
+	public function getView()
+	{
+		return $this->question->getView($this);
+	}
+
+	// }}}
+	// {{{ public function getPosition()
+
+	public function getPosition(InquisitionInquisition $inquisition)
+	{
+		$sql = sprintf(
+			'select position from (
+				select id, rank() over (
+					partition by inquisition order by displayorder, id
+				) as position from InquisitionInquisitionQuestionBinding
+				where inquisition = %s
+			) as temp where id = %s',
+			$inquisition->id,
+			$this->id
+		);
+
+		return SwatDB::queryOne($this->db, $sql);
+	}
+
+	// }}}
 	// {{{ protected function init()
 
 	protected function init()
@@ -42,14 +69,6 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 			'question',
 			SwatDBClassMap::get('InquisitionQuestion')
 		);
-	}
-
-	// }}}
-	// {{{ public function getView()
-
-	public function getView()
-	{
-		return $this->question->getView($this);
 	}
 
 	// }}}
