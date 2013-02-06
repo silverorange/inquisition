@@ -163,7 +163,17 @@ class InquisitionQuestionAdd extends AdminDBEdit
 		$this->question->save();
 
 		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->inquisition->questions->add($this->question);
+			$class_name = SwatDBClassMap::get(
+				'InquisitionInquisitionQuestionBinding'
+			);
+
+			$question_binding = new $class_name();
+			$question_binding->setDatabase($this->app->db);
+
+			$question_binding->question = $this->question->id;
+			$question_binding->inquisition = $this->inquisition->id;
+
+			$this->inquisition->question_bindings->add($question_binding);
 			$this->inquisition->save();
 		}
 
