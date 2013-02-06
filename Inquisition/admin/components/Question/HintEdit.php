@@ -274,12 +274,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function getQuestionTitle()
 	{
-		return ($this->inquisition instanceof InquisitionInquisition) ?
-			sprintf(
-				Inquisition::_('Question %s'),
-				$this->question->getPosition($this->inquisition)
-			) :
-			Inquisition::_('Question');
+		// TODO: Update this with some version of getPosition().
+		return Inquisition::_('Question');
 	}
 
 	// }}}
