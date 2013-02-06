@@ -63,33 +63,14 @@ class InquisitionInquisitionIndex extends AdminIndex
 		$wrapper = SwatDBClassMap::get('InquisitionInquisitionWrapper');
 		$inquisitions = SwatDB::query($this->app->db, $sql, $wrapper);
 
-		// efficiently load the questions
-		$wrapper = SwatDBClassMap::get('InquisitionQuestionWrapper');
-		$sql = 'select InquisitionQuestion.*,
-				InquisitionInquisitionQuestionBinding.inquisition
-			from InquisitionQuestion
-			inner join InquisitionInquisitionQuestionBinding on
-				InquisitionQuestion.id =
-					InquisitionInquisitionQuestionBinding.question
-			where InquisitionInquisitionQuestionBinding.inquisition in (%s)
-			order by InquisitionInquisitionQuestionBinding.inquisition,
-				InquisitionInquisitionQuestionBinding.displayorder,
-				InquisitionQuestion.id';
-
-		$sql = sprintf(
-			$sql,
-			$this->app->db->implodeArray(
-				$inquisitions->getIndexes(),
-				'integer'
-			)
-		);
-
-		$questions = SwatDB::query($this->app->db, $sql, $wrapper);
-		$inquisitions->attachSubRecordset(
-			'questions',
-			$wrapper,
+		// efficiently load the question bindings
+		$inquisitions->loadAllSubRecordsets(
+			'question_bindings',
+			SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper'),
+			'InquisitionInquisitionQuestionBinding',
 			'inquisition',
-			$questions
+			'',
+			'inquisition, displayorder, question'
 		);
 
 		$locale = SwatI18NLocale::get();
@@ -97,7 +78,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 		foreach ($inquisitions as $inquisition) {
 			$ds = new SwatDetailsStore($inquisition);
-			$question_count = count($inquisition->questions);
+			$question_count = count($inquisition->question_bindings);
 			$ds->question_count = sprintf(
 				Inquisition::ngettext(
 					'%s question',

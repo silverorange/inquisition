@@ -166,8 +166,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 	{
 		$store = new SwatTableStore();
 
-		foreach ($this->inquisition->questions as $question) {
-			$store->add($this->getQuestionDetailsStore($question));
+		foreach ($this->inquisition->question_bindings as $question_binding) {
+			$store->add($this->getQuestionDetailsStore($question_binding));
 		}
 
 		$this->ui->getWidget('question_order')->sensitive = (count($store) > 1);
@@ -178,13 +178,16 @@ class InquisitionInquisitionDetails extends AdminIndex
 	// }}}
 	// {{{ protected function getQuestionDetailsStore()
 
-	protected function getQuestionDetailsStore(InquisitionQuestion $question)
+	protected function getQuestionDetailsStore(
+		InquisitionInquisitionQuestionBinding $question_binding)
 	{
+		$question = $question_binding->question;
+
 		$ds = new SwatDetailsStore($question);
 
 		$ds->title = sprintf(
 			Inquisition::_('Question %s'),
-			$question->getPosition($this->inquisition)
+			$question_binding->getPosition()
 		);
 
 		$ds->image_count = count($question->images);
