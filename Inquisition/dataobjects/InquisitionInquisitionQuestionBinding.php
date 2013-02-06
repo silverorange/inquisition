@@ -65,9 +65,11 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 			SwatDBClassMap::get('InquisitionInquisition')
 		);
 
+		// We set autosave so that questions are saved before the binding.
 		$this->registerInternalProperty(
 			'question',
-			SwatDBClassMap::get('InquisitionQuestion')
+			SwatDBClassMap::get('InquisitionQuestion'),
+			true
 		);
 	}
 
