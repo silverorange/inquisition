@@ -71,7 +71,7 @@ class InquisitionInquisition extends SwatDBDataObject
 	{
 		return array_merge(
 			parent::getSerializableSubDataObjects(),
-			array('questions', 'question_bindings')
+			array('question_bindings')
 		);
 	}
 
