@@ -72,6 +72,17 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	}
 
 	// }}}
+	// {{{ protected function getSerializableSubDataObjects()
+
+	protected function getSerializableSubDataObjects()
+	{
+		return array_merge(
+			parent::getSerializableSubDataObjects(),
+			array('question')
+		);
+	}
+
+	// }}}
 }
 
 ?>
