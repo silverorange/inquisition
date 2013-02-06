@@ -68,21 +68,9 @@ class InquisitionQuestionOrder extends AdminDBOrder
 
 	protected function saveIndex($id, $index)
 	{
-		$sql = 'update InquisitionInquisitionQuestionBinding
-			set displayorder = %s
-			where question = %s and inquisition = %s';
-
-		$sql = sprintf(
-			$sql,
-			$this->app->db->quote($index, 'integer'),
-			$this->app->db->quote($id, 'integer'),
-			$this->app->db->quote($this->inquisition->id, 'integer')
-		);
-
-		SwatDB::exec(
-			$this->app->db,
-			$sql
-		);
+		SwatDB::updateColumn($this->app->db,
+			'InquisitionInquisitionQuestionBinding',
+			'integer:displayorder', $index, 'integer:id', array($id));
 	}
 
 	// }}}
@@ -168,12 +156,12 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		$sum = 0;
 		$order_widget = $this->ui->getWidget('order');
 
-		foreach ($this->inquisition->questions as $question) {
-			$sum += $question->displayorder;
+		foreach ($this->inquisition->question_bindings as $question_binding) {
+			$sum += $question_binding->displayorder;
 
 			$order_widget->addOption(
-				$question->id,
-				$question->bodytext,
+				$question_binding->id,
+				$question_binding->question->bodytext,
 				'text/xml'
 			);
 		}
