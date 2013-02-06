@@ -123,29 +123,6 @@ class InquisitionInquisition extends SwatDBDataObject
 	// }}}
 
 	// loader methods
-	// {{{ protected function loadQuestions()
-
-	protected function loadQuestions()
-	{
-		$sql = sprintf(
-			'select InquisitionQuestion.* from InquisitionQuestion
-			inner join InquisitionInquisitionQuestionBinding
-				on InquisitionQuestion.id =
-					InquisitionInquisitionQuestionBinding.question
-			where InquisitionInquisitionQuestionBinding.inquisition = %s
-			order by InquisitionInquisitionQuestionBinding.displayorder,
-				InquisitionQuestion.id',
-			$this->db->quote($this->id, 'integer')
-		);
-
-		return SwatDB::query(
-			$this->db,
-			$sql,
-			SwatDBClassMap::get('InquisitionQuestionWrapper')
-		);
-	}
-
-	// }}}
 	// {{{ protected function loadResponses()
 
 	protected function loadResponses()
@@ -165,7 +142,6 @@ class InquisitionInquisition extends SwatDBDataObject
 	}
 
 	// }}}
-
 	// {{{ protected function loadQuestionBindings()
 
 	protected function loadQuestionBindings()
