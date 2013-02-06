@@ -139,7 +139,7 @@ class InquisitionQuestion extends SwatDBDataObject
 	{
 		return array_merge(
 			parent::getSerializableSubDataObjects(),
-			array('options')
+			array('options', 'correct_option')
 		);
 	}
 
