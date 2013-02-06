@@ -78,46 +78,16 @@ class InquisitionInquisition extends SwatDBDataObject
 	// }}}
 
 	// saver methods
-	// {{{ protected function saveQuestions()
+	// {{{ protected function saveQuestionBindings()
 
-	protected function saveQuestions()
+	protected function saveQuestionBindings()
 	{
-		$this->questions->setDatabase($this->db);
-		$this->questions->save();
-
-		$delete_sql = 'delete from InquisitionInquisitionQuestionBinding
-			where question in (%s)';
-
-		$delete_sql = sprintf(
-			$delete_sql,
-			$this->db->implodeArray(
-				$this->questions->getIndexes(),
-				'integer'
-			)
-		);
-
-		$displayorder = 0;
-		$values = array();
-		$insert_sql = 'insert into InquisitionInquisitionQuestionBinding
-			(inquisition, question, displayorder) values %s';
-
-		foreach ($this->questions as $question) {
-			$displayorder += 10;
-			$values[] = sprintf(
-				'(%s, %s, %s)',
-				$this->db->quote($this->id, 'integer'),
-				$this->db->quote($question->id, 'integer'),
-				$this->db->quote($displayorder, 'integer')
-			);
+		foreach ($this->question_bindings as $question_binding) {
+			$question_binding->inquisition = $this;
 		}
 
-		$insert_sql = sprintf(
-			$insert_sql,
-			implode(',', $values)
-		);
-
-		SwatDB::exec($this->db, $delete_sql);
-		SwatDB::exec($this->db, $insert_sql);
+		$this->question_bindings->setDatabase($this->db);
+		$this->question_bindings->save();
 	}
 
 	// }}}
