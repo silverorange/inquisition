@@ -95,25 +95,6 @@ class InquisitionQuestion extends SwatDBDataObject
 	}
 
 	// }}}
-	// {{{ public function getPosition()
-
-	public function getPosition(InquisitionInquisition $inquisition)
-	{
-		$sql = sprintf(
-			'select position from (
-				select question, rank() over (
-					partition by inquisition order by displayorder, question
-				) as position from InquisitionInquisitionQuestionBinding
-				where inquisition = %s
-			) as temp where question = %s',
-			$inquisition->id,
-			$this->id
-		);
-
-		return SwatDB::queryOne($this->db, $sql);
-	}
-
-	// }}}
 	// {{{ protected function init()
 
 	protected function init()

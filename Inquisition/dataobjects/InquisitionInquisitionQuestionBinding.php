@@ -36,7 +36,7 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	// }}}
 	// {{{ public function getPosition()
 
-	public function getPosition(InquisitionInquisition $inquisition)
+	public function getPosition()
 	{
 		$sql = sprintf(
 			'select position from (
@@ -45,7 +45,7 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 				) as position from InquisitionInquisitionQuestionBinding
 				where inquisition = %s
 			) as temp where id = %s',
-			$inquisition->id,
+			$this->getInternalValue('inquisition'),
 			$this->id
 		);
 
