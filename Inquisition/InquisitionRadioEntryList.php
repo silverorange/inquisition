@@ -107,9 +107,9 @@ class InquisitionRadioEntryList extends SwatRadioList
 	// }}}
 	// {{{ protected function displayOptionLabel()
 
-	protected function displayOptionLabel(SwatOption $option)
+	protected function displayOptionLabel(SwatOption $option, $index)
 	{
-		parent::displayOptionLabel($option);
+		parent::displayOptionLabel($option, $index);
 
 		if ($this->hasEntry($option->value))
 			$this->getCompositeWidget('entry_'.$option->value)->display();
