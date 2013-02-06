@@ -61,36 +61,6 @@ class InquisitionQuestion extends SwatDBDataObject
 	public $inquisition;
 
 	// }}}
-	// {{{ protected function init()
-
-	protected function init()
-	{
-		$this->table = 'InquisitionQuestion';
-		$this->id_field = 'integer:id';
-
-		$this->registerInternalProperty(
-			'correct_option',
-			SwatDBClassMap::get('InquisitionQuestionOption')
-		);
-
-		$this->registerInternalProperty(
-			'question_group',
-			SwatDBClassMap::get('InquisitionQuestionGroup')
-		);
-	}
-
-	// }}}
-	// {{{ protected function getSerializableSubDataObjects()
-
-	protected function getSerializableSubDataObjects()
-	{
-		return array_merge(
-			parent::getSerializableSubDataObjects(),
-			array('options')
-		);
-	}
-
-	// }}}
 	// {{{ public function getView()
 
 	public function getView(InquisitionInquisitionQuestionBinding $binding)
@@ -141,6 +111,36 @@ class InquisitionQuestion extends SwatDBDataObject
 		);
 
 		return SwatDB::queryOne($this->db, $sql);
+	}
+
+	// }}}
+	// {{{ protected function init()
+
+	protected function init()
+	{
+		$this->table = 'InquisitionQuestion';
+		$this->id_field = 'integer:id';
+
+		$this->registerInternalProperty(
+			'correct_option',
+			SwatDBClassMap::get('InquisitionQuestionOption')
+		);
+
+		$this->registerInternalProperty(
+			'question_group',
+			SwatDBClassMap::get('InquisitionQuestionGroup')
+		);
+	}
+
+	// }}}
+	// {{{ protected function getSerializableSubDataObjects()
+
+	protected function getSerializableSubDataObjects()
+	{
+		return array_merge(
+			parent::getSerializableSubDataObjects(),
+			array('options')
+		);
 	}
 
 	// }}}
