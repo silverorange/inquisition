@@ -141,7 +141,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	{
 		$this->app->relocate(
 			sprintf(
-				'Question/Details?id=%s',
+				'Question/Details?id=%s%s',
 				$this->question->id,
 				$this->getLinkSuffix()
 			)
