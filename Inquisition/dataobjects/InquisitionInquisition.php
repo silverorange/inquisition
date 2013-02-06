@@ -118,7 +118,7 @@ class InquisitionInquisition extends SwatDBDataObject
 	{
 		$sql = sprintf(
 			'select * from InquisitionInquisitionQuestionBinding
-			where inquisition = %s order by displayorder, question',
+			where inquisition = %s order by displayorder, id',
 			$this->db->quote($this->id, 'integer')
 		);
 
