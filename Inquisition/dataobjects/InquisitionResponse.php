@@ -133,7 +133,6 @@ class InquisitionResponse extends SwatDBDataObject
 		$bindings = SwatDB::query($this->db, $sql,
 			SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper'));
 
-
 		$bindings->loadAllSubDataObjects(
 			'question_hint',
 			$this->db,
