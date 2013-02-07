@@ -4,6 +4,7 @@ create table InquisitionQuestion (
 	question_type integer not null,
 	displayorder integer not null default 0,
 	required boolean not null default true,
+	enabled boolean not null default true,
 	primary key (id)
 );
 

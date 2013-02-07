@@ -53,6 +53,11 @@ class InquisitionQuestion extends SwatDBDataObject
 	public $required;
 
 	/**
+	 * @var boolean
+	 */
+	public $enabled;
+
+	/**
 	 * Internal reference to the inquisition this question was loaded for. Not
 	 * for saving.
 	 *
