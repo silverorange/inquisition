@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionResponseUsedHintBindingWrapper.
  * A inquisition response
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2013 silverorange
  */
 class InquisitionResponse extends SwatDBDataObject
 {
@@ -45,11 +45,9 @@ class InquisitionResponse extends SwatDBDataObject
 
 		foreach ($this->used_hint_bindings as $hint_binding) {
 			$question_binding_id =
-				$hint_binding->question_hint->getInternalValue(
-					'question_binding'
-				);
+				$hint_binding->getInternalValue('question_binding');
 
-			if ($question_binding_id == $question_binding->id) {
+			if ($question_binding_id === $question_binding->id) {
 				$wrapper->add($hint_binding);
 			}
 		}
