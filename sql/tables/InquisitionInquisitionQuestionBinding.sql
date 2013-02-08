@@ -6,3 +6,9 @@ create table InquisitionInquisitionQuestionBinding (
 
 	primary key (id)
 );
+
+create index InquisitionInquisitionQuestionBinding_inquisition_index on
+	InquisitionInquisitionQuestionBinding(inquisition);
+
+create index InquisitionInquisitionQuestionBinding_question_index on
+	InquisitionInquisitionQuestionBinding(question);
