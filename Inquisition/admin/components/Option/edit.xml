@@ -5,7 +5,7 @@
 	<widget class="SwatFrame" id="edit_frame">
 		<property name="title" translatable="yes">Option</property>
 		<widget class="SwatForm" id="edit_form">
-			<widget class="SwatFormField">
+			<widget class="SwatFormField" id="title_field">
 				<property name="title" translatable="yes">Text</property>
 				<widget class="SwatEntry" id="title">
 					<property name="maxlength" type="integer">255</property>

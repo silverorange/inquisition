@@ -13,7 +13,7 @@
 		<!-- {{{ Details -->
 
 		<widget class="SwatDetailsView" id="details_view">
-			<object class="SwatDetailsViewField">
+			<object class="SwatDetailsViewField" id="title_field">
 				<property name="title" translatable="yes">Bodytext</property>
 				<object class="SwatNullTextCellRenderer">
 					<property name="text" type="data">title</property>
