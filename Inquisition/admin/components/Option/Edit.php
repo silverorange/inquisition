@@ -145,12 +145,6 @@ class InquisitionOptionEdit extends AdminDBEdit
 	{
 		$this->updateOption();
 
-
-
-		if ($this->option->id === null) {
-			$this->option->question = $this->question;
-		}
-
 		$this->option->save();
 
 		$this->app->messages->add(
@@ -172,17 +166,21 @@ class InquisitionOptionEdit extends AdminDBEdit
 		$this->option->title = $values['title'];
 		$this->option->question = $this->question->id;
 
-		// set displayorder so the new question appears at the end of the
-		// list of the current options by default.
-		$sql = sprintf(
-			'select max(displayorder) from InquisitionQuestionOption
-			where question = %s',
-			$this->app->db->quote($this->question->id, 'integer')
-		);
+		if ($this->option->id === null) {
+			$this->option->question = $this->question;
 
-		$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
-		$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
-		$this->option->displayorder = $new_displayorder;
+			// set displayorder so the new question appears at the end of the
+			// list of the current options by default.
+			$sql = sprintf(
+				'select max(displayorder) from InquisitionQuestionOption
+				where question = %s',
+				$this->app->db->quote($this->question->id, 'integer')
+			);
+
+			$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
+			$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
+			$this->option->displayorder = $new_displayorder;
+		}
 	}
 
 	// }}}
