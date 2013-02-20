@@ -5,7 +5,7 @@
 	<widget class="SwatFrame" id="details_frame">
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink" id="prev_question">
-				<property name="title" translatable="yes">◄ Previous</property>
+				<property name="title" translatable="yes">‹ Previous</property>
 				<property name="link">Question/Details?id=%s</property>
 			</widget>
 			<widget class="SwatToolLink">
@@ -14,7 +14,7 @@
 				<property name="stock_id">edit</property>
 			</widget>
 			<widget class="SwatToolLink" id="next_question">
-				<property name="title" translatable="yes">Next ►</property>
+				<property name="title" translatable="yes">Next ›</property>
 				<property name="link">Question/Details?id=%s</property>
 			</widget>
 		</widget>
