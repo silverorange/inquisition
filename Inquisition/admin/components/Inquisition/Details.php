@@ -60,6 +60,26 @@ class InquisitionInquisitionDetails extends AdminIndex
 			throw new AdminNotFoundException(sprintf(
 				'A inquisition with the id of “%s” does not exist', $this->id));
 		}
+
+		$bindings = $this->inquisition->question_bindings;
+
+		// efficiently load questions
+		$questions = $bindings->loadAllSubDataObjects(
+			'question',
+			$this->app->db,
+			'select * from InquisitionQuestion where id in (%s)',
+			SwatDBClassMap::get('InquisitionQuestionWrapper')
+		);
+
+		// efficiently load question options
+		$questions->loadAllSubRecordsets(
+			'options',
+			SwatDBClassMap::get('InquisitionQuestionOptionWrapper'),
+			'InquisitionQuestionOption',
+			'question',
+			'',
+			'displayorder, id'
+		);
 	}
 
 	// }}}
@@ -182,6 +202,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 		InquisitionInquisitionQuestionBinding $question_binding)
 	{
 		$question = $question_binding->question;
+		$correct_id = $question->getInternalValue('correct_option');
 
 		$ds = new SwatDetailsStore($question);
 
@@ -192,6 +213,25 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 		$ds->image_count = count($question->images);
 		$ds->option_count = count($question->options);
+
+		$li_tag = new SwatHtmlTag('li');
+
+		ob_start();
+
+		echo $question->bodytext;
+		echo '<ol>';
+
+		foreach ($question->options as $option) {
+			$li_tag->class = ($option->id === $correct_id) ?
+				'correct' : 'incorrect';
+
+			$li_tag->setContent($option->title);
+			$li_tag->display();
+		}
+
+		echo '</ol>';
+
+		$ds->bodytext = ob_get_clean();
 
 		return $ds;
 	}

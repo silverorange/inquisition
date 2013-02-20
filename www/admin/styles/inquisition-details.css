@@ -1,36 +1,3 @@
-#question_option_view td.option-index {
-	padding-left: 24px;
-	width: 16px;
-}
-
-#question_option_view td.question .swat-text-cell-renderer {
-	display: block;
-}
-
-#question_option_view td.question .swat-link-cell-renderer {
-	margin: 2px 4px 0 0;
-	display: block;
-	float: left;
-}
-
-#question_option_view td.question .swat-link-cell-renderer a {
-	display: block;
-	margin: 0;
-}
-
-#question_option_view tbody tr td {
-	border: none;
-}
-
-#question_option_view .swat-table-view-group {
-	border-bottom: none;
-	padding: 16px 4px 0;
-}
-
-#question_option_view tbody tr.swat-table-view-group:first-child td {
-	padding-top: 0;
-}
-
-#question_option_view .inquisition-question-option-correct {
+#question_view li.correct {
 	color: #438d04;
 }
