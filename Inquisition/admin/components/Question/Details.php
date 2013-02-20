@@ -25,6 +25,16 @@ class InquisitionQuestionDetails extends AdminIndex
 	protected $question;
 
 	/**
+	 * @var InquisitionQuestion
+	 */
+	protected $prev_question;
+
+	/**
+	 * @var InquisitionQuestion
+	 */
+	protected $next_question;
+
+	/**
 	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
@@ -42,6 +52,9 @@ class InquisitionQuestionDetails extends AdminIndex
 
 		$this->initQuestion();
 		$this->initInquisition();
+
+		$this->initPrevQuestion();
+		$this->initNextQuestion();
 	}
 
 	// }}}
@@ -99,6 +112,51 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 
 		return $inquisition;
+	}
+
+	// }}}
+	// {{{ protected function initPrevQuestion()
+
+	protected function initPrevQuestion()
+	{
+		$previous = null;
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			foreach ($this->inquisition->question_bindings as $binding) {
+				$question_id = $binding->getInternalValue('question');
+
+				if (($previous instanceof InquisitionInquisitionQuestionBinding)
+					&& ($question_id === $this->question->id)) {
+
+					$this->prev_question = $previous->question;
+				}
+
+				$previous = $binding;
+			}
+		}
+	}
+
+	// }}}
+	// {{{ protected function initNextQuestion()
+
+	protected function initNextQuestion()
+	{
+		$next = false;
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			foreach ($this->inquisition->question_bindings as $binding) {
+				if ($next) {
+					$this->next_question = $binding->question;
+					break;
+				}
+
+				$question_id = $binding->getInternalValue('question');
+
+				if ($question_id === $this->question->id) {
+					$next = true;
+				}
+			}
+		}
 	}
 
 	// }}}
@@ -342,8 +400,8 @@ class InquisitionQuestionDetails extends AdminIndex
 
 	protected function buildToolbars()
 	{
-		foreach ($this->ui->getRoot()->getDescendants('SwatToolBar') as
-			$toolbar) {
+		$toolbars = $this->ui->getRoot()->getDescendants('SwatToolBar');
+		foreach ($toolbars as $toolbar) {
 			$toolbar->setToolLinkValues(
 				array(
 					$this->question->id,
@@ -353,12 +411,34 @@ class InquisitionQuestionDetails extends AdminIndex
 			if ($this->inquisition instanceof InquisitionInquisition) {
 				$link_suffix = $this->getLinkSuffix();
 				foreach ($toolbar->getToolLinks() as $tool_link) {
-					if (substr($tool_link->link, -5) === 'id=%s' ||
-					substr($tool_link->link, -11) === 'question=%s') {
+					if ((substr($tool_link->link, -5) === 'id=%s') ||
+						(substr($tool_link->link, -11) === 'question=%s')) {
+
 						$tool_link->link.= $link_suffix;
 					}
 				}
 			}
+		}
+
+		// Hide the next/prev links if there is no inquisiton.
+		if (!($this->inquisition instanceof InquisitionInquisition)) {
+			$this->ui->getWidget('prev_question')->visible = false;
+			$this->ui->getWidget('next_question')->visible = false;
+		} else {
+			$has_prev = ($this->prev_question instanceof InquisitionQuestion);
+			$has_next = ($this->next_question instanceof InquisitionQuestion);
+
+			$link = $this->ui->getWidget('prev_question');
+			$link->sensitive = ($has_prev);
+			$link->value = array(
+				($has_prev) ? $this->prev_question->id : null,
+			);
+
+			$link = $this->ui->getWidget('next_question');
+			$link->sensitive = ($has_next);
+			$link->value = array(
+				($has_next) ? $this->next_question->id : null,
+			);
 		}
 	}
 
