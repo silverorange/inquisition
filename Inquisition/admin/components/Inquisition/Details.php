@@ -72,14 +72,16 @@ class InquisitionInquisitionDetails extends AdminIndex
 		);
 
 		// efficiently load question options
-		$questions->loadAllSubRecordsets(
-			'options',
-			SwatDBClassMap::get('InquisitionQuestionOptionWrapper'),
-			'InquisitionQuestionOption',
-			'question',
-			'',
-			'displayorder, id'
-		);
+		if ($questions instanceof InquisitionQuestionWrapper) {
+			$questions->loadAllSubRecordsets(
+				'options',
+				SwatDBClassMap::get('InquisitionQuestionOptionWrapper'),
+				'InquisitionQuestionOption',
+				'question',
+				'',
+				'displayorder, id'
+			);
+		}
 	}
 
 	// }}}
