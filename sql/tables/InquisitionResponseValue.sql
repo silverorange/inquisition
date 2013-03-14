@@ -16,3 +16,6 @@ create index InquisitionResponseValue_question_option_index on
 
 create index InquisitionResponseValue_question_binding_index on
 	InquisitionResponseValue(question_binding);
+
+create index InquisitionResponseValue_response_question_binding_index on
+	InquisitionResponseValue(response, question_binding);

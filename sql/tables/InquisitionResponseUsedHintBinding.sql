@@ -8,3 +8,5 @@ create table InquisitionResponseUsedHintBinding (
 
 CREATE INDEX InquisitionResponseUsedHintBinding_response_index ON InquisitionResponseUsedHintBinding(response);
 CREATE INDEX InquisitionResponseUsedHintBinding_question_hint_index ON InquisitionResponseUsedHintBinding(question_hint);
+CREATE INDEX InquisitionResponseUsedHintBinding_response_question_binding_index
+	ON InquisitionResponseUsedHintBinding(response, question_binding);
