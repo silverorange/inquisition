@@ -1,6 +1,7 @@
-create or replace view InquisitionResponseTotalTimeAndResponsesView as
+create or replace view InquisitionResponseTotalsView as
 	select InquisitionResponse.id as response, sum(tracked_time) as total_time,
-			count(1) as total_responses
+			count(1) as total_responses,
+			count(answer_provided = true) as total_answer_provided
 		from InquisitionResponse
 			left outer join InquisitionResponseValue
 				on InquisitionResponseValue.response = InquisitionResponse.id
