@@ -12,5 +12,4 @@ create or replace view InquisitionResponseTotalsView as
 				on InquisitionResponseValue.response = InquisitionResponse.id
 			inner join Inquisition
 				on InquisitionResponse.inquisition = Inquisition.id
-		where Inquisition.account is not null
 		group by InquisitionResponse.id;

@@ -5,5 +5,4 @@ create or replace view InquisitionResponseTotalQuestionsView as
 				on InquisitionResponse.inquisition = Inquisition.id
 			left outer join InquisitionInquisitionQuestionBinding
 				on InquisitionInquisitionQuestionBinding.inquisition = Inquisition.id
-		where Inquisition.account is not null
 		group by InquisitionResponse.id;
