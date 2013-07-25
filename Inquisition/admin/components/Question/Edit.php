@@ -106,7 +106,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		if (count($this->question->options) === 0) {
 			$note = sprintf(
 				Inquisition::_(
-					'This question has no options and can’t be shown '.
+					'This question has no options and cannot be shown '.
 					'on the site until %soptions have been added%s.'
 				),
 				sprintf(
@@ -120,7 +120,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 			InquisitionQuestionOption)) {
 			$note = sprintf(
 				Inquisition::_(
-					'This question has no correct option and can’t be shown '.
+					'This question has no correct option and cannot be shown '.
 					'on the site until a %scorrect option is selected%s.'
 				),
 				sprintf(

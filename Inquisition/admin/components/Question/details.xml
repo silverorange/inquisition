@@ -3,6 +3,9 @@
 <swatml>
 	<widget class="SwatMessageDisplay" id="message_display" />
 	<widget class="SwatFrame" id="details_frame">
+		<widget class="AdminNote" id="correct_option_note">
+			<property name="visible" type="boolean">false</property>
+		</widget>
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink" id="prev_question">
 				<property name="title" translatable="yes">‹ Previous</property>
