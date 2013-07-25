@@ -12,6 +12,10 @@
 					<property name="rows" type="integer">5</property>
 				</widget>
 			</widget>
+			<widget class="SwatFormField" id="enabled_field">
+				<property name="title" translatable="yes">Available On Site</property>
+				<widget class="SwatCheckbox" id="enabled" />
+			</widget>
 			<widget class="SwatFooterFormField">
 				<widget class="SwatButton" id="submit_button" />
 			</widget>

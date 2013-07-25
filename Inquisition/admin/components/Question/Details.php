@@ -226,6 +226,7 @@ class InquisitionQuestionDetails extends AdminIndex
 		$this->buildImageFrame();
 		$this->buildToolbars();
 		$this->buildViewRendererLinks();
+		$this->buildCorrectOptionNote();
 
 		$view = $this->ui->getWidget('details_view');
 		$view->data = $this->getDetailsStore($this->question);
@@ -460,6 +461,54 @@ class InquisitionQuestionDetails extends AdminIndex
 					}
 				}
 			}
+		}
+	}
+
+	// }}}
+	// {{{ protected function buildCorrectOptionNote()
+
+	protected function buildCorrectOptionNote()
+	{
+		$title = null;
+		$content = null;
+
+		if (count($this->question->options) === 0) {
+			$title = 'This question has no options.';
+			$content = sprintf(
+				Inquisition::_(
+					'It cannot be shown on the site until '.
+					'%soptions have been added%s.'
+				),
+				sprintf(
+					'<a href="Option/Edit?question=%s%s">',
+					$this->question->id,
+					$this->getLinkSuffix()
+				),
+				'</a>'
+			);
+		} elseif (!($this->question->correct_option instanceof
+			InquisitionQuestionOption)) {
+			$title = 'This question has no correct option selected.';
+			$content = sprintf(
+				Inquisition::_(
+					'It cannot be shown on the site until a '.
+					'%scorrect option is selected%s.'
+				),
+				sprintf(
+					'<a href="Question/CorrectOption?id=%s%s">',
+					$this->question->id,
+					$this->getLinkSuffix()
+				),
+				'</a>'
+			);
+		}
+
+		if ($title !== null && $this->ui->hasWidget('correct_option_note')) {
+			$this->ui->getWidget('correct_option_note')->visible = true;
+			$this->ui->getWidget('correct_option_note')->title = $title;
+			$this->ui->getWidget('correct_option_note')->content = $content;
+			$this->ui->getWidget('correct_option_note')->content_type =
+				'text/xml';
 		}
 	}
 

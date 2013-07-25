@@ -138,6 +138,31 @@ class InquisitionOptionDelete extends AdminDBDelete
 				)
 			)
 		);
+
+		// If we've deleted the correct option, disable the question and add
+		// a warning for the user. We check the id of the correct option instead
+		// of checking to see if correct_option is null or checking instanceof
+		// InquisitionQuestionOption because the dataobject is loaded before
+		// we delete the options, and so the dataobject is still cached.
+		if ($this->question->enabled === true &&
+			$this->question->correct_option->id === null) {
+			$sql = sprintf(
+				'update InquisitionQuestion set enabled = %s where id = %s',
+				$this->app->db->quote(false, 'boolean'),
+				$this->app->db->quote($this->question->id, 'integer')
+			);
+
+			SwatDB::exec($this->app->db, $sql);
+
+			$this->app->messages->add(
+				new SwatMessage(
+					'The correct option for the question was deleted. The '.
+					'question will not be available on the site until a new '.
+					'correct answer is selected.',
+					'error'
+				)
+			);
+		}
 	}
 
 	// }}}

@@ -41,6 +41,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 		$this->initQuestion();
 		$this->initInquisition();
+		$this->initEnabledField();
 	}
 
 	// }}}
@@ -96,6 +97,51 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	}
 
 	// }}}
+	// {{{ protected function initEnabledField()
+
+	protected function initEnabledField()
+	{
+		$note = null;
+
+		if (count($this->question->options) === 0) {
+			$note = sprintf(
+				Inquisition::_(
+					'This question has no options and cannot be shown '.
+					'on the site until %soptions have been added%s.'
+				),
+				sprintf(
+					'<a href="Option/Edit?question=%s%s">',
+					$this->question->id,
+					$this->getLinkSuffix()
+				),
+				'</a>'
+			);
+		} elseif (!($this->question->correct_option instanceof
+			InquisitionQuestionOption)) {
+			$note = sprintf(
+				Inquisition::_(
+					'This question has no correct option and cannot be shown '.
+					'on the site until a %scorrect option is selected%s.'
+				),
+				sprintf(
+					'<a href="Question/CorrectOption?id=%s%s">',
+					$this->question->id,
+					$this->getLinkSuffix()
+				),
+				'</a>'
+			);
+		}
+
+		if ($note !== null) {
+			$this->ui->getWidget('enabled')->sensitive = false;
+			$this->ui->getWidget('enabled_field')->note_content_type =
+				'text/xml';
+
+			$this->ui->getWidget('enabled_field')->note = $note;
+		}
+	}
+
+	// }}}
 	// {{{ protected function getUiXml()
 
 	protected function getUiXml()
@@ -128,10 +174,12 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		$values = $this->ui->getValues(
 			array(
 				'bodytext',
+				'enabled',
 			)
 		);
 
 		$this->question->bodytext = $values['bodytext'];
+		$this->question->enabled  = $values['enabled'];
 	}
 
 	// }}}

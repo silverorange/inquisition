@@ -3,6 +3,9 @@
 <swatml>
 	<widget class="SwatMessageDisplay" id="message_display" />
 	<widget class="SwatFrame" id="details_frame">
+		<widget class="AdminNote" id="correct_option_note">
+			<property name="visible" type="boolean">false</property>
+		</widget>
 		<widget class="SwatToolbar" id="details_toolbar">
 			<widget class="SwatToolLink" id="prev_question">
 				<property name="title" translatable="yes">‹ Previous</property>
@@ -21,11 +24,17 @@
 		<!-- {{{ Details -->
 
 		<widget class="SwatDetailsView" id="details_view">
-			<object class="SwatDetailsViewVerticalField" id="bodytext_field">
+			<object class="SwatDetailsViewField" id="bodytext_field">
 				<property name="title" translatable="yes">Bodytext</property>
 				<object class="SwatNullTextCellRenderer">
 					<property name="text" type="data">bodytext</property>
 					<property name="content_type">text/xml</property>
+				</object>
+			</object>
+			<object class="SwatDetailsViewField" id="enabled_field">
+				<property name="title" translatable="yes">Shown On Site</property>
+				<object class="SwatBooleanCellRenderer">
+					<property name="value" type="data">enabled</property>
 				</object>
 			</object>
 		</widget>
