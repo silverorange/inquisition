@@ -118,9 +118,17 @@ class InquisitionInquisition extends SwatDBDataObject
 	protected function loadQuestionBindings()
 	{
 		$sql = sprintf(
-			'select * from InquisitionInquisitionQuestionBinding
-			where inquisition = %s order by displayorder, id',
-			$this->db->quote($this->id, 'integer')
+			'select InquisitionInquisitionQuestionBinding.*
+			from InquisitionInquisitionQuestionBinding
+			inner join InquisitionQuestion
+				on InquisitionInquisitionQuestionBinding.question =
+					InquisitionQuestion.id
+			where InquisitionInquisitionQuestionBinding.inquisition = %s and
+				InquisitionQuestion.enabled = %s
+			order by InquisitionInquisitionQuestionBinding.displayorder,
+				InquisitionInquisitionQuestionBinding.id',
+			$this->db->quote($this->id, 'integer'),
+			$this->db->quote(true, 'boolean')
 		);
 
 		return SwatDB::query(
