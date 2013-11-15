@@ -120,15 +120,13 @@ class InquisitionInquisition extends SwatDBDataObject
 		$sql = sprintf(
 			'select InquisitionInquisitionQuestionBinding.*
 			from InquisitionInquisitionQuestionBinding
-			inner join InquisitionQuestion
+			inner join VisibleInquisitionQuestionView
 				on InquisitionInquisitionQuestionBinding.question =
-					InquisitionQuestion.id
-			where InquisitionInquisitionQuestionBinding.inquisition = %s and
-				InquisitionQuestion.enabled = %s
+					VisibleInquisitionQuestionView.question
+			where InquisitionInquisitionQuestionBinding.inquisition = %s
 			order by InquisitionInquisitionQuestionBinding.displayorder,
 				InquisitionInquisitionQuestionBinding.id',
-			$this->db->quote($this->id, 'integer'),
-			$this->db->quote(true, 'boolean')
+			$this->db->quote($this->id, 'integer')
 		);
 
 		return SwatDB::query(
