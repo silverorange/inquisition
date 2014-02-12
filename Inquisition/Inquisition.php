@@ -8,7 +8,7 @@ require_once 'Site/Site.php';
  * Container for package wide static methods
  *
  * @package   Inquisition
- * @copyright 2011 silverorange
+ * @copyright 2011-2014 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class Inquisition
@@ -102,28 +102,6 @@ class Inquisition
 
 		bindtextdomain(self::GETTEXT_DOMAIN, $path);
 		bind_textdomain_codeset(self::GETTEXT_DOMAIN, 'UTF-8');
-	}
-
-	// }}}
-	// {{{ public static function getDependencies()
-
-	/**
-	 * Gets the packages this package depends on
-	 *
-	 * @return array an array of package IDs that this package depends on.
-	 */
-	public static function getDependencies()
-	{
-		$dependencies = array(
-			Swat::PACKAGE_ID,
-			Site::PACKAGE_ID,
-		);
-
-		if (class_exists('Admin')) {
-			$depdendencies[] = Admin::PACKAGE_ID;
-		}
-
-		return $dependencies;
 	}
 
 	// }}}
