@@ -16,7 +16,7 @@ InquisitionRadioEntryList.prototype.init = function()
 	var id_parts, entry_id, entry;
 	for (var i = 0; i < this.radio_buttons.length; i++) {
 		id_parts = this.radio_buttons[i].id.split('_');
-		entry_id = id_parts[0] + '_entry_' + id_parts[1];
+		entry_id = id_parts[0] + '_' + id_parts[1] + '_entry_' + id_parts[2];
 		entry = document.getElementById(entry_id);
 		if (entry) {
 			this.entries.push(entry);
