@@ -9,7 +9,7 @@ require_once 'Swat/SwatRadioList.php';
  * A custom radio list with text entries
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionRadioEntryList extends SwatRadioList
 {
@@ -30,8 +30,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		parent::__construct($id);
 
 		$this->addJavaScript(
-			'packages/inquisition/javascript/inquisition-radio-entry-list.js',
-			Inquisition::PACKAGE_ID);
+			'packages/inquisition/javascript/inquisition-radio-entry-list.js'
+		);
 
 		$yui = new SwatYUI(array('dom', 'event'));
 		$this->html_head_entry_set->addEntrySet($yui->getHtmlHeadEntrySet());
