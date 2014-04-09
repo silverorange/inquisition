@@ -9,7 +9,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
  * Page for creating new question hints
  *
  * @package   Inquisition
- * @copyright 2013 silverorange
+ * @copyright 2013-2014 silverorange
  */
 class InquisitionQuestionHintEdit extends AdminDBEdit
 {
@@ -314,8 +314,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 	{
 		parent::finalize();
 		$this->layout->addHtmlHeadEntry(
-			'packages/inquisition/admin/styles/inquisition-question-edit.css',
-			Inquisition::PACKAGE_ID);
+			'packages/inquisition/admin/styles/inquisition-question-edit.css'
+		);
 	}
 
 	// }}}

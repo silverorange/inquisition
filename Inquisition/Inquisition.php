@@ -16,11 +16,6 @@ class Inquisition
 	// {{{ constants
 
 	/**
-	 * The package identifier
-	 */
-	const PACKAGE_ID = 'Inquisition';
-
-	/**
 	 * The gettext domain for Inquisition
 	 *
 	 * This is used to support multiple locales.

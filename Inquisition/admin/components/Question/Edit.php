@@ -12,7 +12,7 @@ require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
  * Edit page for a question
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionQuestionEdit extends AdminDBEdit
 {
@@ -237,8 +237,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		parent::finalize();
 
 		$this->layout->addHtmlHeadEntry(
-			'packages/inquisition/admin/styles/inquisition-question-edit.css',
-			Inquisition::PACKAGE_ID
+			'packages/inquisition/admin/styles/inquisition-question-edit.css'
 		);
 	}
 
