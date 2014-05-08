@@ -114,13 +114,13 @@ class InquisitionImporter
 			);
 		}
 
-		if ($this->correct_option === null) {
+		if (!$question->correct_option instanceof InquisitionQuestionOption) {
 			throw new InquisitionImportException(
 				sprintf(
 					Inquisition::_(
-						'Question on line %s must have a correct answer.',
-						$num
-					)
+						'Question on line %s must have a correct answer.'
+					),
+					$num
 				),
 				0,
 				$file
@@ -188,9 +188,9 @@ class InquisitionImporter
 					throw new InquisitionImportException(
 						sprintf(
 							Inquisition::_(
-								'Line %s contains a second correct answer.',
-								$num
-							)
+								'Line %s contains a second correct answer.'
+							),
+							$num
 						),
 						0,
 						$file
@@ -216,7 +216,7 @@ class InquisitionImporter
 		if (!isset($row[1]) || $row[1] == '') {
 			throw new InquisitionImportException(
 				sprintf(
-					Rap::_('Line %s has no option text.'),
+					Inquisition::_('Line %s has no option text.'),
 					$num
 				),
 				0,
