@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Site/SiteApplication.php';
 require_once 'Inquisition/exceptions/InquisitionImportException.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
@@ -12,6 +13,23 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
  */
 class InquisitionImporter
 {
+	// {{{ protected properties
+
+	/**
+	 * @var SiteApplication
+	 */
+	protected $app;
+
+	// }}}
+	// {{{ public function __construct()
+
+	public function __construct(SiteApplication $app)
+	{
+		$this->app = $app;
+	}
+
+	// }}}
+
 	// inquisition
 	// {{{ public function importInquisition()
 
@@ -47,7 +65,7 @@ class InquisitionImporter
 			$question_class = SwatDBClassMap::get('InquisitionQuestion');
 
 			$question = new $question_class();
-			$question->setDatabase($this->db);
+			$question->setDatabase($this->app->db);
 			$this->importQuestion($question, $file);
 
 			$binding_class = SwatDBClassMap::get(
@@ -55,7 +73,7 @@ class InquisitionImporter
 			);
 
 			$binding = new $binding_class();
-			$binding->setDatabase($this->db);
+			$binding->setDatabase($this->app->db);
 
 			$binding->question = $question;
 			$binding->inquisition = $inquisition;
@@ -150,7 +168,7 @@ class InquisitionImporter
 			$option_class = SwatDBClassMap::get('InquisitionQuestionOption');
 
 			$option = new $option_class();
-			$option->setDatabase($this->db);
+			$option->setDatabase($this->app->db);
 			$this->importOption($option, $file);
 
 			$previous_option = $question->options->getLast();
@@ -189,7 +207,7 @@ class InquisitionImporter
 	// }}}
 	// {{{ protected function importOption()
 
-	protected function importOption(InquisitionOption $option,
+	protected function importOption(InquisitionQuestionOption $option,
 		SplFileObject $file)
 	{
 		$num = $file->key() + 1;
