@@ -11,7 +11,7 @@ class InquisitionImportException extends Exception
 	/**
 	 * @var SplFileObject
 	 */
-	protected $file;
+	protected $spl_file;
 
 	// }}}
 	// {{{ public function __construct()
@@ -19,7 +19,7 @@ class InquisitionImportException extends Exception
 	public function __construct($message, $code, SplFileObject $file = null)
 	{
 		parent::__construct($message, $code);
-		$this->file = $file;
+		$this->spl_file = $file;
 	}
 
 	// }}}
@@ -27,7 +27,7 @@ class InquisitionImportException extends Exception
 
 	public function getSplFile()
 	{
-		return $this->file;
+		return $this->spl_file;
 	}
 
 	// }}}
