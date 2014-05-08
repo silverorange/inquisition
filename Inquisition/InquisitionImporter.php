@@ -4,7 +4,7 @@ require_once 'Inquisition/exceptions/InquisitionImportException.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
-require_once 'Inquisition/dataobjects/InquisitionQestionOption.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
 
 /**
  * @package   Inquisition
