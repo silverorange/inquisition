@@ -78,7 +78,7 @@ class InquisitionImporter
 			$binding->question = $question;
 			$binding->inquisition = $inquisition;
 
-			$previous_binding = $this->question_bindings->getLast();
+			$previous_binding = $inquisition->question_bindings->getLast();
 
 			if ($previous_binding instanceof $binding_class) {
 				$binding->displayorder = $previous_binding->displayorder + 1;
@@ -86,7 +86,7 @@ class InquisitionImporter
 				$binding->displayorder = 1;
 			}
 
-			$this->question_bindings->add($binding);
+			$inquisition->question_bindings->add($binding);
 		}
 	}
 
