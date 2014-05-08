@@ -4,7 +4,7 @@
 	<widget class="SwatMessageDisplay" id="message_display" />
 	<widget class="SwatFrame" id="details_frame">
 		<widget class="SwatToolbar" id="details_toolbar">
-			<widget class="SwatToolLink">
+			<widget class="SwatToolLink" id="edit_link">
 				<property name="title" translatable="yes">Edit</property>
 				<property name="link">Inquisition/Edit?id=%s</property>
 				<property name="stock_id">edit</property>
