@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package   Inquisitoopn
+ * @package   Inquisition
  * @copyright 2014 silverorange
  */
 class InquisitionImportException extends Exception
