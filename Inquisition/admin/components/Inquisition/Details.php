@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
  * Details page for inquisitions
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionInquisitionDetails extends AdminIndex
 {
@@ -141,11 +141,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 	protected function getDetailsStore(InquisitionInquisition $inquisition)
 	{
-		$ds = new SwatDetailsStore($inquisition);
-		$ds->description = SwatString::ellipsizeRight(
-			$inquisition->description, 300);
-
-		return $ds;
+		return new SwatDetailsStore($inquisition);
 	}
 
 	// }}}
