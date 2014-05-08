@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Site/SiteApplication.php';
+require_once 'Inquisition/InquisitionFileParser.php';
 require_once 'Inquisition/exceptions/InquisitionImportException.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
@@ -34,13 +35,8 @@ class InquisitionImporter
 	// {{{ public function importInquisition()
 
 	public function importInquisition(InquisitionInquisition $inquisition,
-		$filename)
+		InquisitionFileParser $file)
 	{
-		$file = new SplFileObject($filename, 'r');
-		$file->setFlags($this->getFileFlags());
-
-		$this->defuseBOM($file);
-
 		$this->importInquisitionProperties($inquisition, $file);
 		$this->importQuestions($inquisition, $file);
 	}
@@ -49,7 +45,7 @@ class InquisitionImporter
 	// {{{ protected function importInquisitionProperties()
 
 	protected function importInquisitionProperties(
-		InquisitionInquisition $inquisition, SplFileObject $file)
+		InquisitionInquisition $inquisition, InquisitionFileParser $file)
 	{
 	}
 
@@ -59,7 +55,7 @@ class InquisitionImporter
 	// {{{ protected function importQuestions()
 
 	protected function importQuestions(
-		InquisitionInquisition $inquisition, SplFileObject $file)
+		InquisitionInquisition $inquisition, InquisitionFileParser $file)
 	{
 		while (!$file->eof()) {
 			$question_class = SwatDBClassMap::get('InquisitionQuestion');
@@ -94,9 +90,10 @@ class InquisitionImporter
 	// {{{ protected function importQuestion()
 
 	protected function importQuestion(InquisitionQuestion $question,
-		SplFileObject $file)
+		InquisitionFileParser $file)
 	{
-		$num = $file->key() + 1;
+		$line = $file->line();
+		$row  = $file->row();
 
 		$this->importQuestionProperties($question, $file);
 		$this->importOptions($question, $file);
@@ -105,9 +102,11 @@ class InquisitionImporter
 			throw new InquisitionImportException(
 				sprintf(
 					Inquisition::_(
-						'Question on line %s must have at least two options.'
+						'Question on line %s (CSV row %s) must have at '.
+						'least two options.'
 					),
-					$num
+					$line,
+					$row
 				),
 				0,
 				$file
@@ -118,9 +117,11 @@ class InquisitionImporter
 			throw new InquisitionImportException(
 				sprintf(
 					Inquisition::_(
-						'Question on line %s must have a correct answer.'
+						'Question on line %s (CSV row %s) must have a '.
+						'correct answer.'
 					),
-					$num
+					$line,
+					$row
 				),
 				0,
 				$file
@@ -132,26 +133,30 @@ class InquisitionImporter
 	// {{{ protected function importQuestionProperties()
 
 	protected function importQuestionProperties(InquisitionQuestion $question,
-		SplFileObject $file)
+		InquisitionFileParser $file)
 	{
-		$num = $file->key() + 1;
-		$row = $file->current();
+		$line = $file->line();
+		$row  = $file->row();
+		$data = $file->current();
 
 		$question->required = true;
 		$question->question_type = InquisitionQuestion::TYPE_RADIO_LIST;
 
-		if (!isset($row[0]) || $row[0] == '') {
+		if (!isset($data[0]) || $data[0] == '') {
 			throw new InquisitionImportException(
 				sprintf(
-					Inquisition::_('Line %s has no question text.'),
-					$num
+					Inquisition::_(
+						'Line %s (CSV row %s) has no question text.'
+					),
+					$line,
+					$row
 				),
 				0,
 				$file
 			);
 		}
 
-		$question->bodytext = $row[0];
+		$question->bodytext = $data[0];
 	}
 
 	// }}}
@@ -160,7 +165,7 @@ class InquisitionImporter
 	// {{{ protected function importOptions()
 
 	protected function importOptions(InquisitionQuestion $question,
-		SplFileObject $file)
+		InquisitionFileParser $file)
 	{
 		$file->next();
 
@@ -182,15 +187,18 @@ class InquisitionImporter
 			$question->options->add($option);
 
 			if ($this->isCorrectOptionLine($file)) {
-				$num = $file->key() + 1;
+				$line = $file->line();
+				$row  = $file->row();
 
 				if ($question->correct_option instanceof $option_class) {
 					throw new InquisitionImportException(
 						sprintf(
 							Inquisition::_(
-								'Line %s contains a second correct answer.'
+								'Line %s (CSV row %s) contains a second '.
+								'correct answer.'
 							),
-							$num
+							$line,
+							$row
 						),
 						0,
 						$file
@@ -208,23 +216,25 @@ class InquisitionImporter
 	// {{{ protected function importOption()
 
 	protected function importOption(InquisitionQuestionOption $option,
-		SplFileObject $file)
+		InquisitionFileParser $file)
 	{
-		$num = $file->key() + 1;
-		$row = $file->current();
+		$line = $file->line();
+		$row  = $file->row();
+		$data = $file->current();
 
-		if (!isset($row[1]) || $row[1] == '') {
+		if (!isset($data[1]) || $data[1] == '') {
 			throw new InquisitionImportException(
 				sprintf(
-					Inquisition::_('Line %s has no option text.'),
-					$num
+					Inquisition::_('Line %s (CSV row %s) has no option text.'),
+					$line,
+					$row
 				),
 				0,
 				$file
 			);
 		}
 
-		$option->title = $row[1];
+		$option->title = $data[1];
 	}
 
 	// }}}
@@ -232,62 +242,19 @@ class InquisitionImporter
 	// helper methods
 	// {{{ protected function isOptionLine()
 
-	protected function isOptionLine(SplFileObject $file)
+	protected function isOptionLine(InquisitionFileParser $file)
 	{
-		$line = $file->current();
-
-		return (isset($line[0]) && $line[0] === '');
+		$data = $file->current();
+		return (isset($data[0]) && $data[0] === '');
 	}
 
 	// }}}
 	// {{{ protected function isCorrectOptionLine()
 
-	protected function isCorrectOptionLine(SplFileObject $file)
+	protected function isCorrectOptionLine(InquisitionFileParser $file)
 	{
-		$line = $file->current();
-
-		$marker = '';
-
-		if (isset($line[2])) {
-			$marker = strtolower(trim($line[2]));
-		}
-
-		return ($marker === 'x');
-	}
-
-	// }}}
-	// {{{ protected function getFileFlags()
-
-	protected function getFileFlags()
-	{
-		$flags  = SplFileObject::DROP_NEW_LINE;
-		$flags |= SplFileObject::SKIP_EMPTY;
-		$flags |= SplFileObject::READ_CSV;
-
-		return $flags;
-	}
-
-	// }}}
-	// {{{ protected function defuseBOM()
-
-	/**
-	 * Seeks ahead of the byte-order-mark if it exists in the file
-	 *
-	 * If there is a BOM at the start of the current line, then move the file
-	 * pointer past the BOM. This will cause subsequent calls to
-	 * $file->current() to skip the BOM.
-	 *
-	 * @param SplFileObject $file
-	 */
-	protected function defuseBOM(SplFileObject $file)
-	{
-		$bom = "\xef\xbb\xbf";
-		$line = $file->current();
-		$encoding = '8bit';
-
-		if (mb_strpos($line[0], $bom, 0, $encoding) === 0) {
-			$file->fseek(mb_strlen($bom, $encoding));
-		}
+		$data = $file->current();
+		return (isset($data[2]) && strtolower(trim($data[2])) === 'x');
 	}
 
 	// }}}

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Inquisition/InquisitionFileParser.php';
+
 /**
  * @package   Inquisition
  * @copyright 2014 silverorange
@@ -9,25 +11,26 @@ class InquisitionImportException extends Exception
 	// {{{ protected properties
 
 	/**
-	 * @var SplFileObject
+	 * @var InquisitionFileParser
 	 */
-	protected $spl_file;
+	protected $file_parser;
 
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct($message, $code, SplFileObject $file = null)
+	public function __construct($message, $code,
+		InquisitionFileParser $file_parser = null)
 	{
 		parent::__construct($message, $code);
-		$this->spl_file = $file;
+		$this->file_parser = $file_parser;
 	}
 
 	// }}}
-	// {{{ public function getSplFile()
+	// {{{ public function getFileParser()
 
-	public function getSplFile()
+	public function getFileParser()
 	{
-		return $this->spl_file;
+		return $this->file_parser;
 	}
 
 	// }}}
