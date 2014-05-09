@@ -56,14 +56,14 @@
 							<property name="value" type="data">id</property>
 						</object>
 					</object>
-					<object class="SwatTableViewColumn">
+					<object class="SwatTableViewColumn" id="title">
 						<object class="AdminTitleLinkCellRenderer">
 							<property name="text" type="data">title</property>
 							<property name="link">Question/Details?id=%s</property>
 							<property name="link_value[]" type="data">id</property>
 						</object>
 					</object>
-					<object class="SwatTableViewColumn">
+					<object class="SwatTableViewColumn" id="option_count">
 						<property name="title"># of Options</property>
 						<object class="SwatNumericCellRenderer">
 							<property name="value" type="data">option_count</property>
@@ -75,7 +75,7 @@
 							<property name="value" type="data">image_count</property>
 						</object>
 					</object>
-					<object class="SwatTableViewSpanningColumn">
+					<object class="SwatTableViewSpanningColumn" id="bodytext">
 						<object class="SwatTextCellRenderer">
 							<property name="text" type="data">bodytext</property>
 							<property name="content_type">text/xml</property>
