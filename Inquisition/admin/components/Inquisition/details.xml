@@ -35,7 +35,7 @@
 		<!-- }}} -->
 		<!-- {{{ Questions -->
 
-		<widget class="SwatFrame">
+		<widget class="SwatFrame" id="question_frame">
 			<property name="title" translatable="yes">Questions</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="question_toolbar">
