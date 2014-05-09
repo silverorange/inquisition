@@ -39,7 +39,7 @@
 			<property name="title" translatable="yes">Questions</property>
 			<widget class="SwatForm">
 				<widget class="SwatToolbar" id="question_toolbar">
-					<widget class="SwatToolLink">
+					<widget class="SwatToolLink" id="question_add">
 						<property name="title" translatable="yes">Add Question</property>
 						<property name="link">Question/Add?id=%s</property>
 						<property name="stock_id">add</property>
