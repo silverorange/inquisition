@@ -152,7 +152,7 @@
 						</object>
 					</object>
 					<object class="SwatTableViewColumn" id="correct_option">
-						<property name="title">Correct Answer</property>
+						<property name="title">Correct</property>
 						<object class="SwatBooleanCellRenderer">
 							<property name="value" type="data">correct</property>
 						</object>
