@@ -64,7 +64,9 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 
 	protected function buildNavBar()
 	{
-		parent::buildNavBar();
+		AdminDBDelete::buildNavBar();
+
+		$this->navbar->popEntry();
 
 		$this->navbar->createEntry(
 			$this->getQuestionTitle(),
