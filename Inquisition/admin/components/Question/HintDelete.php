@@ -13,7 +13,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
  * Delete confirmation page for question hints
  *
  * @package   Inquisition
- * @copyright 2013 silverorange
+ * @copyright 2013-2014 silverorange
  */
 class InquisitionQuestionHintDelete extends AdminDBDelete
 {
@@ -234,6 +234,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 	protected function buildNavBar()
 	{
 		parent::buildNavBar();
+
+		$this->navbar->popEntry();
 
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(

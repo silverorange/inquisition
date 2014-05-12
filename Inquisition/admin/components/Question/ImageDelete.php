@@ -8,7 +8,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
  * Delete confirmation page for question images
  *
  * @package   Inquisition
- * @copyright 2012-2013 silverorange
+ * @copyright 2012-2014 silverorange
  */
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {
