@@ -2,12 +2,13 @@
 
 require_once 'SwatDB/SwatDB.php';
 require_once 'Admin/pages/AdminDBOrder.php';
+require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
 
 /**
  * Change order page for options
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionOptionOrder extends AdminDBOrder
 {
@@ -195,7 +196,7 @@ class InquisitionOptionOrder extends AdminDBOrder
 	{
 		parent::buildNavBar();
 
-		$this->navbar->popEntries(2);
+		$this->navbar->popEntry();
 
 		if ($this->inquisition instanceof InquisitionInquisition) {
 			$this->navbar->createEntry(

@@ -8,7 +8,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
  * Delete confirmation page for question images
  *
  * @package   Inquisition
- * @copyright 2012-2013 silverorange
+ * @copyright 2012-2014 silverorange
  */
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {
@@ -64,7 +64,19 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 
 	protected function buildNavBar()
 	{
-		parent::buildNavBar();
+		AdminDBDelete::buildNavBar();
+
+		$this->navbar->popEntry();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
 			$this->getQuestionTitle(),

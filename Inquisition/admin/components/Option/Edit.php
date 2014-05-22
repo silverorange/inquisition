@@ -301,14 +301,13 @@ class InquisitionOptionEdit extends AdminDBEdit
 	}
 
 	// }}}
-
 	// {{{ protected function getTitle()
 
 	protected function getTitle()
 	{
-		return ($this->option instanceof InquisitionQuestionOption) ?
-			Inquisition::_('New Option') :
-			Inquisition::_('Edit Option');
+		return ($this->option->id === null)
+			? Inquisition::_('New Option')
+			: Inquisition::_('Edit Option');
 	}
 
 	// }}}

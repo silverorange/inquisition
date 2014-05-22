@@ -226,8 +226,9 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		$this->navbar->createEntry(
 			$this->getOptionTitle(),
 			sprintf(
-				'Option/Details?id=%s',
-				$this->option->id
+				'Option/Details?id=%s%s',
+				$this->option->id,
+				$this->getLinkSuffix()
 			)
 		);
 
