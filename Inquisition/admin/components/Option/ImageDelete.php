@@ -65,7 +65,19 @@ class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 
 	protected function buildNavBar()
 	{
-		parent::buildNavBar();
+		AdminDBDelete::buildNavBar();
+
+		$this->navbar->popEntry();
+
+		if ($this->inquisition instanceof InquisitionInquisition) {
+			$this->navbar->createEntry(
+				$this->inquisition->title,
+				sprintf(
+					'Inquisition/Details?id=%s',
+					$this->inquisition->id
+				)
+			);
+		}
 
 		$this->navbar->createEntry(
 			$this->getQuestionTitle(),
