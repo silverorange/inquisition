@@ -9,7 +9,6 @@
 				<property name="title">Title</property>
 				<widget class="SwatEntry" id="title">
 					<property name="maxlength" type="integer">255</property>
-					<property name="required" type="boolean">true</property>
 				</widget>
 			</widget>
 			<widget class="SwatFooterFormField">
