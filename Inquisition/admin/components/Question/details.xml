@@ -21,6 +21,13 @@
 		<!-- {{{ Details -->
 
 		<widget class="SwatDetailsView" id="details_view">
+			<object class="SwatDetailsViewField" id="enabled">
+				<property name="title" translatable="yes">Visible on Site?</property>
+				<property name="visible" type="boolean">false</property>
+				<object class="SwatBooleanCellRenderer">
+					<property name="value" type="data">enabled</property>
+				</object>
+			</object>
 			<object class="SwatDetailsViewVerticalField" id="bodytext_field">
 				<property name="title" translatable="yes">Bodytext</property>
 				<object class="SwatNullTextCellRenderer">

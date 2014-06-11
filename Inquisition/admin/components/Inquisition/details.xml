@@ -63,6 +63,13 @@
 							<property name="link_value[]" type="data">id</property>
 						</object>
 					</object>
+					<object class="SwatTableViewColumn" id="enabled_column">
+						<property name="title">Shown On Site?</property>
+						<property name="visible" type="boolean">false</property>
+						<object class="SwatBooleanCellRenderer">
+							<property name="value" type="data">enabled</property>
+						</object>
+					</object>
 					<object class="SwatTableViewColumn" id="option_count">
 						<property name="title"># of Options</property>
 						<object class="SwatNumericCellRenderer">

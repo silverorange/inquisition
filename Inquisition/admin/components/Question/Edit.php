@@ -128,10 +128,12 @@ class InquisitionQuestionEdit extends AdminDBEdit
 		$values = $this->ui->getValues(
 			array(
 				'bodytext',
+				'enabled',
 			)
 		);
 
 		$this->question->bodytext = $values['bodytext'];
+		$this->question->enabled  = $values['enabled'];
 	}
 
 	// }}}

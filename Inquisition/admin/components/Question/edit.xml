@@ -12,6 +12,14 @@
 					<property name="rows" type="integer">5</property>
 				</widget>
 			</widget>
+			<widget class="SwatFormField" id="enabled_field">
+				<property name="title" translatable="yes">Show on Site?</property>
+				<property name="note" translatable="yes">Hide a question from the site when there are responses to the question that should remain available for reporting.</property>
+				<property name="visible" type="boolean">false</property>
+				<widget class="SwatCheckbox" id="enabled">
+					<property name="value" type="boolean">true</property>
+				</widget>
+			</widget>
 			<widget class="SwatFooterFormField">
 				<widget class="SwatButton" id="submit_button" />
 			</widget>

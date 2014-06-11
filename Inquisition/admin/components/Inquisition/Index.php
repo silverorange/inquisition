@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
  * Inquisition index
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionInquisitionIndex extends AdminIndex
 {
@@ -79,14 +79,30 @@ class InquisitionInquisitionIndex extends AdminIndex
 		foreach ($inquisitions as $inquisition) {
 			$ds = new SwatDetailsStore($inquisition);
 			$question_count = count($inquisition->question_bindings);
-			$ds->question_count = sprintf(
-				Inquisition::ngettext(
-					'%s question',
-					'%s questions',
-					$question_count
-				),
-				$locale->formatNumber($question_count)
+			$visible_question_count = count(
+				$inquisition->visible_question_bindings
 			);
+
+			if ($visible_question_count != $question_count) {
+				$ds->question_count = sprintf(
+					Inquisition::ngettext(
+						'%s question, %s shown on site',
+						'%s questions, %s shown on site',
+						$question_count
+					),
+					$locale->formatNumber($question_count),
+					$locale->formatNumber($visible_question_count)
+				);
+			} else {
+				$ds->question_count = sprintf(
+					Inquisition::ngettext(
+						'%s question',
+						'%s questions',
+						$question_count
+					),
+					$locale->formatNumber($question_count)
+				);
+			}
 
 			$store->add($ds);
 		}
