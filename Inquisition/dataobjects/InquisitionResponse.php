@@ -11,7 +11,7 @@ require_once 'Inquisition/dataobjects/InquisitionResponseUsedHintBindingWrapper.
  * A inquisition response
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
  */
 class InquisitionResponse extends SwatDBDataObject
 {
@@ -75,9 +75,13 @@ class InquisitionResponse extends SwatDBDataObject
 
 	protected function getSerializableSubDataObjects()
 	{
-		return array_merge(parent::getSerializableSubDataObjects(), array(
-			'values',
-		));
+		return array_merge(
+			parent::getSerializableSubDataObjects(),
+			array(
+				'values',
+				'visible_question_values',
+			)
+		);
 	}
 
 	// }}}
@@ -86,6 +90,31 @@ class InquisitionResponse extends SwatDBDataObject
 	// {{{ protected function loadValues()
 
 	protected function loadValues()
+	{
+		$sql = sprintf(
+			'select InquisitionResponseValue.*
+			from InquisitionResponseValue
+			inner join InquisitionResponse on
+				InquisitionResponseValue.response = InquisitionResponse.id
+			inner join InquisitionInquisitionQuestionBinding on
+				InquisitionInquisitionQuestionBinding.id =
+					InquisitionResponseValue.question_binding
+				and InquisitionInquisitionQuestionBinding.inquisition =
+					InquisitionResponse.inquisition
+			where InquisitionResponseValue.response = %s
+			order by InquisitionInquisitionQuestionBinding.displayorder',
+			$this->db->quote($this->id, 'integer')
+		);
+
+		$wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
+
+		return SwatDB::query($this->db, $sql, $wrapper);
+	}
+
+	// }}}
+	// {{{ protected function loadVisibleQuestionValues()
+
+	protected function loadVisibleQuestionValues()
 	{
 		$sql = sprintf('select InquisitionResponseValue.*
 				from InquisitionResponseValue
@@ -96,6 +125,9 @@ class InquisitionResponse extends SwatDBDataObject
 						InquisitionResponseValue.question_binding
 					and InquisitionInquisitionQuestionBinding.inquisition =
 						InquisitionResponse.inquisition
+				inner join VisibleInquisitionQuestionView on
+					InquisitionInquisitionQuestionBinding.question =
+						VisibleInquisitionQuestionView.question
 			where InquisitionResponseValue.response = %s
 			order by InquisitionInquisitionQuestionBinding.displayorder',
 			$this->db->quote($this->id, 'integer'));
