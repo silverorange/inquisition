@@ -9,6 +9,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
  *
  * @package   Inquisition
  * @copyright 2012-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {

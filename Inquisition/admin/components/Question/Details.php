@@ -13,7 +13,8 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionImage.php';
  * Details page for a question
  *
  * @package   Inquisition
- * @copyright 2012-2013 silverorange
+ * @copyright 2012-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionDetails extends AdminIndex
 {

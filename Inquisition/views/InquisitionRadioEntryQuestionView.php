@@ -9,7 +9,8 @@ require_once 'Swat/SwatEntry.php';
  * Radio list with text question view
  *
  * @package   Inquisition
- * @copyright 2011-2012 silverorange
+ * @copyright 2011-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 {

@@ -8,7 +8,8 @@ require_once 'Inquisition/dataobjects/InquisitionResponseUsedHintBinding.php';
  * A recordset wrapper class for InquisitionResponseUsedHintBinding objects
  *
  * @package   Inquisition
- * @copyright 2013 silverorange
+ * @copyright 2013-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @see       InquisitionResponseUsedHintBinding
  */
 class InquisitionResponseUsedHintBindingWrapper extends SwatDBRecordsetWrapper

@@ -12,6 +12,7 @@ require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
  *
  * @package   Inquisition
  * @copyright 2012-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 {
