@@ -220,8 +220,9 @@ class InquisitionInquisitionDetails extends AdminIndex
 		echo '<ol>';
 
 		foreach ($question->options as $option) {
-			$li_tag->class = ($option->id === $correct_id) ?
-				'correct' : 'incorrect';
+			$li_tag->class = ($option->id === $correct_id)
+				? 'correct'
+				: 'incorrect';
 
 			$li_tag->setContent($option->title);
 			$li_tag->display();

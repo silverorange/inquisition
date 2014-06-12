@@ -38,14 +38,16 @@ class InquisitionResponse extends SwatDBDataObject
 	public function getUsedHintBindingsByQuestionBinding(
 		InquisitionInquisitionQuestionBinding $question_binding)
 	{
-		$class_name =
-			SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper');
+		$class_name = SwatDBClassMap::get(
+			'InquisitionResponseUsedHintBindingWrapper'
+		);
 
 		$wrapper = new $class_name();
 
 		foreach ($this->used_hint_bindings as $hint_binding) {
-			$question_binding_id =
-				$hint_binding->getInternalValue('question_binding');
+			$question_binding_id = $hint_binding->getInternalValue(
+				'question_binding'
+			);
 
 			if ($question_binding_id === $question_binding->id) {
 				$wrapper->add($hint_binding);
@@ -66,8 +68,10 @@ class InquisitionResponse extends SwatDBDataObject
 		$this->registerDateProperty('createdate');
 		$this->registerDateProperty('complete_date');
 
-		$this->registerInternalProperty('inquisition',
-			SwatDBClassMap::get('InquisitionInquisition'));
+		$this->registerInternalProperty(
+			'inquisition',
+			SwatDBClassMap::get('InquisitionInquisition')
+		);
 	}
 
 	// }}}
@@ -116,37 +120,27 @@ class InquisitionResponse extends SwatDBDataObject
 
 	protected function loadVisibleQuestionValues()
 	{
-		$sql = sprintf('select InquisitionResponseValue.*
-				from InquisitionResponseValue
-				inner join InquisitionResponse on
-					InquisitionResponseValue.response = InquisitionResponse.id
-				inner join InquisitionInquisitionQuestionBinding on
-					InquisitionInquisitionQuestionBinding.id =
-						InquisitionResponseValue.question_binding
-					and InquisitionInquisitionQuestionBinding.inquisition =
-						InquisitionResponse.inquisition
-				inner join VisibleInquisitionQuestionView on
-					InquisitionInquisitionQuestionBinding.question =
-						VisibleInquisitionQuestionView.question
+		$sql = sprintf(
+			'select InquisitionResponseValue.*
+			from InquisitionResponseValue
+			inner join InquisitionResponse on
+				InquisitionResponseValue.response = InquisitionResponse.id
+			inner join InquisitionInquisitionQuestionBinding on
+				InquisitionInquisitionQuestionBinding.id =
+					InquisitionResponseValue.question_binding
+				and InquisitionInquisitionQuestionBinding.inquisition =
+					InquisitionResponse.inquisition
+			inner join VisibleInquisitionQuestionView on
+				InquisitionInquisitionQuestionBinding.question =
+					VisibleInquisitionQuestionView.question
 			where InquisitionResponseValue.response = %s
 			order by InquisitionInquisitionQuestionBinding.displayorder',
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
 		$wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
 
 		return SwatDB::query($this->db, $sql, $wrapper);
-	}
-
-	// }}}
-	// {{{ protected function saveValues()
-
-	protected function saveValues()
-	{
-		foreach ($this->values as $value)
-			$value->response = $this;
-
-		$this->values->setDatabase($this->db);
-		$this->values->save();
 	}
 
 	// }}}
@@ -158,10 +152,14 @@ class InquisitionResponse extends SwatDBDataObject
 			'select * from InquisitionResponseUsedHintBinding
 			where InquisitionResponseUsedHintBinding.response = %s
 			order by InquisitionResponseUsedHintBinding.createdate',
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
-		$bindings = SwatDB::query($this->db, $sql,
-			SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper'));
+		$bindings = SwatDB::query(
+			$this->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper')
+		);
 
 		$bindings->loadAllSubDataObjects(
 			'question_hint',
@@ -171,6 +169,21 @@ class InquisitionResponse extends SwatDBDataObject
 		);
 
 		return $bindings;
+	}
+
+	// }}}
+
+	// saver methods
+	// {{{ protected function saveValues()
+
+	protected function saveValues()
+	{
+		foreach ($this->values as $value) {
+			$value->response = $this;
+		}
+
+		$this->values->setDatabase($this->db);
+		$this->values->save();
 	}
 
 	// }}}
