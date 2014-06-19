@@ -72,7 +72,10 @@ class InquisitionInquisition extends SwatDBDataObject
 	{
 		return array_merge(
 			parent::getSerializableSubDataObjects(),
-			array('question_bindings')
+			array(
+				'question_bindings',
+				'visible_question_bindings',
+			)
 		);
 	}
 
@@ -120,6 +123,30 @@ class InquisitionInquisition extends SwatDBDataObject
 		$sql = sprintf(
 			'select * from InquisitionInquisitionQuestionBinding
 			where inquisition = %s order by displayorder, id',
+			$this->db->quote($this->id, 'integer')
+		);
+
+		return SwatDB::query(
+			$this->db,
+			$sql,
+			SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper')
+		);
+	}
+
+	// }}}
+	// {{{ protected function loadVisibleQuestionBindings()
+
+	protected function loadVisibleQuestionBindings()
+	{
+		$sql = sprintf(
+			'select InquisitionInquisitionQuestionBinding.*
+			from InquisitionInquisitionQuestionBinding
+			inner join VisibleInquisitionQuestionView
+				on InquisitionInquisitionQuestionBinding.question =
+					VisibleInquisitionQuestionView.question
+			where InquisitionInquisitionQuestionBinding.inquisition = %s
+			order by InquisitionInquisitionQuestionBinding.displayorder,
+				InquisitionInquisitionQuestionBinding.id',
 			$this->db->quote($this->id, 'integer')
 		);
 

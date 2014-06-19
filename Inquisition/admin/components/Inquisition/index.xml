@@ -20,7 +20,7 @@
 					<property name="link_value[]" type="data">id</property>
 				</object>
 			</object>
-			<object class="SwatTableViewColumn">
+			<object class="SwatTableViewColumn" id="question_count">
 				<object class="SwatTextCellRenderer">
 					<property name="text" type="data">question_count</property>
 				</object>
