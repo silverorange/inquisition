@@ -22,10 +22,11 @@
 
 		<widget class="SwatDetailsView" id="details_view">
 			<object class="SwatDetailsViewField" id="enabled">
-				<property name="title" translatable="yes">Visible on Site?</property>
+				<property name="title" translatable="yes">Show on Site</property>
 				<property name="visible" type="boolean">false</property>
 				<object class="SwatBooleanCellRenderer">
 					<property name="value" type="data">enabled</property>
+					<property name="false_content" translatable="yes">No</property>
 				</object>
 			</object>
 			<object class="SwatDetailsViewVerticalField" id="bodytext_field">
