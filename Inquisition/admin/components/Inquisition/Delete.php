@@ -9,7 +9,8 @@ require_once 'Admin/pages/AdminDBDelete.php';
  * Delete confirmation page for inquisitions
  *
  * @package   Inquisition
- * @copyright 2011-2013 silverorange
+ * @copyright 2011-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionInquisitionDelete extends AdminDBDelete
 {

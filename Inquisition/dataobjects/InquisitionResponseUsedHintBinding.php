@@ -10,7 +10,8 @@ require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php'
  * An binding for responses to used hints
  *
  * @package   Inquisition
- * @copyright 2013 silverorange
+ * @copyright 2013-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 {

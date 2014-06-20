@@ -11,7 +11,8 @@ require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
  * Upload page for question images
  *
  * @package   Inquisition
- * @copyright 2012-2013 silverorange
+ * @copyright 2012-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionImageUpload extends InquisitionInquisitionImageUpload
 {

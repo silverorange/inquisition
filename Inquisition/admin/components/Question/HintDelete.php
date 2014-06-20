@@ -14,6 +14,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
  *
  * @package   Inquisition
  * @copyright 2013-2014 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintDelete extends AdminDBDelete
 {
