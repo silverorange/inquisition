@@ -44,6 +44,11 @@
 						<property name="link">Question/Add?id=%s</property>
 						<property name="stock_id">add</property>
 					</widget>
+					<widget class="SwatToolLink" id="question_import">
+						<property name="title" translatable="yes">Import Questions</property>
+						<property name="link">Question/Import?id=%s</property>
+						<property name="stock_id">add</property>
+					</widget>
 					<widget class="SwatToolLink" id="question_order">
 						<property name="title" translatable="yes">Change Question Order</property>
 						<property name="link">Question/Order?id=%s</property>

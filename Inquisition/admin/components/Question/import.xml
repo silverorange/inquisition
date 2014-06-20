@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
+<swatml>
+	<widget class="SwatMessageDisplay" id="message_display" />
+	<widget class="SwatFrame" id="edit_frame">
+		<property name="title" translatable="yes">Import Questions</property>
+		<widget class="SwatForm" id="edit_form">
+			<widget class="SwatFormField" id="questions_field">
+				<property name="title" translatable="yes">Questions File</property>
+				<widget class="SwatFileEntry" id="questions_file">
+					<property name="required" type="boolean">true</property>
+					<property name="accept_mime_types[]">text/csv</property>
+					<property name="accept_mime_types[]">text/plain</property>
+				</widget>
+			</widget>
+			<widget class="SwatFooterFormField">
+				<widget class="SwatButton" id="submit_button" />
+			</widget>
+		</widget>
+	</widget>
+</swatml>
