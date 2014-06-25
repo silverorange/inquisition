@@ -6,7 +6,7 @@ require_once 'Inquisition/InquisitionImporter.php';
 require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
 
 /**
- * Inquisition index
+ * Inquisition Question Importer
  *
  * @package   Inquisition
  * @copyright 2014 silverorange
@@ -16,7 +16,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 {
 	// {{{ protected properties
 
-	var $imported_questions = 0;
+	protected $imported_question_count = 0;
 
 	// }}}
 
@@ -72,7 +72,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 		}
 
 		$final_question_count = count($inquisition->question_bindings);
-		$this->questions_imported = $final_question_count -
+		$this->imported_question_count = $final_question_count -
 			$initial_questions_count;
 	}
 
