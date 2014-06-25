@@ -90,9 +90,9 @@ class InquisitionQuestionImport extends AdminObjectEdit
 				Inquisition::ngettext(
 					'One question has been imported.',
 					'%s questions have been imported.',
-					$this->questions_imported
+					$this->imported_question_count
 				),
-				$locale->formatNumber($this->questions_imported)
+				$locale->formatNumber($this->imported_question_count)
 			)
 		);
 	}
