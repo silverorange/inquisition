@@ -62,9 +62,11 @@ class InquisitionQuestionImport extends AdminObjectEdit
 		$initial_questions_count = count($inquisition->question_bindings);
 
 		try {
-			$file = new InquisitionFileParser($filename);
-			$importer = new InquisitionImporter($this->app);
-			$importer->importInquisition($inquisition, $file);
+			$importer = $this->getImporter();
+			$importer->importInquisition(
+				$inquisition,
+				$this->getFileParser($filename)
+			);
 		} catch (InquisitionImportException $e) {
 			$this->ui->getWidget('questions_file')->addMessage(
 				new SwatMessage($e->getMessage())
@@ -93,6 +95,22 @@ class InquisitionQuestionImport extends AdminObjectEdit
 				$locale->formatNumber($this->questions_imported)
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function getFileParser()
+
+	protected function getFileParser($filename)
+	{
+		return new InquisitionFileParser($filename);
+	}
+
+	// }}}
+	// {{{ protected function getImporter()
+
+	protected function getImporter()
+	{
+		return new InquisitionImporter($this->app);
 	}
 
 	// }}}
