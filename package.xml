@@ -19,10 +19,10 @@
   <email>mike@silverorange.com</email>
   <active>yes</active>
  </developer>
- <date>2014-06-20</date>
- <time>15:41:15</time>
+ <date>2014-07-03</date>
+ <time>14:24:17</time>
  <version>
-  <release>0.0.28</release>
+  <release>0.0.29</release>
   <api>0.0.1</api>
  </version>
  <stability>
@@ -82,6 +82,8 @@ see ChangeLog
        <file name="ImageDelete.php" role="php" />
        <file name="ImageOrder.php" role="php" />
        <file name="ImageUpload.php" role="php" />
+       <file name="Import.php" role="php" />
+       <file name="import.xml" role="php" />
        <file name="Index.php" role="php" />
        <file name="index.xml" role="php" />
        <file name="Order.php" role="php" />
@@ -200,14 +202,14 @@ see ChangeLog
  <changelog>
   <release>
    <version>
-    <release>0.0.28</release>
+    <release>0.0.29</release>
     <api>0.0.1</api>
    </version>
    <stability>
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2014-06-20</date>
+   <date>2014-07-03</date>
    <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
    <notes>
 see ChangeLog
