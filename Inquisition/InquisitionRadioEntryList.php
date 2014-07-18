@@ -112,8 +112,11 @@ class InquisitionRadioEntryList extends SwatRadioList
 	{
 		parent::displayOptionLabel($option, $index);
 
-		if ($this->hasEntry($option->value))
+		if ($this->hasEntry($option->value)) {
+			echo '<span class="inquisition-radio-entry-entry">';
 			$this->getCompositeWidget('entry_'.$option->value)->display();
+			echo '</span>';
+		}
 	}
 
 	// }}}
