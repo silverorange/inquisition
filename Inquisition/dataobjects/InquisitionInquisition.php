@@ -41,15 +41,17 @@ class InquisitionInquisition extends SwatDBDataObject
 	{
 		$this->checkDB();
 
-		$sql = sprintf('select * from InquisitionResponse
+		$sql = sprintf(
+			'select * from InquisitionResponse
 			where account = %s and inquisition = %s',
 			$this->db->quote($account->id, 'integer'),
-			$this->db->quote($this->id, 'integer'));
+			$this->db->quote($this->id, 'integer')
+		);
 
-		$wrapper  = SwatDBClassMap::get('InquisitionResponseWrapper');
+		$wrapper = $this->getResolvedResponseWrapperClass();
 		$response = SwatDB::query($this->db, $sql, $wrapper)->getFirst();
 
-		if ($response !== null) {
+		if ($response instanceof InquisitionResponse) {
 			$response->inquisition = $this;
 		}
 
@@ -78,6 +80,22 @@ class InquisitionInquisition extends SwatDBDataObject
 				'visible_question_bindings',
 			)
 		);
+	}
+
+	// }}}
+	// {{{ protected function getResolvedResponseWrapperClass()
+
+	protected function getResolvedResponseWrapperClass()
+	{
+		return SwatDBClassMap::get($this->getResponseWrapperClass());
+	}
+
+	// }}}
+	// {{{ protected function getResponseWrapperClass()
+
+	protected function getResponseWrapperClass()
+	{
+		return 'InquisitionResponseWrapper';
 	}
 
 	// }}}
@@ -112,7 +130,7 @@ class InquisitionInquisition extends SwatDBDataObject
 		return SwatDB::query(
 			$this->db,
 			$sql,
-			SwatDBClassMap::get('InquisitionResponseWrapper')
+			$this->getResolvedResponseWrapperClass()
 		);
 	}
 
