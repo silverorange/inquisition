@@ -130,7 +130,7 @@ class InquisitionInquisition extends SwatDBDataObject
 		return SwatDB::query(
 			$this->db,
 			$sql,
-			SwatDBClassMap::get('InquisitionResponseWrapper')
+			$this->getResolvedResponseWrapperClass()
 		);
 	}
 
