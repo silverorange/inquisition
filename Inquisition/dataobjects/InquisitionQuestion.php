@@ -24,6 +24,7 @@ class InquisitionQuestion extends SwatDBDataObject
 	const TYPE_RADIO_ENTRY = 3;
 	const TYPE_TEXT = 4;
 	const TYPE_CHECKBOX_LIST = 5;
+	const TYPE_CHECKBOX_ENTRY = 6;
 
 	// }}}
 	// {{{ public properties
@@ -94,6 +95,10 @@ class InquisitionQuestion extends SwatDBDataObject
 		case self::TYPE_CHECKBOX_LIST:
 			require_once $view_dir.'InquisitionCheckboxListQuestionView.php';
 			$view = new InquisitionCheckboxListQuestionView($binding);
+			break;
+		case self::TYPE_CHECKBOX_ENTRY:
+			require_once $view_dir.'InquisitionCheckboxEntryQuestionView.php';
+			$view = new InquisitionCheckboxEntryQuestionView($binding);
 			break;
 		}
 
