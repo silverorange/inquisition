@@ -22,7 +22,6 @@ InquisitionCheckboxEntryList.prototype.init = function()
 		id_parts = this.checkboxes[i].id.split('_');
 		entry_id = id_parts[0] + '_' + id_parts[1] + '_entry_' + id_parts[2];
 		entry = document.getElementById(entry_id);
-		console.log(entry_id);
 		if (entry) {
 			this.entries.push(entry);
 			this.checkboxs_by_entry[entry.id] = this.checkboxes[i];
