@@ -139,7 +139,6 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 			$index = 0;
 			foreach ($options as $option) {
 				if ($option->value === $value) {
-					$index = $index;
 					break;
 				}
 				$index++;
