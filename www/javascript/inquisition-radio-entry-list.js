@@ -9,9 +9,13 @@ function InquisitionRadioEntryList(id)
 InquisitionRadioEntryList.prototype.init = function()
 {
 	this.list = document.getElementById(this.id);
-	this.radio_buttons = YAHOO.util.Dom.getElementsBy(function (el) {
-		return (el.type == 'radio');
-	}, 'input', this.list);
+	this.radio_buttons = YAHOO.util.Dom.getElementsBy(
+		function (el) {
+			return (el.type == 'radio');
+		},
+		'input',
+		this.list
+	);
 
 	var id_parts, entry_id, entry;
 	for (var i = 0; i < this.radio_buttons.length; i++) {
@@ -25,7 +29,12 @@ InquisitionRadioEntryList.prototype.init = function()
 	}
 
 	YAHOO.util.Event.on(
-		this.radio_buttons, 'click', this.updateEntries, this, true);
+		this.radio_buttons,
+		'click',
+		this.updateEntries,
+		this,
+		true
+	);
 
 	this.updateEntries();
 }

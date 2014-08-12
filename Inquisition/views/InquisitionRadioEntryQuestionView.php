@@ -26,7 +26,7 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 		$binding = $this->question_binding;
 		$question = $this->question_binding->question;
 
-		if ($this->radio_table === null) {
+		if (!$this->radio_table instanceof InquisitionRadioEntryList) {
 			$id = sprintf('question%s_%s', $binding->id, $question->id);
 
 			$this->radio_table = new InquisitionRadioEntryList($id);
@@ -34,14 +34,16 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 
 			foreach ($question->options as $option) {
 				$this->radio_table->addOption($option->id, $option->title);
-				if ($option->include_text)
+				if ($option->include_text) {
 					$this->radio_table->setEntryOption($option->id);
+				}
 			}
 		}
 
-		if ($value !== null) {
+		if ($value instanceof InquisitionResponseValue) {
 			$this->radio_table->value = intval(
-				$value->getInternalValue('question_option'));
+				$value->getInternalValue('question_option')
+			);
 		}
 
 		return $this->radio_table;
@@ -55,7 +57,8 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 		$value = parent::getResponseValue();
 		$value->question_option = $this->radio_table->value;
 		$value->text_value = $this->radio_table->getEntryValue(
-			$this->radio_table->value);
+			$this->radio_table->value
+		);
 
 		return $value;
 	}

@@ -52,7 +52,9 @@ class InquisitionRadioEntryList extends SwatRadioList
 
 		if ($this->hasEntry($this->value) &&
 			$this->getEntryValue($this->value) === null) {
-			$message = 'The selected option requires a value to be entered.';
+			$message = Inquisition::_(
+				'The selected option requires a value to be entered.'
+			);
 
 			$this->addMessage(new SwatMessage($message, 'error'));
 		}
@@ -65,8 +67,9 @@ class InquisitionRadioEntryList extends SwatRadioList
 	{
 		$value = null;
 
-		if ($this->hasEntry($option_value))
+		if ($this->hasEntry($option_value)) {
 			$value = $this->getCompositeWidget('entry_'.$option_value)->value;
+		}
 
 		return $value;
 	}
@@ -76,8 +79,9 @@ class InquisitionRadioEntryList extends SwatRadioList
 
 	public function setEntryValue($option_value, $text)
 	{
-		if ($this->hasEntry($option_value))
+		if ($this->hasEntry($option_value)) {
 			$this->getCompositeWidget('entry_'.$option_value)->value = $text;
+		}
 	}
 
 	// }}}
@@ -141,7 +145,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		return sprintf(
 			"var %s_obj = new InquisitionRadioEntryList(%s);",
 			$this->id,
-			SwatString::quoteJavaScriptString($this->id));
+			SwatString::quoteJavaScriptString($this->id)
+		);
 	}
 
 	// }}}
