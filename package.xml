@@ -19,10 +19,10 @@
   <email>mike@silverorange.com</email>
   <active>yes</active>
  </developer>
- <date>2014-07-25</date>
- <time>10:33:00</time>
+ <date>2014-08-14</date>
+ <time>13:36:30</time>
  <version>
-  <release>0.0.30</release>
+  <release>0.0.31</release>
   <api>0.0.1</api>
  </version>
  <stability>
@@ -118,6 +118,7 @@ see ChangeLog
      <file name="InquisitionImportException.php" role="php" />
     </dir> <!-- /Inquisition/exceptions -->
     <dir name="views">
+     <file name="InquisitionCheckboxEntryQuestionView.php" role="php" />
      <file name="InquisitionCheckboxListQuestionView.php" role="php" />
      <file name="InquisitionFlydownQuestionView.php" role="php" />
      <file name="InquisitionQuestionView.php" role="php" />
@@ -128,6 +129,7 @@ see ChangeLog
     <file name="Inquisition.php" role="php">
      <tasks:replace from="@DATA-DIR@" to="data_dir" type="pear-config" />
     </file>
+    <file name="InquisitionCheckboxEntryList.php" role="php" />
     <file name="InquisitionFileParser.php" role="php" />
     <file name="InquisitionImporter.php" role="php" />
     <file name="InquisitionQuestionOptionCellRenderer.php" role="php" />
@@ -166,6 +168,7 @@ see ChangeLog
      </dir> <!-- /www/admin/styles -->
     </dir> <!-- /www/admin -->
     <dir name="javascript">
+     <file name="inquisition-checkbox-entry-list.js" role="data" />
      <file name="inquisition-radio-entry-list.js" role="data" />
     </dir> <!-- /www/javascript -->
    </dir> <!-- /www -->
@@ -182,7 +185,7 @@ see ChangeLog
    <package>
     <name>Swat</name>
     <channel>pear.silverorange.com</channel>
-    <min>1.4.65</min>
+    <min>2.1.10</min>
    </package>
    <package>
     <name>Admin</name>
@@ -202,14 +205,14 @@ see ChangeLog
  <changelog>
   <release>
    <version>
-    <release>0.0.30</release>
+    <release>0.0.31</release>
     <api>0.0.1</api>
    </version>
    <stability>
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2014-07-25</date>
+   <date>2014-08-14</date>
    <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
    <notes>
 see ChangeLog
