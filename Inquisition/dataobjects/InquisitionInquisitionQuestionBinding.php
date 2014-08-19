@@ -68,10 +68,9 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	{
 		if (!is_array($this->dependent_options)) {
 			$sql = sprintf(
-				'select
-						InquisitionQuestionDependency.option,
-						InquisitionQuestionDependency.question_binding,
-						InquisitionInquisitionQuestionBinding.question
+				'select InquisitionQuestionDependency.option,
+					InquisitionQuestionDependency.question_binding,
+					InquisitionInquisitionQuestionBinding.question
 					from InquisitionQuestionDependency
 					inner join InquisitionInquisitionQuestionBinding on
 						InquisitionQuestionDependency.question_binding =
