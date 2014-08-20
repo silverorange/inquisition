@@ -71,11 +71,11 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 				'select InquisitionQuestionDependency.option,
 					InquisitionQuestionDependency.question_binding,
 					InquisitionInquisitionQuestionBinding.question
-					from InquisitionQuestionDependency
-					inner join InquisitionInquisitionQuestionBinding on
-						InquisitionQuestionDependency.question_binding =
-						InquisitionInquisitionQuestionBinding.id
-					where dependent_question_binding = %s',
+				from InquisitionQuestionDependency
+				inner join InquisitionInquisitionQuestionBinding on
+					InquisitionQuestionDependency.question_binding =
+					InquisitionInquisitionQuestionBinding.id
+				where dependent_question_binding = %s',
 				$this->db->quote($this->id, 'integer')
 			);
 
