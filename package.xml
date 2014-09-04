@@ -20,9 +20,9 @@
   <active>yes</active>
  </developer>
  <date>2014-09-04</date>
- <time>13:58:35</time>
+ <time>14:03:53</time>
  <version>
-  <release>0.0.33</release>
+  <release>0.0.34</release>
   <api>0.0.1</api>
  </version>
  <stability>
@@ -146,6 +146,7 @@ see ChangeLog
      <file name="Inquisition.sql" role="data" />
      <file name="InquisitionInquisitionQuestionBinding.sql" role="data" />
      <file name="InquisitionQuestion.sql" role="data" />
+     <file name="InquisitionQuestionDependency.sql" role="data" />
      <file name="InquisitionQuestionGroup.sql" role="data" />
      <file name="InquisitionQuestionHint.sql" role="data" />
      <file name="InquisitionQuestionImageBinding.sql" role="data" />
@@ -205,7 +206,7 @@ see ChangeLog
  <changelog>
   <release>
    <version>
-    <release>0.0.33</release>
+    <release>0.0.34</release>
     <api>0.0.1</api>
    </version>
    <stability>
