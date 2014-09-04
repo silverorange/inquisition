@@ -27,6 +27,14 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 	public $displayorder;
 
 	// }}}
+	// {{{ protected properties
+
+	/*
+	 * @var array
+	 */
+	protected $dependent_options;
+
+	// }}}
 	// {{{ public function getView()
 
 	public function getView()
@@ -51,6 +59,50 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 		);
 
 		return SwatDB::queryOne($this->db, $sql);
+	}
+
+	// }}}
+	// {{{ public function getDependentOptions()
+
+	public function getDependentOptions()
+	{
+		if (!is_array($this->dependent_options)) {
+			$sql = sprintf(
+				'select InquisitionQuestionDependency.option,
+					InquisitionQuestionDependency.question_binding,
+					InquisitionInquisitionQuestionBinding.question
+				from InquisitionQuestionDependency
+				inner join InquisitionInquisitionQuestionBinding on
+					InquisitionQuestionDependency.question_binding =
+					InquisitionInquisitionQuestionBinding.id
+				where dependent_question_binding = %s',
+				$this->db->quote($this->id, 'integer')
+			);
+
+			$rs = SwatDB::query($this->db, $sql);
+
+			$dependent_options = array();
+
+			foreach ($rs as $row) {
+				$option = array();
+
+				$id = $row->question_binding.'_'.$row->question;
+
+				$option['binding'] = $row->question_binding;
+				$option['question'] = $row->question;
+				$option['options'] = array($row->option);
+
+				if (array_key_exists($id, $dependent_options)) {
+					$dependent_options[$id]['options'][] = $row->option;
+				} else {
+					$dependent_options[$id] = $option;
+				}
+			}
+
+			$this->dependent_options = array_values($dependent_options);
+		}
+
+		return $this->dependent_options;
 	}
 
 	// }}}
