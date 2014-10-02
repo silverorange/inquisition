@@ -35,6 +35,11 @@ class InquisitionInquisition extends SwatDBDataObject
 	public $createdate;
 
 	// }}}
+	// {{{ protected properties
+
+	protected $question_dependencies = array();
+
+	// }}}
 	// {{{ public function getResponseByAccount()
 
 	public function getResponseByAccount(SiteAccount $account)
@@ -56,6 +61,21 @@ class InquisitionInquisition extends SwatDBDataObject
 		}
 
 		return $response;
+	}
+
+	// }}}
+	// {{{ public function addQuestionDependency()
+
+	public function addQuestionDependency(
+		InquisitionInquisitionQuestionBinding $dependent_question_binding,
+		InquisitionInquisitionQuestionBinding $question_binding,
+		InquisitionQuestionOption $option) 
+	{
+		$this->question_dependencies[] = array(
+			'dependent_question_binding' => $dependent_question_binding,
+			'question_binding' => $question_binding,
+			'option' => $option
+		);
 	}
 
 	// }}}
@@ -111,6 +131,26 @@ class InquisitionInquisition extends SwatDBDataObject
 
 		$this->question_bindings->setDatabase($this->db);
 		$this->question_bindings->save();
+
+		foreach ($this->question_dependencies as $question_dependency) {
+			$dependent_binding = $question_dependency['dependent_question_binding'];
+			$binding = $question_dependency['question_binding'];
+			$option = $question_dependency['option'];
+
+			SwatDB::exec(
+				$this->db,
+				sprintf(
+					'insert into InquisitionQuestionDependency
+						(dependent_question_binding, question_binding, option)
+					values
+						(%s, %s, %s)
+					',
+					$this->db->quote($dependent_binding->id,'integer'),
+					$this->db->quote($binding->id,'integer'),
+					$this->db->quote($option->id,'integer')
+				)
+			);
+		}
 	}
 
 	// }}}
