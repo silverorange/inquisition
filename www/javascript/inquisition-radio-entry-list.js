@@ -37,7 +37,7 @@ InquisitionRadioEntryList.prototype.init = function()
 	);
 
 	this.updateEntries();
-}
+};
 
 InquisitionRadioEntryList.prototype.updateEntries = function()
 {
@@ -53,4 +53,4 @@ InquisitionRadioEntryList.prototype.updateEntries = function()
 			entry.disabled = true;
 		}
 	}
-}
+};
