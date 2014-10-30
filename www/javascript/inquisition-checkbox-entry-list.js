@@ -37,7 +37,7 @@ InquisitionCheckboxEntryList.prototype.init = function()
 	);
 
 	this.updateEntries();
-}
+};
 
 InquisitionCheckboxEntryList.prototype.updateEntries = function()
 {
@@ -53,4 +53,4 @@ InquisitionCheckboxEntryList.prototype.updateEntries = function()
 			entry.disabled = true;
 		}
 	}
-}
+};
