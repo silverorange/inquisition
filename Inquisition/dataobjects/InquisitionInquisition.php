@@ -30,6 +30,16 @@ class InquisitionInquisition extends SwatDBDataObject
 	public $title;
 
 	/**
+	 * Whether or not this inquisition should be considered enabled.
+	 *
+	 * This is NOT currently used by any Inquisition code, and only used by
+	 * local site code.
+	 *
+	 * @var boolean
+	 */
+	public $enabled;
+
+	/**
 	 * @var SwatDate
 	 */
 	public $createdate;
@@ -69,7 +79,7 @@ class InquisitionInquisition extends SwatDBDataObject
 	public function addQuestionDependency(
 		InquisitionInquisitionQuestionBinding $dependent_question_binding,
 		InquisitionInquisitionQuestionBinding $question_binding,
-		InquisitionQuestionOption $option) 
+		InquisitionQuestionOption $option)
 	{
 		$this->question_dependencies[] = array(
 			'dependent_question_binding' => $dependent_question_binding,
