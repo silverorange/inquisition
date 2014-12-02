@@ -14,8 +14,9 @@
 			<widget class="SwatFormField" id="enabled_field">
 				<property name="title" translatable="yes">Show on Site?</property>
 				<!---
-				The enabled field is not visible by default the flag relies on
-				the subclassed package and/or site code to respect the flag.
+				The enabled field is not visible by default. It can be used
+				for sites/packages that implement the enabled flag for
+				inquisition visibility.
 				--->
 				<property name="visible" type="boolean">false</property>
 				<widget class="SwatCheckbox" id="enabled">

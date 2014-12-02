@@ -32,8 +32,9 @@ class InquisitionInquisition extends SwatDBDataObject
 	/**
 	 * Whether or not this inquisition should be considered enabled.
 	 *
-	 * This relies on the subclassed package and/or site code to respect the
-	 * flag.
+	 * The enabled field is not respected by default. It can be used
+	 * for sites/packages that implement the enabled flag for
+	 * inquisition visibility.
 	 *
 	 * @var boolean
 	 */
