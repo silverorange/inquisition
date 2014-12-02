@@ -84,13 +84,18 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 			)
 		);
 
+		$this->inquisition->title = $values['title'];
+
+		if ($this->ui->hasWidget('enabled')) {
+			$this->inquisition->enabled =
+				$this->ui->getWidget('enabled')->value;
+		}
+
 		if ($this->inquisition->id === null) {
 			$now = new SwatDate();
 			$now->toUTC();
 			$this->inquisition->createdate = $now;
 		}
-
-		$this->inquisition->title = $values['title'];
 	}
 
 	// }}}

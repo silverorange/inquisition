@@ -30,6 +30,17 @@ class InquisitionInquisition extends SwatDBDataObject
 	public $title;
 
 	/**
+	 * Whether or not this inquisition should be considered enabled.
+	 *
+	 * The enabled field is not respected by default. It can be used
+	 * for sites/packages that implement the enabled flag for
+	 * inquisition visibility.
+	 *
+	 * @var boolean
+	 */
+	public $enabled;
+
+	/**
 	 * @var SwatDate
 	 */
 	public $createdate;
@@ -69,7 +80,7 @@ class InquisitionInquisition extends SwatDBDataObject
 	public function addQuestionDependency(
 		InquisitionInquisitionQuestionBinding $dependent_question_binding,
 		InquisitionInquisitionQuestionBinding $question_binding,
-		InquisitionQuestionOption $option) 
+		InquisitionQuestionOption $option)
 	{
 		$this->question_dependencies[] = array(
 			'dependent_question_binding' => $dependent_question_binding,
