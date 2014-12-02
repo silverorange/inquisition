@@ -91,6 +91,11 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		}
 
 		$this->inquisition->title = $values['title'];
+
+		if ($this->ui->hasWidget('enabled')) {
+			$this->inquisition->enabled =
+				$this->ui->getWidget('enabled')->value;
+		}
 	}
 
 	// }}}

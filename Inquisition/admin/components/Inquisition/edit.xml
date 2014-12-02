@@ -11,6 +11,13 @@
 					<property name="maxlength" type="integer">255</property>
 				</widget>
 			</widget>
+			<widget class="SwatFormField" id="enabled_field">
+				<property name="title">Show on Site?</property>
+				<property name="visible" type="boolean">false</property>
+				<widget class="SwatCheckbox" id="enabled">
+					<property name="value" type="boolean">true</property>
+				</widget>
+			</widget>
 			<widget class="SwatFooterFormField">
 				<widget class="SwatButton" id="submit_button" />
 			</widget>
