@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
  * Change order page for options
  *
  * @package   Inquisition
- * @copyright 2011-2014 silverorange
+ * @copyright 2011-2015 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionOptionOrder extends AdminDBOrder
