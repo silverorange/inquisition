@@ -6,7 +6,7 @@ require_once 'Swat/SwatCheckbox.php';
  * Custom widget used to set the correct option on a question.
  *
  * @package   Inquisition
- * @copyright 2011-2014 silverorange
+ * @copyright 2011-2015 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionCorrectOptionRadioButton extends SwatCheckbox

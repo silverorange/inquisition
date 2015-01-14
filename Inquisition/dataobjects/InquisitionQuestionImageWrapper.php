@@ -7,7 +7,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionImage.php';
  * A recordset wrapper class for InquisitionaQuestionImage objects
  *
  * @package   Store
- * @copyright 2012-2014 silverorange
+ * @copyright 2012-2015 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @see       InquisitionQuestionImage
  */

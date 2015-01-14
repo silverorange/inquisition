@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
  * A recordset wrapper class for InquisitionQuestionOption objects
  *
  * @package   Inquisition
- * @copyright 2011-2014 silverorange
+ * @copyright 2011-2015 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionOptionWrapper extends SwatDBRecordsetWrapper
