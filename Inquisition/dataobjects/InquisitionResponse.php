@@ -29,6 +29,11 @@ class InquisitionResponse extends SwatDBDataObject
 	public $createdate;
 
 	/**
+	 * @var float
+	 */
+	public $grade;
+
+	/**
 	 * @var SwatDate
 	 */
 	public $complete_date;

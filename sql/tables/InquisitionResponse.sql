@@ -3,6 +3,7 @@ create table InquisitionResponse (
 	inquisition integer not null references Inquisition(id) on delete cascade,
 	createdate timestamp not null,
 	complete_date timestamp,
+	grade decimal(5, 2),
 	primary key (id)
 );
 
