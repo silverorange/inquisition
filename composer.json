@@ -1,0 +1,39 @@
+{
+	"name": "silverorange/inquisition",
+	"description": "A quiz and/or survey framework.",
+	"type": "library",
+	"keywords": [ "questionnaire", "survey", "quiz" ],
+	"homepage": "https://github.com/silverorange/inquisition",
+	"license": "LGPL-2.1",
+	"authors": [
+		{
+			"name": "Charles Waddell",
+			"email": "charles@silverorange.com"
+		},
+		{
+			"name": "Isaac Grant",
+			"email": "isaac@silverorange.com"
+		},
+		{
+			"name": "Michael Gauthier",
+			"email": "mike@silverorange.com"
+		},
+		{
+			"name": "Nick Burka",
+			"email": "nick@silverorange.com"
+		}
+	],
+	"require": {
+		"php": ">=5.2.1",
+		"silverorange/mdb2": "^2.4.1",
+		"silverorange/admin": "^2.0.23",
+		"silverorange/swat": "^2.2.10",
+		"silverorange/silverorange_autoloader": "*"
+	},
+	"autoload": {
+		"files": [ "autoload.php" ]
+	},
+	"include-path": [
+		"./"
+	]
+}
