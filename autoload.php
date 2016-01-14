@@ -10,7 +10,6 @@ $package->addRule(
 		'Inquisition',
 		array(
 			'Inquisition',
-			'InquisitionQuestionBinding',
 			'QuestionGroup',
 			'QuestionHint',
 			'QuestionImage',
@@ -18,8 +17,8 @@ $package->addRule(
 			'QuestionOption',
 			'Question',
 			'Response',
-			'ResponseUsedHintBinding',
 			'ResponseValue',
+			'Binding',
 			'Wrapper'
 		)
 	)
