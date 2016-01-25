@@ -9,7 +9,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
  * Page for creating new question hints
  *
  * @package   Inquisition
- * @copyright 2013-2015 silverorange
+ * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintEdit extends AdminDBEdit

@@ -13,7 +13,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
  * Delete confirmation page for question hints
  *
  * @package   Inquisition
- * @copyright 2013-2015 silverorange
+ * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintDelete extends AdminDBDelete

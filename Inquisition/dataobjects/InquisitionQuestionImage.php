@@ -6,7 +6,7 @@ require_once 'Site/dataobjects/SiteImage.php';
  * An image data object for inquisition questions
  *
  * @package   Inquisition
- * @copyright 2012-2015 silverorange
+ * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionImage extends SiteImage

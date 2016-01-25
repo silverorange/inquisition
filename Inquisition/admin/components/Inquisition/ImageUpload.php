@@ -9,7 +9,7 @@ require_once 'Admin/exceptions/AdminNotFoundException.php';
  * Upload page for inquisition images
  *
  * @package   Inquisition
- * @copyright 2012-2015 silverorange
+ * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
