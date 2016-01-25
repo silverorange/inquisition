@@ -9,7 +9,7 @@ require_once 'Swat/SwatEntry.php';
  * Checkbox list with text question view
  *
  * @package   Inquisition
- * @copyright 2014-2015 silverorange
+ * @copyright 2014-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionCheckboxEntryQuestionView extends InquisitionQuestionView

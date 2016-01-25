@@ -8,7 +8,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
  * A recordset wrapper class for InquisitionQuestionHint objects
  *
  * @package   Inquisition
- * @copyright 2013-2015 silverorange
+ * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @see       Inquisition
  */

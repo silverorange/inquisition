@@ -9,7 +9,7 @@ require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
  * A binding between an inquisition and an inquisition question
  *
  * @package   Inquisition
- * @copyright 2013-2015 silverorange
+ * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionInquisitionQuestionBinding extends SwatDBDataObject

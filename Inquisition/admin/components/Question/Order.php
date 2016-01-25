@@ -7,7 +7,7 @@ require_once 'Admin/pages/AdminDBOrder.php';
  * Change order page for questions
  *
  * @package   Inquisition
- * @copyright 2011-2015 silverorange
+ * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionOrder extends AdminDBOrder
