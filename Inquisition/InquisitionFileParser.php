@@ -69,13 +69,17 @@ class InquisitionFileParser implements Iterator
 
 			// Need to call current to parse next line, otherwise the eof()
 			// call will not be valid.
-			$this->file->current();
+			$current = $this->current();
 
 			// skip blank lines
-			$current = $this->current();
-			while (!$this->file->eof() && array_pop($current) === null) {
-				$this->line++;
-				$this->file->next();
+			while (!$this->file->eof()) {
+				if (array_pop($current) === null) {
+					$this->line++;
+					$this->file->next();
+					$current = $this->current();
+				} else {
+					break;
+				}
 			}
 		}
 	}
