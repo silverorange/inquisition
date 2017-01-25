@@ -28,7 +28,7 @@
 		"silverorange/mdb2": "^2.4.1",
 		"silverorange/admin": "^2.0.23",
 		"silverorange/site": "^4.0.0",
-		"silverorange/swat": "^2.2.10"
+		"silverorange/swat": "^2.5.0"
 	},
 	"autoload": {
 		"classmap": [ "Inquisition/" ]
