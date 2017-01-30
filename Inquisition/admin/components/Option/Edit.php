@@ -205,7 +205,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 	protected function loadDBData()
 	{
-		$this->ui->setValues(get_object_vars($this->option));
+		$this->ui->setValues($this->option->getAttributes());
 	}
 
 	// }}}

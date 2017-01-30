@@ -210,7 +210,7 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function loadDBData()
 	{
-		$this->ui->setValues(get_object_vars($this->hint));
+		$this->ui->setValues($this->hint->getAttributes());
 	}
 
 	// }}}
