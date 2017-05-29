@@ -1,14 +1,10 @@
 <?php
 
-require_once 'Swat/Swat.php';
-require_once 'Swat/SwatUI.php';
-require_once 'Site/Site.php';
-
 /**
  * Container for package wide static methods
  *
  * @package   Inquisition
- * @copyright 2011-2016 silverorange
+ * @copyright 2011-2017 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class Inquisition
@@ -23,12 +19,22 @@ class Inquisition
 	const GETTEXT_DOMAIN = 'inquisition';
 
 	// }}}
+	// {{{ private properties
+
+	/**
+	 * Whether or not this package is initialized
+	 *
+	 * @var boolean
+	 */
+	private static $is_initialized = false;
+
+	// }}}
 	// {{{ public static function _()
 
 	/**
 	 * Translates a phrase
 	 *
-	 * This is an alias for {@link Inquisition::gettext()}.
+	 * This is an alias for {@link self::gettext()}.
 	 *
 	 * @param string $message the phrase to be translated.
 	 *
@@ -119,39 +125,36 @@ class Inquisition
 	}
 
 	// }}}
-}
+	// {{{ public static function init()
 
-// {{{ dummy dngettext()
-
-/*
- * Define a dummy dngettext() for when gettext is not available.
- */
-if (!function_exists("dngettext")) {
-	function dngettext($domain, $messageid1, $messageid2, $n)
+	public static function init()
 	{
-		if ($n == 1)
-			return $messageid1;
+		if (self::$is_initialized) {
+			return;
+		}
 
-		return $messageid2;
-    }
-}
+		Swat::init();
+		Site::init();
+		Admin::init();
 
-// }}}
-// {{{ dummy dgettext()
+		self::setupGettext();
 
-/*
- * Define a dummy dgettext() for when gettext is not available.
- */
-if (!function_exists("dgettext")) {
-	function dgettext($domain, $messageid)
-	{
-		return $messageid;
+		SwatUI::mapClassPrefixToPath('Inquisition', 'Inquisition');
+
+		self::$is_initialized = true;
 	}
+
+	// }}}
+	// {{{ private function __construct()
+
+	/**
+	 * Prevent instantiation of this static class
+	 */
+	private function __construct()
+	{
+	}
+
+	// }}}
 }
-
-// }}}
-
-Inquisition::setupGettext();
-SwatUI::mapClassPrefixToPath('Inquisition', 'Inquisition');
 
 ?>
