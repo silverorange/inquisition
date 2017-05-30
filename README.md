@@ -7,7 +7,7 @@ tables:
 
  - Inquisition (quizzes)
  - InquisitionQuestion
- - InquisitionInquisitioQuestionBinding
+ - InquisitionInquisitionQuestionBinding
  - InquisitionQuestionOption
  - InquisitionResponse
  - InquisitionResponseValue
