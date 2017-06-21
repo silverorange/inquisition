@@ -8,3 +8,4 @@ create table InquisitionResponse (
 );
 
 create index InquisitionResponse_inquisition_index on InquisitionResponse(inquisition);
+create index InquisitionResponse_account_index on InquisitionResponse(account);
