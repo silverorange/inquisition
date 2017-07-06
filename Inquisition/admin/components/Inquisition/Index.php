@@ -30,7 +30,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/index.xml';
+		return __DIR__.'/index.xml';
 	}
 
 	// }}}

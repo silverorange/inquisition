@@ -129,7 +129,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Option/edit.xml';
+		return __DIR__.'/edit.xml';
 	}
 
 	// }}}

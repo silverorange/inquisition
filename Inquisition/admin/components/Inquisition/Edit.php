@@ -50,7 +50,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/edit.xml';
+		return __DIR__.'/edit.xml';
 	}
 
 	// }}}

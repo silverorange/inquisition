@@ -99,7 +99,7 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/correct-option.xml';
+		return __DIR__.'/correct-option.xml';
 	}
 
 	// }}}

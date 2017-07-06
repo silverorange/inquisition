@@ -19,7 +19,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/import.xml';
+		return __DIR__.'/import.xml';
 	}
 
 	// }}}

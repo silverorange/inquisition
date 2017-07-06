@@ -98,7 +98,7 @@ class InquisitionOptionDetails extends AdminIndex
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Option/details.xml';
+		return __DIR__.'/details.xml';
 	}
 
 	// }}}

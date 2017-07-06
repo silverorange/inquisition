@@ -128,7 +128,7 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/hint-edit.xml';
+		return __DIR__.'/hint-edit.xml';
 	}
 
 	// }}}

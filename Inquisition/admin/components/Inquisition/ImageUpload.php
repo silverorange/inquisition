@@ -68,7 +68,7 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/image-upload.xml';
+		return __DIR__.'/image-upload.xml';
 	}
 
 	// }}}

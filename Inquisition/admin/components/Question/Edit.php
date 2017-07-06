@@ -93,7 +93,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/edit.xml';
+		return __DIR__.'/edit.xml';
 	}
 
 	// }}}

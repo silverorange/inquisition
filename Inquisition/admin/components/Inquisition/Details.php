@@ -83,7 +83,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/details.xml';
+		return __DIR__.'/details.xml';
 	}
 
 	// }}}
