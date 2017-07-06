@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Inquisition/InquisitionFileParser.php';
-
 /**
  * @package   Inquisition
  * @copyright 2014-2016 silverorange

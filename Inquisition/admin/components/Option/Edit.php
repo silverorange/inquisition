@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-
 /**
  * Edit page for an option
  *

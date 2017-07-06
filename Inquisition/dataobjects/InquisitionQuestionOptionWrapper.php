@@ -1,9 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDBRecordsetWrapper.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-
 /**
  * A recordset wrapper class for InquisitionQuestionOption objects
  *

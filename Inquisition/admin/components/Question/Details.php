@@ -1,14 +1,5 @@
 <?php
 
-require_once 'Swat/SwatTableStore.php';
-require_once 'Swat/SwatDetailsStore.php';
-require_once 'SwatDB/SwatDB.php';
-require_once 'Admin/pages/AdminIndex.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImage.php';
-
 /**
  * Details page for a question
  *

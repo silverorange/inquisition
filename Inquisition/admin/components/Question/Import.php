@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminObjectEdit.php';
-require_once 'Inquisition/InquisitionFileParser.php';
-require_once 'Inquisition/InquisitionImporter.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-
 /**
  * Inquisition Question Importer
  *

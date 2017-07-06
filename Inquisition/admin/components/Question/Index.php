@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Admin/AdminSearchClause.php';
-require_once 'Admin/pages/AdminSearch.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
-
 /**
  * Questions index
  *

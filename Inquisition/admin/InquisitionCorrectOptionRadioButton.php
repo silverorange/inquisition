@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Swat/SwatCheckbox.php';
-
 /**
  * Custom widget used to set the correct option on a question.
  *

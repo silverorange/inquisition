@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminIndex.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisitionWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
-
 /**
  * Inquisition index
  *

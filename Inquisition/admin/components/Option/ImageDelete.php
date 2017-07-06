@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
-require_once
 	'Inquisition/dataobjects/InquisitionQuestionOptionImageWrapper.php';
 
 /**

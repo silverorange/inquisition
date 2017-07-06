@@ -1,10 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDBDataObject.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-
 /**
  * A binding between an inquisition and an inquisition question
  *

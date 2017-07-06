@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Swat/SwatFormField.php';
-require_once 'Swat/SwatEntry.php';
-require_once 'Swat/SwatYUI.php';
-require_once 'Swat/SwatRadioList.php';
-
 /**
  * A custom radio list with text entries
  *

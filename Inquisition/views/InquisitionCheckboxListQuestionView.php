@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Inquisition/views/InquisitionQuestionView.php';
-require_once 'Inquisition/InquisitionCheckboxEntryList.php';
-
 /**
  * Checkbox list question view
  *

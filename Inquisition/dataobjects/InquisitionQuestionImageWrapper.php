@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Site/dataobjects/SiteImageWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImage.php';
-
 /**
  * A recordset wrapper class for InquisitionaQuestionImage objects
  *

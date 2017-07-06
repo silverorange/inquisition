@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Swat/SwatFormField.php';
-require_once 'Swat/SwatEntry.php';
-require_once 'Swat/SwatYUI.php';
-require_once 'Swat/SwatCheckboxList.php';
-
 /**
  * A checkbox list with text entries
  *

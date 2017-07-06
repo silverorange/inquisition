@@ -1,12 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDB.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOptionImage.php';
-require_once 'Inquisition/admin/components/Inquisition/ImageUpload.php';
-
 /**
  * Upload page for option images
  *
