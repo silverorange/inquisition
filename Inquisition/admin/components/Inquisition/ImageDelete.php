@@ -71,7 +71,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 
 	protected function initInternal()
 	{
-		$this->ui_xml = dirname(__FILE__).'/image-delete.xml';
+		$this->ui_xml = __DIR__.'/image-delete.xml';
 
 		parent::initInternal();
 
