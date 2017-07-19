@@ -156,9 +156,9 @@ class InquisitionInquisition extends SwatDBDataObject
 					values
 						(%s, %s, %s)
 					',
-					$this->db->quote($dependent_binding->id,'integer'),
-					$this->db->quote($binding->id,'integer'),
-					$this->db->quote($option->id,'integer')
+					$this->db->quote($dependent_binding->id, 'integer'),
+					$this->db->quote($binding->id, 'integer'),
+					$this->db->quote($option->id, 'integer')
 				)
 			);
 		}
