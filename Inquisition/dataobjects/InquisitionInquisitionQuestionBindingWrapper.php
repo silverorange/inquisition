@@ -12,8 +12,7 @@ require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php'
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @see       InquisitionInquisitionQuestionBinding
  */
-class InquisitionInquisitionQuestionBindingWrapper
-	extends SwatDBRecordsetWrapper
+class InquisitionInquisitionQuestionBindingWrapper extends SwatDBRecordsetWrapper
 {
 	// {{{ protected function init()
 

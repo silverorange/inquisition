@@ -98,7 +98,7 @@ class Inquisition
 	public static function setupGettext()
 	{
 		$path = '@DATA-DIR@/Inquisition/locale';
-		if (substr($path, 0 ,1) === '@')
+		if (substr($path, 0, 1) === '@')
 			$path = dirname(__FILE__).'/../locale';
 
 		bindtextdomain(self::GETTEXT_DOMAIN, $path);
