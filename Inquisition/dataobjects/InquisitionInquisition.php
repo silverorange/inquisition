@@ -80,8 +80,8 @@ class InquisitionInquisition extends SwatDBDataObject
 	public function addQuestionDependency(
 		InquisitionInquisitionQuestionBinding $dependent_question_binding,
 		InquisitionInquisitionQuestionBinding $question_binding,
-		InquisitionQuestionOption $option)
-	{
+		InquisitionQuestionOption $option
+	) {
 		$this->question_dependencies[] = array(
 			'dependent_question_binding' => $dependent_question_binding,
 			'question_binding' => $question_binding,

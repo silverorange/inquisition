@@ -30,8 +30,8 @@ abstract class InquisitionQuestionView
 
 	public function __construct(
 		InquisitionInquisitionQuestionBinding $question_binding,
-		MDB2_Driver_Common $db = null)
-	{
+		MDB2_Driver_Common $db = null
+	) {
 		$this->question_binding = $question_binding;
 		$this->db = $db;
 	}

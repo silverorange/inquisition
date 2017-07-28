@@ -33,9 +33,10 @@ class InquisitionImporter
 	// inquisition
 	// {{{ public function importInquisition()
 
-	public function importInquisition(InquisitionInquisition $inquisition,
-		InquisitionFileParser $file)
-	{
+	public function importInquisition(
+		InquisitionInquisition $inquisition,
+		InquisitionFileParser $file
+	) {
 		$this->importInquisitionProperties($inquisition, $file);
 		$this->importQuestions($inquisition, $file);
 	}
@@ -44,8 +45,9 @@ class InquisitionImporter
 	// {{{ protected function importInquisitionProperties()
 
 	protected function importInquisitionProperties(
-		InquisitionInquisition $inquisition, InquisitionFileParser $file)
-	{
+		InquisitionInquisition $inquisition,
+		InquisitionFileParser $file
+	) {
 	}
 
 	// }}}
@@ -54,8 +56,9 @@ class InquisitionImporter
 	// {{{ protected function importQuestions()
 
 	protected function importQuestions(
-		InquisitionInquisition $inquisition, InquisitionFileParser $file)
-	{
+		InquisitionInquisition $inquisition,
+		InquisitionFileParser $file
+	) {
 		$importer = $this->getQuestionImporter();
 		$questions = $importer->importQuestions($file);
 

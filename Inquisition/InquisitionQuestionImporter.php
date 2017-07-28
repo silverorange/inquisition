@@ -53,9 +53,10 @@ class InquisitionQuestionImporter
 	// }}}
 	// {{{ protected function importQuestion()
 
-	protected function importQuestion(InquisitionQuestion $question,
-		InquisitionFileParser $file)
-	{
+	protected function importQuestion(
+		InquisitionQuestion $question,
+		InquisitionFileParser $file
+	) {
 		$line = $file->line();
 		$row  = $file->row();
 
@@ -96,9 +97,10 @@ class InquisitionQuestionImporter
 	// }}}
 	// {{{ protected function importQuestionProperties()
 
-	protected function importQuestionProperties(InquisitionQuestion $question,
-		InquisitionFileParser $file)
-	{
+	protected function importQuestionProperties(
+		InquisitionQuestion $question,
+		InquisitionFileParser $file
+	) {
 		$line = $file->line();
 		$row  = $file->row();
 		$data = $file->current();
@@ -128,9 +130,10 @@ class InquisitionQuestionImporter
 	// question options
 	// {{{ protected function importOptions()
 
-	protected function importOptions(InquisitionQuestion $question,
-		InquisitionFileParser $file)
-	{
+	protected function importOptions(
+		InquisitionQuestion $question,
+		InquisitionFileParser $file
+	) {
 		$file->next();
 
 		while (!$file->eof() && $this->isOptionLine($file)) {
@@ -179,9 +182,10 @@ class InquisitionQuestionImporter
 	// }}}
 	// {{{ protected function importOption()
 
-	protected function importOption(InquisitionQuestionOption $option,
-		InquisitionFileParser $file)
-	{
+	protected function importOption(
+		InquisitionQuestionOption $option,
+		InquisitionFileParser $file
+	) {
 		$line = $file->line();
 		$row  = $file->row();
 		$data = $file->current();
