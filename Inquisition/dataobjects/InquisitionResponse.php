@@ -42,8 +42,8 @@ class InquisitionResponse extends SwatDBDataObject
 	// {{{ public function getUsedHintBindingsByQuestionBinding()
 
 	public function getUsedHintBindingsByQuestionBinding(
-		InquisitionInquisitionQuestionBinding $question_binding)
-	{
+		InquisitionInquisitionQuestionBinding $question_binding
+	) {
 		$class_name = SwatDBClassMap::get(
 			'InquisitionResponseUsedHintBindingWrapper'
 		);

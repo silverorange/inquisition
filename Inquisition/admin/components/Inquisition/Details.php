@@ -198,8 +198,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 	// {{{ protected function getQuestionDetailsStore()
 
 	protected function getQuestionDetailsStore(
-		InquisitionInquisitionQuestionBinding $question_binding)
-	{
+		InquisitionInquisitionQuestionBinding $question_binding
+	) {
 		$question = $question_binding->question;
 		$correct_id = $question->getInternalValue('correct_option');
 

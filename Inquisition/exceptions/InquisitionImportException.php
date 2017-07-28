@@ -19,9 +19,11 @@ class InquisitionImportException extends Exception
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct($message, $code,
-		InquisitionFileParser $file_parser = null)
-	{
+	public function __construct(
+		$message,
+		$code,
+		InquisitionFileParser $file_parser = null
+	) {
 		parent::__construct($message, $code);
 		$this->file_parser = $file_parser;
 	}
