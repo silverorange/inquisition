@@ -1,8 +1,5 @@
 <?php
 
-require_once 'Inquisition/views/InquisitionQuestionView.php';
-require_once 'Swat/SwatRadioList.php';
-
 /**
  * Radio list question view
  *

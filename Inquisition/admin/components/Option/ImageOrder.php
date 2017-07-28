@@ -1,9 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDB.php';
-require_once 'Admin/pages/AdminDBOrder.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-
 /**
  * Change order page for option images
  *

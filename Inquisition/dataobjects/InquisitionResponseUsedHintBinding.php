@@ -1,11 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDBDataObject.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/InquisitionResponse.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
-
 /**
  * An binding for responses to used hints
  *

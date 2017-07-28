@@ -1,14 +1,5 @@
 <?php
 
-
-require_once 'Swat/SwatTableStore.php';
-require_once 'Swat/SwatDetailsStore.php';
-require_once 'SwatDB/SwatDB.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Admin/pages/AdminDBDelete.php';
-require_once 'Admin/AdminListDependency.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
-
 /**
  * Delete confirmation page for question hints
  *

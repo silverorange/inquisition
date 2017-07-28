@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminIndex.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisitionWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
-
 /**
  * Inquisition index
  *
@@ -34,7 +30,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/index.xml';
+		return __DIR__.'/index.xml';
 	}
 
 	// }}}

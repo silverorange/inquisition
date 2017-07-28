@@ -1,9 +1,5 @@
 <?php
 
-require_once 'MDB2.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisitionQuestionBinding.php';
-require_once 'Inquisition/dataobjects/InquisitionResponseValue.php';
-
 /**
  * Base class for question views
  *

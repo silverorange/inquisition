@@ -1,13 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDBDataObject.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOptionWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionGroup.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionHintWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
-
 /**
  * An inquisition question
  *
@@ -72,32 +64,24 @@ class InquisitionQuestion extends SwatDBDataObject
 
 	public function getView(InquisitionInquisitionQuestionBinding $binding)
 	{
-		$view_dir = 'Inquisition/views/';
-
 		switch ($this->question_type) {
 		default:
 		case self::TYPE_RADIO_LIST:
-			require_once $view_dir.'InquisitionRadioListQuestionView.php';
 			$view = new InquisitionRadioListQuestionView($binding);
 			break;
 		case self::TYPE_FLYDOWN:
-			require_once $view_dir.'InquisitionFlydownQuestionView.php';
 			$view = new InquisitionFlydownQuestionView($binding);
 			break;
 		case self::TYPE_RADIO_ENTRY:
-			require_once $view_dir.'InquisitionRadioEntryQuestionView.php';
 			$view = new InquisitionRadioEntryQuestionView($binding);
 			break;
 		case self::TYPE_TEXT:
-			require_once $view_dir.'InquisitionTextQuestionView.php';
 			$view = new InquisitionTextQuestionView($binding);
 			break;
 		case self::TYPE_CHECKBOX_LIST:
-			require_once $view_dir.'InquisitionCheckboxListQuestionView.php';
 			$view = new InquisitionCheckboxListQuestionView($binding);
 			break;
 		case self::TYPE_CHECKBOX_ENTRY:
-			require_once $view_dir.'InquisitionCheckboxEntryQuestionView.php';
 			$view = new InquisitionCheckboxEntryQuestionView($binding);
 			break;
 		}

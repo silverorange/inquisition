@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Inquisition/views/InquisitionQuestionView.php';
-require_once 'Inquisition/InquisitionCheckboxEntryList.php';
-require_once 'Swat/SwatContainer.php';
-require_once 'Swat/SwatEntry.php';
-
 /**
  * Checkbox list with text question view
  *

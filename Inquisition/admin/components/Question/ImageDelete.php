@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionImageWrapper.php';
-require_once 'Inquisition/admin/components/Inquisition/ImageDelete.php';
-
 /**
  * Delete confirmation page for question images
  *

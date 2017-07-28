@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionHint.php';
-
 /**
  * Page for creating new question hints
  *
@@ -133,7 +128,7 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/hint-edit.xml';
+		return __DIR__.'/hint-edit.xml';
 	}
 
 	// }}}

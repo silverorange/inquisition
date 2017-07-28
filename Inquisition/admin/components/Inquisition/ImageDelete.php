@@ -1,12 +1,5 @@
 <?php
 
-
-require_once 'Swat/SwatTableStore.php';
-require_once 'Swat/SwatDetailsStore.php';
-require_once 'SwatDB/SwatDB.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Admin/pages/AdminDBDelete.php';
-
 /**
  * Delete confirmation page for inquisition images
  *
@@ -78,7 +71,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 
 	protected function initInternal()
 	{
-		$this->ui_xml = dirname(__FILE__).'/image-delete.xml';
+		$this->ui_xml = __DIR__.'/image-delete.xml';
 
 		parent::initInternal();
 

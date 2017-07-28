@@ -1,8 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDB.php';
-require_once 'Admin/pages/AdminDBOrder.php';
-
 /**
  * Change order page for questions
  *

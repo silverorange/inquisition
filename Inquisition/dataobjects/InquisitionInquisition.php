@@ -1,13 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDBDataObject.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Site/dataobjects/SiteAccount.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionWrapper.php';
-require_once 'Inquisition/dataobjects/InquisitionResponseWrapper.php';
-require_once 'Inquisition/dataobjects/'.
-	'InquisitionInquisitionQuestionBindingWrapper.php';
-
 /**
  * An inquisition
  *

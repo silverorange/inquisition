@@ -1,11 +1,5 @@
 <?php
 
-require_once 'Site/SiteApplication.php';
-require_once 'Inquisition/InquisitionFileParser.php';
-require_once 'Inquisition/exceptions/InquisitionImportException.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-
 /**
  * @package   Inquisition
  * @copyright 2014-2016 silverorange

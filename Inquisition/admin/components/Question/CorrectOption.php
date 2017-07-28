@@ -1,13 +1,5 @@
 <?php
 
-require_once 'Swat/SwatDate.php';
-require_once 'Swat/SwatTableStore.php';
-require_once 'Swat/SwatDetailsStore.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/admin/InquisitionCorrectOptionRadioButton.php';
-
 /**
  * Edit page for a selecting the correct option to a question
  *
@@ -107,7 +99,7 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/correct-option.xml';
+		return __DIR__.'/correct-option.xml';
 	}
 
 	// }}}

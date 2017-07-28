@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminObjectEdit.php';
-require_once 'Inquisition/InquisitionFileParser.php';
-require_once 'Inquisition/InquisitionImporter.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-
 /**
  * Inquisition Question Importer
  *
@@ -24,7 +19,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Question/import.xml';
+		return __DIR__.'/import.xml';
 	}
 
 	// }}}

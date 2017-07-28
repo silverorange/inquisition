@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Swat/SwatTextCellRenderer.php';
-
 /**
  * @package   Inquisition
  * @copyright 2011-2016 silverorange

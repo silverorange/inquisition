@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Swat/SwatDate.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Inquisition/dataobjects/InquisitionInquisition.php';
-
 /**
  * Edit page for inquisitions
  *
@@ -55,7 +50,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/edit.xml';
+		return __DIR__.'/edit.xml';
 	}
 
 	// }}}

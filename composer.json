@@ -39,10 +39,10 @@
 	],
 	"require": {
 		"php": ">=5.2.1",
-		"silverorange/mdb2": "^2.4.1",
-		"silverorange/admin": "^2.5.0",
-		"silverorange/site": "^4.11.0",
-		"silverorange/swat": "^2.7.0"
+		"silverorange/mdb2": "^3.0.0",
+		"silverorange/admin": "^3.0.0",
+		"silverorange/site": "^5.0.0",
+		"silverorange/swat": "^3.0.0"
 	},
 	"require-dev": {
 		"silverorange/coding-standard": "^0.6.0"
@@ -54,8 +54,5 @@
 	},
 	"autoload": {
 		"classmap": [ "Inquisition/" ]
-	},
-	"include-path": [
-		"./"
-	]
+	}
 }

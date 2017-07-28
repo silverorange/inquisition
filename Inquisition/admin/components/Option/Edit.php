@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestion.php';
-require_once 'Inquisition/dataobjects/InquisitionQuestionOption.php';
-
 /**
  * Edit page for an option
  *
@@ -134,7 +129,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Option/edit.xml';
+		return __DIR__.'/edit.xml';
 	}
 
 	// }}}

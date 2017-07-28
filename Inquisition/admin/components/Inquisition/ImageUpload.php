@@ -1,10 +1,5 @@
 <?php
 
-require_once 'SwatDB/SwatDB.php';
-require_once 'SwatDB/SwatDBClassMap.php';
-require_once 'Admin/pages/AdminDBEdit.php';
-require_once 'Admin/exceptions/AdminNotFoundException.php';
-
 /**
  * Upload page for inquisition images
  *
@@ -73,7 +68,7 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 
 	protected function getUiXml()
 	{
-		return 'Inquisition/admin/components/Inquisition/image-upload.xml';
+		return __DIR__.'/image-upload.xml';
 	}
 
 	// }}}
