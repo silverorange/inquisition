@@ -216,7 +216,7 @@ class InquisitionQuestionImporter
 	protected function isCorrectOptionLine(InquisitionFileParser $file)
 	{
 		$data = $file->current();
-		return (isset($data[2]) && strtolower(trim($data[2])) === 'x');
+		return (isset($data[2]) && mb_strtolower(trim($data[2])) === 'x');
 	}
 
 	// }}}

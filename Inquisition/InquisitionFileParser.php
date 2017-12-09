@@ -60,7 +60,7 @@ class InquisitionFileParser implements Iterator
 	{
 		if (!$this->file->eof()) {
 			// count newlines in csv columns
-			$this->line += substr_count(implode('', $this->current()), "\n");
+			$this->line += mb_substr_count(implode('', $this->current()), "\n");
 
 			// count next line
 			$this->line++;
