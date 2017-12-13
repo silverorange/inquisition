@@ -403,9 +403,9 @@ class InquisitionQuestionDetails extends AdminIndex
 			if ($this->inquisition instanceof InquisitionInquisition) {
 				$link_suffix = $this->getLinkSuffix();
 				foreach ($toolbar->getToolLinks() as $tool_link) {
-					if ((substr($tool_link->link, -5) === 'id=%s') ||
-						(substr($tool_link->link, -11) === 'question=%s')) {
-
+					if (mb_substr($tool_link->link, -5) === 'id=%s' ||
+						mb_substr($tool_link->link, -11) === 'question=%s'
+					) {
 						$tool_link->link.= $link_suffix;
 					}
 				}

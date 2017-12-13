@@ -39,6 +39,7 @@
 	],
 	"require": {
 		"php": ">=5.2.1",
+		"ext-mbstring": "*",
 		"silverorange/mdb2": "^3.0.0",
 		"silverorange/admin": "^3.0.0",
 		"silverorange/site": "^5.0.0",
