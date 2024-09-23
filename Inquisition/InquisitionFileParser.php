@@ -10,11 +10,6 @@ class InquisitionFileParser implements Iterator
 	// {{{ protected properties
 
 	/**
-	 * @var string
-	 */
-	protected $filename = '';
-
-	/**
 	 * @var integer
 	 */
 	protected $line = 1;
@@ -27,11 +22,14 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function __construct()
 
-	public function __construct($filename)
+	public function __construct(string|SplFileObject $filename)
 	{
-		$this->filename = $filename;
+		if ($filename instanceof SplFileObject) {
+			$this->file = $filename;
+		} else {
+			$this->file = new SplFileObject($filename, 'r');
+		}
 
-		$this->file = new SplFileObject($filename, 'r');
 		$this->file->setFlags(SplFileObject::READ_CSV);
 
 		$this->defuseBOM();
@@ -123,14 +121,6 @@ class InquisitionFileParser implements Iterator
 	public function row()
 	{
 		return $this->file->key() + 1;
-	}
-
-	// }}}
-	// {{{ public function getFilename()
-
-	public function getFilename()
-	{
-		return $this->filename;
 	}
 
 	// }}}
