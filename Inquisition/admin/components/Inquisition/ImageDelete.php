@@ -49,7 +49,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 	// }}}
 	// {{{ public function setInquisition()
 
-	public function setInquisition(InquisitionInquisition $inquisition = null)
+	public function setInquisition(?InquisitionInquisition $inquisition = null)
 	{
 		if ($inquisition instanceof InquisitionInquisition) {
 			$this->inquisition = $inquisition;
@@ -120,7 +120,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 	// process phase
 	// {{{ protected function processDBData()
 
-	protected function processDBData()
+	protected function processDBData(): void
 	{
 		parent::processDBData();
 

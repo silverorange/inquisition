@@ -58,7 +58,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 	// process phase
 	// {{{ protected function saveDBData()
 
-	protected function saveDBData()
+	protected function saveDBData(): void
 	{
 		$this->updateInquisition();
 

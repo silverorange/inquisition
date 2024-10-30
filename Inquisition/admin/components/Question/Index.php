@@ -72,18 +72,19 @@ class InquisitionQuestionIndex extends AdminSearch
 	// build phase
 	// {{{ protected function getTableModel()
 
-	protected function getTableModel(SwatView $view)
+	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
 		switch ($view->id) {
 		case 'index_view':
 			return $this->getQuestionTableModel($view);
 		}
+		return null;
 	}
 
 	// }}}
 	// {{{ protected function getQuestionTableModel()
 
-	protected function getQuestionTableModel(SwatView $view)
+	protected function getQuestionTableModel(SwatView $view): SwatTableStore
 	{
 		$sql = sprintf(
 			'select InquisitionQuestion.*

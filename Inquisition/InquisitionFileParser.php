@@ -40,7 +40,7 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function key()
 
-	public function key()
+	public function key(): mixed
 	{
 		return $this->file->key();
 	}
@@ -48,7 +48,7 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function current()
 
-	public function current()
+	public function current(): mixed
 	{
 		return $this->file->current();
 	}
@@ -56,7 +56,7 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function next()
 
-	public function next()
+	public function next(): void
 	{
 		if (!$this->file->eof()) {
 			// count newlines in csv columns
@@ -87,7 +87,7 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function rewind()
 
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->file->rewind();
 		$this->line = 1;
@@ -96,7 +96,7 @@ class InquisitionFileParser implements Iterator
 	// }}}
 	// {{{ public function valid()
 
-	public function valid()
+	public function valid(): bool
 	{
 		return $this->file->valid();
 	}
@@ -152,7 +152,7 @@ class InquisitionFileParser implements Iterator
 		$encoding = '8bit';
 
 		if (mb_strpos($data[0], $bom, 0, $encoding) === 0) {
-			$file->fseek(mb_strlen($bom, $encoding));
+			$this->file->fseek(mb_strlen($bom, $encoding));
 		}
 	}
 

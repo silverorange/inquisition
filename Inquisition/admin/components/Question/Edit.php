@@ -101,7 +101,7 @@ class InquisitionQuestionEdit extends AdminDBEdit
 	// process phase
 	// {{{ protected function saveDBData()
 
-	protected function saveDBData()
+	protected function saveDBData(): void
 	{
 		$this->updateQuestion();
 		$this->question->save();
