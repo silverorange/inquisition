@@ -87,7 +87,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	// process phase
 	// {{{ protected function validate()
 
-	protected function validate()
+	protected function validate(): void
 	{
 		parent::validate();
 
@@ -148,7 +148,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
 	// }}}
 	// {{{ protected function saveDBData()
 
-	protected function saveDBData()
+	protected function saveDBData(): void
 	{
 		$this->updateQuestion();
 		$this->addOptions($this->question);

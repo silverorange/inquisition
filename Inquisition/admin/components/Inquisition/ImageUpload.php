@@ -76,7 +76,7 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 	// process phase
 	// {{{ protected function saveDBData()
 
-	protected function saveDBData()
+	protected function saveDBData(): void
 	{
 		$original = $this->ui->getWidget('original_image');
 

@@ -84,7 +84,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 				throw new AdminNotFoundException(
 					sprintf(
 						'A question with the id of “%s” does not exist',
-						$id
+						$question_id
 					)
 				);
 			}
@@ -137,7 +137,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 	// process phase
 	// {{{ protected function saveDBData()
 
-	protected function saveDBData()
+	protected function saveDBData(): void
 	{
 		$this->updateOption();
 
