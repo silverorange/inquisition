@@ -5,6 +5,11 @@
  *
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionQuestion                   $question
+ * @property InquisitionResponseValueWrapper       $values
+ * @property InquisitionQuestionOptionImageWrapper $images
+ * @property int                                   $position
  */
 class InquisitionQuestionOption extends SwatDBDataObject
 {
@@ -14,7 +19,7 @@ class InquisitionQuestionOption extends SwatDBDataObject
     public $id;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $title;
 

@@ -14,12 +14,12 @@ class InquisitionQuestionGroup extends SwatDBDataObject
     public $id;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $title;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $bodytext;
 

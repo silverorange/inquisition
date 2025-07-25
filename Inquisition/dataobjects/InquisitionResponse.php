@@ -5,6 +5,11 @@
  *
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionInquisition                    $inquisition
+ * @property InquisitionResponseValueWrapper           $values
+ * @property InquisitionResponseValueWrapper           $visible_question_values
+ * @property InquisitionResponseUsedHintBindingWrapper $used_hint_bindings
  */
 class InquisitionResponse extends SwatDBDataObject
 {
@@ -19,12 +24,12 @@ class InquisitionResponse extends SwatDBDataObject
     public $createdate;
 
     /**
-     * @var float
+     * @var ?float
      */
     public $grade;
 
     /**
-     * @var SwatDate
+     * @var ?SwatDate
      */
     public $complete_date;
 

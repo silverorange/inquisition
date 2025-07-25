@@ -5,6 +5,10 @@
  *
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionResponse                   $response
+ * @property InquisitionQuestionHint               $question_hint
+ * @property InquisitionInquisitionQuestionBinding $question_binding
  */
 class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 {

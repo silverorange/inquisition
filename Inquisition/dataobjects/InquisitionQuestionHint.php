@@ -5,6 +5,8 @@
  *
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionQuestion $question
  */
 class InquisitionQuestionHint extends SwatDBDataObject
 {
@@ -14,7 +16,7 @@ class InquisitionQuestionHint extends SwatDBDataObject
     public $id;
 
     /**
-     * @var text
+     * @var ?string
      */
     public $bodytext;
 

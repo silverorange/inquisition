@@ -5,6 +5,9 @@
  *
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionInquisition $inquisition
+ * @property InquisitionQuestion    $question
  */
 class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 {
@@ -18,8 +21,7 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
      */
     public $displayorder;
 
-    // @var array
-    protected $dependent_options;
+    protected ?array $dependent_options = null;
 
     public function getView()
     {

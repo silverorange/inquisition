@@ -5,6 +5,10 @@
  *
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionResponse                   $response
+ * @property ?InquisitionQuestionOption            $question_option
+ * @property InquisitionInquisitionQuestionBinding $question_binding
  */
 class InquisitionResponseValue extends SwatDBDataObject
 {
@@ -14,12 +18,12 @@ class InquisitionResponseValue extends SwatDBDataObject
     public $id;
 
     /**
-     * @var int
+     * @var ?int
      */
     public $numeric_value;
 
     /**
-     * @var string
+     * @var ?string
      */
     public $text_value;
 
