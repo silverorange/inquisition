@@ -1,50 +1,46 @@
 <?php
 
 /**
- * A inquisition reponse value
+ * A inquisition reponse value.
  *
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionResponseValue extends SwatDBDataObject
 {
+    /**
+     * @var int
+     */
+    public $id;
 
+    /**
+     * @var int
+     */
+    public $numeric_value;
 
-	/**
-	 * @var integer
-	 */
-	public $id;
+    /**
+     * @var string
+     */
+    public $text_value;
 
-	/**
-	 * @var integer
-	 */
-	public $numeric_value;
+    protected function init()
+    {
+        $this->table = 'InquisitionResponseValue';
+        $this->id_field = 'integer:id';
 
-	/**
-	 * @var string
-	 */
-	public $text_value;
+        $this->registerInternalProperty(
+            'response',
+            SwatDBClassMap::get('InquisitionResponse')
+        );
 
+        $this->registerInternalProperty(
+            'question_option',
+            SwatDBClassMap::get('InquisitionQuestionOption')
+        );
 
-
-
-	protected function init()
-	{
-		$this->table = 'InquisitionResponseValue';
-		$this->id_field = 'integer:id';
-
-		$this->registerInternalProperty('response',
-			SwatDBClassMap::get('InquisitionResponse'));
-
-		$this->registerInternalProperty('question_option',
-			SwatDBClassMap::get('InquisitionQuestionOption'));
-
-		$this->registerInternalProperty('question_binding',
-			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
-	}
-
-
+        $this->registerInternalProperty(
+            'question_binding',
+            SwatDBClassMap::get('InquisitionInquisitionQuestionBinding')
+        );
+    }
 }
-
-?>

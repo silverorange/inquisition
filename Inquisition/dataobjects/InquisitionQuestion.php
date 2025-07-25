@@ -1,196 +1,170 @@
 <?php
 
 /**
- * An inquisition question
+ * An inquisition question.
  *
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestion extends SwatDBDataObject
 {
+    public const TYPE_RADIO_LIST = 1;
+    public const TYPE_FLYDOWN = 2;
+    public const TYPE_RADIO_ENTRY = 3;
+    public const TYPE_TEXT = 4;
+    public const TYPE_CHECKBOX_LIST = 5;
+    public const TYPE_CHECKBOX_ENTRY = 6;
 
+    /**
+     * @var int
+     */
+    public $id;
 
-	const TYPE_RADIO_LIST = 1;
-	const TYPE_FLYDOWN = 2;
-	const TYPE_RADIO_ENTRY = 3;
-	const TYPE_TEXT = 4;
-	const TYPE_CHECKBOX_LIST = 5;
-	const TYPE_CHECKBOX_ENTRY = 6;
+    /**
+     * @var text
+     */
+    public $bodytext;
 
+    /**
+     * @var int
+     */
+    public $question_type;
 
+    /**
+     * @var int
+     */
+    public $displayorder;
 
+    /**
+     * @var bool
+     */
+    public $required;
 
-	/**
-	 * @var integer
-	 */
-	public $id;
+    /**
+     * @var bool
+     */
+    public $enabled;
 
-	/**
-	 * @var text
-	 */
-	public $bodytext;
+    /**
+     * Internal reference to the inquisition this question was loaded for. Not
+     * for saving.
+     *
+     * @var int
+     */
+    public $inquisition;
 
-	/**
-	 * @var integer
-	 */
-	public $question_type;
+    public function getView(InquisitionInquisitionQuestionBinding $binding)
+    {
+        switch ($this->question_type) {
+            default:
+            case self::TYPE_RADIO_LIST:
+                $view = new InquisitionRadioListQuestionView($binding);
+                break;
 
-	/**
-	 * @var integer
-	 */
-	public $displayorder;
+            case self::TYPE_FLYDOWN:
+                $view = new InquisitionFlydownQuestionView($binding);
+                break;
 
-	/**
-	 * @var boolean
-	 */
-	public $required;
+            case self::TYPE_RADIO_ENTRY:
+                $view = new InquisitionRadioEntryQuestionView($binding);
+                break;
 
-	/**
-	 * @var boolean
-	 */
-	public $enabled;
+            case self::TYPE_TEXT:
+                $view = new InquisitionTextQuestionView($binding);
+                break;
 
-	/**
-	 * Internal reference to the inquisition this question was loaded for. Not
-	 * for saving.
-	 *
-	 * @var integer
-	 */
-	public $inquisition;
+            case self::TYPE_CHECKBOX_LIST:
+                $view = new InquisitionCheckboxListQuestionView($binding);
+                break;
 
+            case self::TYPE_CHECKBOX_ENTRY:
+                $view = new InquisitionCheckboxEntryQuestionView($binding);
+                break;
+        }
 
+        return $view;
+    }
 
+    protected function init()
+    {
+        $this->table = 'InquisitionQuestion';
+        $this->id_field = 'integer:id';
 
-	public function getView(InquisitionInquisitionQuestionBinding $binding)
-	{
-		switch ($this->question_type) {
-		default:
-		case self::TYPE_RADIO_LIST:
-			$view = new InquisitionRadioListQuestionView($binding);
-			break;
-		case self::TYPE_FLYDOWN:
-			$view = new InquisitionFlydownQuestionView($binding);
-			break;
-		case self::TYPE_RADIO_ENTRY:
-			$view = new InquisitionRadioEntryQuestionView($binding);
-			break;
-		case self::TYPE_TEXT:
-			$view = new InquisitionTextQuestionView($binding);
-			break;
-		case self::TYPE_CHECKBOX_LIST:
-			$view = new InquisitionCheckboxListQuestionView($binding);
-			break;
-		case self::TYPE_CHECKBOX_ENTRY:
-			$view = new InquisitionCheckboxEntryQuestionView($binding);
-			break;
-		}
+        $this->registerInternalProperty(
+            'correct_option',
+            SwatDBClassMap::get('InquisitionQuestionOption')
+        );
 
-		return $view;
-	}
+        $this->registerInternalProperty(
+            'question_group',
+            SwatDBClassMap::get('InquisitionQuestionGroup')
+        );
+    }
 
+    protected function getSerializableSubDataObjects()
+    {
+        return array_merge(
+            parent::getSerializableSubDataObjects(),
+            ['options', 'correct_option']
+        );
+    }
 
+    // loader methods
 
-
-	protected function init()
-	{
-		$this->table = 'InquisitionQuestion';
-		$this->id_field = 'integer:id';
-
-		$this->registerInternalProperty(
-			'correct_option',
-			SwatDBClassMap::get('InquisitionQuestionOption')
-		);
-
-		$this->registerInternalProperty(
-			'question_group',
-			SwatDBClassMap::get('InquisitionQuestionGroup')
-		);
-	}
-
-
-
-
-	protected function getSerializableSubDataObjects()
-	{
-		return array_merge(
-			parent::getSerializableSubDataObjects(),
-			array('options', 'correct_option')
-		);
-	}
-
-
-
-	// loader methods
-
-
-	protected function loadOptions()
-	{
-		$sql = sprintf(
-			'select * from InquisitionQuestionOption
+    protected function loadOptions()
+    {
+        $sql = sprintf(
+            'select * from InquisitionQuestionOption
 			where question = %s
 			order by displayorder',
-			$this->db->quote($this->id, 'integer')
-		);
+            $this->db->quote($this->id, 'integer')
+        );
 
-		$wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
+        $wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
 
-		return SwatDB::query($this->db, $sql, $wrapper);
-	}
+        return SwatDB::query($this->db, $sql, $wrapper);
+    }
 
-
-
-
-	protected function loadHints()
-	{
-		$sql = sprintf(
-			'select * from InquisitionQuestionHint
+    protected function loadHints()
+    {
+        $sql = sprintf(
+            'select * from InquisitionQuestionHint
 			where question = %s
 			order by displayorder',
-			$this->db->quote($this->id, 'integer')
-		);
+            $this->db->quote($this->id, 'integer')
+        );
 
-		$wrapper = SwatDBClassMap::get('InquisitionQuestionHintWrapper');
+        $wrapper = SwatDBClassMap::get('InquisitionQuestionHintWrapper');
 
-		return SwatDB::query($this->db, $sql, $wrapper);
-	}
+        return SwatDB::query($this->db, $sql, $wrapper);
+    }
 
-
-
-
-	protected function loadImages()
-	{
-		$sql = sprintf(
-			'select * from Image
+    protected function loadImages()
+    {
+        $sql = sprintf(
+            'select * from Image
 			inner join InquisitionQuestionImageBinding
 				on InquisitionQuestionImageBinding.image = Image.id
 			where InquisitionQuestionImageBinding.question = %s
 			order by InquisitionQuestionImageBinding.displayorder,
 				InquisitionQuestionImageBinding.image',
-			$this->db->quote($this->id, 'integer')
-		);
+            $this->db->quote($this->id, 'integer')
+        );
 
-		$wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
+        $wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 
-		return SwatDB::query($this->db, $sql, $wrapper);
-	}
+        return SwatDB::query($this->db, $sql, $wrapper);
+    }
 
+    // saver methods
 
+    protected function saveOptions()
+    {
+        foreach ($this->options as $option) {
+            $option->question = $this;
+        }
 
-	// saver methods
-
-
-	protected function saveOptions()
-	{
-		foreach ($this->options as $option) {
-			$option->question = $this;
-		}
-
-		$this->options->setDatabase($this->db);
-		$this->options->save();
-	}
-
-
+        $this->options->setDatabase($this->db);
+        $this->options->save();
+    }
 }
-
-?>

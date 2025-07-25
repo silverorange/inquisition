@@ -1,69 +1,52 @@
 <?php
 
 /**
- * A binding between an inquisition and an inquisition question
+ * A binding between an inquisition and an inquisition question.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 {
+    /**
+     * @var int
+     */
+    public $id;
 
+    /**
+     * @var int
+     */
+    public $displayorder;
 
-	/**
-	 * @var integer
-	 */
-	public $id;
+    // @var array
+    protected $dependent_options;
 
-	/**
-	 * @var integer
-	 */
-	public $displayorder;
+    public function getView()
+    {
+        return $this->question->getView($this);
+    }
 
-
-
-
-	/*
-	 * @var array
-	 */
-	protected $dependent_options;
-
-
-
-
-	public function getView()
-	{
-		return $this->question->getView($this);
-	}
-
-
-
-
-	public function getPosition()
-	{
-		$sql = sprintf(
-			'select position from (
+    public function getPosition()
+    {
+        $sql = sprintf(
+            'select position from (
 				select id, rank() over (
 					partition by inquisition order by displayorder, id
 				) as position from InquisitionInquisitionQuestionBinding
 				where inquisition = %s
 			) as temp where id = %s',
-			$this->getInternalValue('inquisition'),
-			$this->id
-		);
+            $this->getInternalValue('inquisition'),
+            $this->id
+        );
 
-		return SwatDB::queryOne($this->db, $sql);
-	}
+        return SwatDB::queryOne($this->db, $sql);
+    }
 
-
-
-
-	public function getDependentOptions()
-	{
-		if (!is_array($this->dependent_options)) {
-			$sql = sprintf(
-				'select InquisitionQuestionDependency.option,
+    public function getDependentOptions()
+    {
+        if (!is_array($this->dependent_options)) {
+            $sql = sprintf(
+                'select InquisitionQuestionDependency.option,
 					InquisitionQuestionDependency.question_binding,
 					InquisitionInquisitionQuestionBinding.question
 				from InquisitionQuestionDependency
@@ -71,68 +54,58 @@ class InquisitionInquisitionQuestionBinding extends SwatDBDataObject
 					InquisitionQuestionDependency.question_binding =
 					InquisitionInquisitionQuestionBinding.id
 				where dependent_question_binding = %s',
-				$this->db->quote($this->id, 'integer')
-			);
+                $this->db->quote($this->id, 'integer')
+            );
 
-			$rs = SwatDB::query($this->db, $sql);
+            $rs = SwatDB::query($this->db, $sql);
 
-			$dependent_options = array();
+            $dependent_options = [];
 
-			foreach ($rs as $row) {
-				$option = array();
+            foreach ($rs as $row) {
+                $option = [];
 
-				$id = $row->question_binding.'_'.$row->question;
+                $id = $row->question_binding . '_' . $row->question;
 
-				$option['binding'] = $row->question_binding;
-				$option['question'] = $row->question;
-				$option['options'] = array($row->option);
+                $option['binding'] = $row->question_binding;
+                $option['question'] = $row->question;
+                $option['options'] = [$row->option];
 
-				if (array_key_exists($id, $dependent_options)) {
-					$dependent_options[$id]['options'][] = $row->option;
-				} else {
-					$dependent_options[$id] = $option;
-				}
-			}
+                if (array_key_exists($id, $dependent_options)) {
+                    $dependent_options[$id]['options'][] = $row->option;
+                } else {
+                    $dependent_options[$id] = $option;
+                }
+            }
 
-			$this->dependent_options = array_values($dependent_options);
-		}
+            $this->dependent_options = array_values($dependent_options);
+        }
 
-		return $this->dependent_options;
-	}
+        return $this->dependent_options;
+    }
 
+    protected function init()
+    {
+        $this->table = 'InquisitionInquisitionQuestionBinding';
+        $this->id_field = 'integer:id';
 
+        $this->registerInternalProperty(
+            'inquisition',
+            SwatDBClassMap::get('InquisitionInquisition')
+        );
 
+        // We set autosave so that questions are saved before the binding.
+        $this->registerInternalProperty(
+            'question',
+            SwatDBClassMap::get('InquisitionQuestion'),
+            true
+        );
+    }
 
-	protected function init()
-	{
-		$this->table = 'InquisitionInquisitionQuestionBinding';
-		$this->id_field = 'integer:id';
-
-		$this->registerInternalProperty(
-			'inquisition',
-			SwatDBClassMap::get('InquisitionInquisition')
-		);
-
-		// We set autosave so that questions are saved before the binding.
-		$this->registerInternalProperty(
-			'question',
-			SwatDBClassMap::get('InquisitionQuestion'),
-			true
-		);
-	}
-
-
-
-
-	protected function getSerializableSubDataObjects()
-	{
-		return array_merge(
-			parent::getSerializableSubDataObjects(),
-			array('question')
-		);
-	}
-
-
+    protected function getSerializableSubDataObjects()
+    {
+        return array_merge(
+            parent::getSerializableSubDataObjects(),
+            ['question']
+        );
+    }
 }
-
-?>
