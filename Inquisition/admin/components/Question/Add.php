@@ -40,8 +40,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
     protected function initInquisition()
     {
         if ($this->id != '') {
-            $class = SwatDBClassMap::get('InquisitionInquisition');
-            $this->inquisition = new $class();
+            $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
             $this->inquisition->setDatabase($this->app->db);
 
             if (!$this->inquisition->load($this->id)) {
@@ -57,8 +56,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
 
     protected function initQuestion()
     {
-        $class_name = SwatDBClassMap::get('InquisitionQuestion');
-        $this->question = new $class_name();
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
         $this->question->setDatabase($this->app->db);
     }
 
@@ -142,11 +140,9 @@ class InquisitionQuestionAdd extends AdminDBEdit
         $this->question->save();
 
         if ($this->inquisition instanceof InquisitionInquisition) {
-            $class_name = SwatDBClassMap::get(
-                'InquisitionInquisitionQuestionBinding'
+            $question_binding = SwatDBClassMap::new(
+                InquisitionInquisitionQuestionBinding::class
             );
-
-            $question_binding = new $class_name();
             $question_binding->setDatabase($this->app->db);
 
             $question_binding->question = $this->question->id;
@@ -203,8 +199,7 @@ class InquisitionQuestionAdd extends AdminDBEdit
                     continue;
                 }
 
-                $class = SwatDBClassMap::get('InquisitionQuestionOption');
-                $option = new $class();
+                $option = SwatDBClassMap::new(InquisitionQuestionOption::class);
                 $option->setDatabase($this->app->db);
                 $option->displayorder = $displayorder_base + $count;
                 $option->title = $title;

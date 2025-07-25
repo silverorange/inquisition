@@ -15,6 +15,6 @@ class InquisitionQuestionOptionImageWrapper extends SiteImageWrapper
         parent::init();
 
         $this->row_wrapper_class =
-            SwatDBClassMap::get('InquisitionQuestionOptionImage');
+            SwatDBClassMap::get(InquisitionQuestionOptionImage::class);
     }
 }

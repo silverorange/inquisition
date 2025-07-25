@@ -85,7 +85,7 @@ class InquisitionQuestionIndex extends AdminSearch
         $questions = SwatDB::query(
             $this->app->db,
             $sql,
-            SwatDBClassMap::get('InquisitionQuestionWrapper')
+            SwatDBClassMap::get(InquisitionQuestionWrapper::class)
         );
 
         if (count($questions) > 0) {

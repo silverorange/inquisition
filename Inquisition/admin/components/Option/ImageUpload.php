@@ -30,9 +30,7 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
             );
         }
 
-        $class_name = SwatDBClassMap::get('InquisitionQuestionOption');
-
-        $this->option = new $class_name();
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
         $this->option->setDatabase($this->app->db);
 
         if (!$this->option->load($this->id)) {
@@ -51,7 +49,7 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 
     protected function getImageClass()
     {
-        return SwatDBClassMap::get('InquisitionQuestionOptionImage');
+        return SwatDBClassMap::get(InquisitionQuestionOptionImage::class);
     }
 
     protected function updateBindings(SiteImage $image)

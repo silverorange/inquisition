@@ -40,11 +40,11 @@ class InquisitionImporter
         $importer = $this->getQuestionImporter();
         $questions = $importer->importQuestions($file);
 
-        foreach ($questions as $question) {
-            $binding_class = SwatDBClassMap::get(
-                'InquisitionInquisitionQuestionBinding'
-            );
+        $binding_class = SwatDBClassMap::get(
+            InquisitionInquisitionQuestionBinding::class
+        );
 
+        foreach ($questions as $question) {
             $binding = new $binding_class();
             $binding->setDatabase($this->app->db);
 

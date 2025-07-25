@@ -48,13 +48,16 @@ class InquisitionInquisitionIndex extends AdminIndex
             $this->getOrderByClause($view, 'title asc')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionInquisitionWrapper');
-        $inquisitions = SwatDB::query($this->app->db, $sql, $wrapper);
+        $inquisitions = SwatDB::query(
+            $this->app->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionInquisitionWrapper::class)
+        );
 
         // efficiently load the question bindings
         $inquisitions->loadAllSubRecordsets(
             'question_bindings',
-            SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper'),
+            SwatDBClassMap::get(InquisitionInquisitionQuestionBindingWrapper::class),
             'InquisitionInquisitionQuestionBinding',
             'inquisition',
             '',

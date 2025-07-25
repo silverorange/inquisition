@@ -36,9 +36,7 @@ class InquisitionQuestionOrder extends AdminDBOrder
             $id = intval($id);
         }
 
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-
-        $this->inquisition = new $class();
+        $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $this->inquisition->setDatabase($this->app->db);
 
         if (!$this->inquisition->load($id)) {

@@ -34,7 +34,7 @@ class InquisitionInquisition extends SwatDBDataObject
      */
     public $createdate;
 
-    protected $question_dependencies = [];
+    protected array $question_dependencies = [];
 
     public function getResponseByAccount(SiteAccount $account)
     {
@@ -94,7 +94,7 @@ class InquisitionInquisition extends SwatDBDataObject
 
     protected function getResponseWrapperClass()
     {
-        return 'InquisitionResponseWrapper';
+        return InquisitionResponseWrapper::class;
     }
 
     // saver methods
@@ -158,7 +158,7 @@ class InquisitionInquisition extends SwatDBDataObject
         return SwatDB::query(
             $this->db,
             $sql,
-            SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper')
+            SwatDBClassMap::get(InquisitionInquisitionQuestionBindingWrapper::class)
         );
     }
 
@@ -179,7 +179,7 @@ class InquisitionInquisition extends SwatDBDataObject
         return SwatDB::query(
             $this->db,
             $sql,
-            SwatDBClassMap::get('InquisitionInquisitionQuestionBindingWrapper')
+            SwatDBClassMap::get(InquisitionInquisitionQuestionBindingWrapper::class)
         );
     }
 }

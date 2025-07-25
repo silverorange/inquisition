@@ -17,9 +17,7 @@ class InquisitionQuestionDelete extends AdminDBDelete
 
     public function setId($id)
     {
-        $class_name = SwatDBClassMap::get('InquisitionInquisition');
-
-        $this->inquisition = new $class_name();
+        $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $this->inquisition->setDatabase($this->app->db);
 
         if ($id == '') {

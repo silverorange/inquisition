@@ -38,7 +38,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
         $this->images = SwatDB::query(
             $this->app->db,
             $sql,
-            SwatDBClassMap::get('InquisitionQuestionImageWrapper')
+            SwatDBClassMap::get(InquisitionQuestionImageWrapper::class)
         );
     }
 
@@ -75,8 +75,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 
     protected function loadInquisition($inquisition_id)
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $inquisition = new $class();
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $inquisition->setDatabase($this->app->db);
 
         if (!$inquisition->load($inquisition_id)) {

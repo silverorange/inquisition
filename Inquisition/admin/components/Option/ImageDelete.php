@@ -17,9 +17,7 @@ class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 
     public function setId($id)
     {
-        $class_name = SwatDBClassMap::get('InquisitionQuestionOption');
-
-        $this->option = new $class_name();
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
         $this->option->setDatabase($this->app->db);
 
         if ($id == '') {
@@ -42,7 +40,7 @@ class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 
     protected function getImageWrapper()
     {
-        return SwatDBClassMap::get('InquisitionQuestionOptionImageWrapper');
+        return SwatDBClassMap::get(InquisitionQuestionOptionImageWrapper::class);
     }
 
     // build phase

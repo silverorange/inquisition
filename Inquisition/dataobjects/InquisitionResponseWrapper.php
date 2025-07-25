@@ -14,7 +14,7 @@ class InquisitionResponseWrapper extends SwatDBRecordsetWrapper
     {
         parent::init();
 
-        $this->row_wrapper_class = SwatDBClassMap::get('InquisitionResponse');
+        $this->row_wrapper_class = SwatDBClassMap::get(InquisitionResponse::class);
         $this->index_field = 'id';
     }
 }

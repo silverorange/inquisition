@@ -22,9 +22,7 @@ class InquisitionOptionDelete extends AdminDBDelete
 
     public function setId($id)
     {
-        $class_name = SwatDBClassMap::get('InquisitionQuestion');
-
-        $this->question = new $class_name();
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
         $this->question->setDatabase($this->app->db);
 
         if ($id == '') {
@@ -72,8 +70,7 @@ class InquisitionOptionDelete extends AdminDBDelete
 
     protected function loadInquisition($inquisition_id)
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $inquisition = new $class();
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $inquisition->setDatabase($this->app->db);
 
         if (!$inquisition->load($inquisition_id)) {

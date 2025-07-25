@@ -31,11 +31,7 @@ class InquisitionResponse extends SwatDBDataObject
     public function getUsedHintBindingsByQuestionBinding(
         InquisitionInquisitionQuestionBinding $question_binding
     ) {
-        $class_name = SwatDBClassMap::get(
-            'InquisitionResponseUsedHintBindingWrapper'
-        );
-
-        $wrapper = new $class_name();
+        $wrapper = SwatDBClassMap::new(InquisitionResponseUsedHintBindingWrapper::class);
 
         foreach ($this->used_hint_bindings as $hint_binding) {
             $question_binding_id = $hint_binding->getInternalValue(
@@ -60,7 +56,7 @@ class InquisitionResponse extends SwatDBDataObject
 
         $this->registerInternalProperty(
             'inquisition',
-            SwatDBClassMap::get('InquisitionInquisition')
+            SwatDBClassMap::get(InquisitionInquisition::class)
         );
     }
 
@@ -94,9 +90,11 @@ class InquisitionResponse extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionResponseValueWrapper::class)
+        );
     }
 
     protected function loadVisibleQuestionValues()
@@ -119,9 +117,11 @@ class InquisitionResponse extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionResponseValueWrapper::class)
+        );
     }
 
     protected function loadUsedHintBindings()
@@ -136,14 +136,14 @@ class InquisitionResponse extends SwatDBDataObject
         $bindings = SwatDB::query(
             $this->db,
             $sql,
-            SwatDBClassMap::get('InquisitionResponseUsedHintBindingWrapper')
+            SwatDBClassMap::get(InquisitionResponseUsedHintBindingWrapper::class)
         );
 
         $bindings->loadAllSubDataObjects(
             'question_hint',
             $this->db,
             'select * from InquisitionQuestionHint where id in (%s)',
-            SwatDBClassMap::get('InquisitionQuestionHintWrapper')
+            SwatDBClassMap::get(InquisitionQuestionHintWrapper::class)
         );
 
         return $bindings;

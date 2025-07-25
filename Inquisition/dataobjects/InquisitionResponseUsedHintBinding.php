@@ -21,17 +21,17 @@ class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 
         $this->registerInternalProperty(
             'response',
-            SwatDBClassMap::get('InquisitionResponse')
+            SwatDBClassMap::get(InquisitionResponse::class)
         );
 
         $this->registerInternalProperty(
             'question_hint',
-            SwatDBClassMap::get('InquisitionQuestionHint')
+            SwatDBClassMap::get(InquisitionQuestionHint::class)
         );
 
         $this->registerInternalProperty(
             'question_binding',
-            SwatDBClassMap::get('InquisitionInquisitionQuestionBinding')
+            SwatDBClassMap::get(InquisitionInquisitionQuestionBinding::class)
         );
     }
 }

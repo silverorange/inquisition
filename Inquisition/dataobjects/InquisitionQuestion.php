@@ -92,12 +92,12 @@ class InquisitionQuestion extends SwatDBDataObject
 
         $this->registerInternalProperty(
             'correct_option',
-            SwatDBClassMap::get('InquisitionQuestionOption')
+            SwatDBClassMap::get(InquisitionQuestionOption::class)
         );
 
         $this->registerInternalProperty(
             'question_group',
-            SwatDBClassMap::get('InquisitionQuestionGroup')
+            SwatDBClassMap::get(InquisitionQuestionGroup::class)
         );
     }
 
@@ -120,9 +120,11 @@ class InquisitionQuestion extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionQuestionOptionWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionQuestionOptionWrapper::class)
+        );
     }
 
     protected function loadHints()
@@ -134,9 +136,11 @@ class InquisitionQuestion extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionQuestionHintWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionQuestionHintWrapper::class)
+        );
     }
 
     protected function loadImages()
@@ -151,9 +155,11 @@ class InquisitionQuestion extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionQuestionImageWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionQuestionImageWrapper::class)
+        );
     }
 
     // saver methods

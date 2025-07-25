@@ -42,8 +42,7 @@ class InquisitionOptionImageOrder extends AdminDBOrder
             $id = intval($id);
         }
 
-        $class = SwatDBClassMap::get('InquisitionQuestionOption');
-        $this->option = new $class();
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
         $this->option->setDatabase($this->app->db);
 
         if (!$this->option->load($id)) {
@@ -69,8 +68,7 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 
     protected function loadInquisition($inquisition_id)
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $inquisition = new $class();
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $inquisition->setDatabase($this->app->db);
 
         if (!$inquisition->load($inquisition_id)) {

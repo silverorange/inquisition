@@ -17,7 +17,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 
     protected function getObjectClass()
     {
-        return 'InquisitionInquisition';
+        return InquisitionInquisition::class;
     }
 
     // process phase

@@ -24,8 +24,7 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 
     protected function initInquisition()
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $this->inquisition = new $class();
+        $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $this->inquisition->setDatabase($this->app->db);
 
         $id = $this->getFirstItem();

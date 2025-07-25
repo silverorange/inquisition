@@ -38,9 +38,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 
     protected function initOption()
     {
-        $class_name = SwatDBClassMap::get('InquisitionQuestionOption');
-
-        $this->option = new $class_name();
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
         $this->option->setDatabase($this->app->db);
 
         if ($this->id !== null && !$this->option->load($this->id)) {
@@ -64,8 +62,7 @@ class InquisitionOptionEdit extends AdminDBEdit
                 $question_id = intval($question_id);
             }
 
-            $class = SwatDBClassMap::get('InquisitionQuestion');
-            $this->question = new $class();
+            $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
             $this->question->setDatabase($this->app->db);
 
             if (!$this->question->load($question_id)) {
@@ -90,8 +87,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 
     protected function loadInquisition($inquisition_id)
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $inquisition = new $class();
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $inquisition->setDatabase($this->app->db);
 
         if (!$inquisition->load($inquisition_id)) {

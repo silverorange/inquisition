@@ -35,7 +35,7 @@ class InquisitionQuestionOption extends SwatDBDataObject
 
         $this->registerInternalProperty(
             'question',
-            SwatDBClassMap::get('InquisitionQuestion')
+            SwatDBClassMap::get(InquisitionQuestion::class)
         );
     }
 
@@ -49,9 +49,11 @@ class InquisitionQuestionOption extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionResponseValueWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionResponseValueWrapper::class)
+        );
     }
 
     protected function loadImages()
@@ -66,9 +68,11 @@ class InquisitionQuestionOption extends SwatDBDataObject
             $this->db->quote($this->id, 'integer')
         );
 
-        $wrapper = SwatDBClassMap::get('InquisitionQuestionOptionImageWrapper');
-
-        return SwatDB::query($this->db, $sql, $wrapper);
+        return SwatDB::query(
+            $this->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionQuestionOptionImageWrapper::class)
+        );
     }
 
     protected function loadPosition()

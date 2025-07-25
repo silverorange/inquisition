@@ -24,8 +24,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 
     protected function initInquisition()
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $this->inquisition = new $class();
+        $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $this->inquisition->setDatabase($this->app->db);
 
         if ($this->id != '') {

@@ -38,8 +38,7 @@ class InquisitionOptionDetails extends AdminIndex
             $id = intval($id);
         }
 
-        $class = SwatDBClassMap::get('InquisitionQuestionOption');
-        $this->option = new $class();
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
         $this->option->setDatabase($this->app->db);
 
         if (!$this->option->load($id)) {
@@ -63,8 +62,7 @@ class InquisitionOptionDetails extends AdminIndex
 
     protected function loadInquisition($inquisition_id)
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $inquisition = new $class();
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $inquisition->setDatabase($this->app->db);
 
         if (!$inquisition->load($inquisition_id)) {
@@ -120,8 +118,7 @@ class InquisitionOptionDetails extends AdminIndex
 
     protected function buildImageFrame()
     {
-        $class_name = SwatDBClassMap::get('InquisitionQuestionOptionImage');
-        $image_class = new $class_name();
+        $image_class = SwatDBClassMap::new(InquisitionQuestionOptionImage::class);
         $image_class->setDatabase($this->app->db);
 
         $this->ui->getWidget('images_frame')->visible =

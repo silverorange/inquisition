@@ -30,7 +30,7 @@ class InquisitionQuestionHint extends SwatDBDataObject
 
         $this->registerInternalProperty(
             'question',
-            SwatDBClassMap::get('InquisitionQuestion')
+            SwatDBClassMap::get(InquisitionQuestion::class)
         );
     }
 }

@@ -23,9 +23,7 @@ class InquisitionQuestionImporter
         $questions = [];
 
         while (!$file->eof()) {
-            $question_class = SwatDBClassMap::get('InquisitionQuestion');
-
-            $question = new $question_class();
+            $question = SwatDBClassMap::new(InquisitionQuestion::class);
             $question->setDatabase($this->app->db);
             $this->importQuestion($question, $file);
 
@@ -112,9 +110,9 @@ class InquisitionQuestionImporter
     ) {
         $file->next();
 
-        while (!$file->eof() && $this->isOptionLine($file)) {
-            $option_class = SwatDBClassMap::get('InquisitionQuestionOption');
+        $option_class = SwatDBClassMap::get(InquisitionQuestionOption::class);
 
+        while (!$file->eof() && $this->isOptionLine($file)) {
             $option = new $option_class();
             $option->setDatabase($this->app->db);
             $this->importOption($option, $file);

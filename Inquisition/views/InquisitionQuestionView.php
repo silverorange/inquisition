@@ -30,8 +30,7 @@ abstract class InquisitionQuestionView
 
     public function getResponseValue()
     {
-        $class_name = SwatDBClassMap::get('InquisitionResponseValue');
-        $value = new $class_name();
+        $value = SwatDBClassMap::new(InquisitionResponseValue::class);
         $value->question_binding = $this->question_binding->id;
 
         return $value;

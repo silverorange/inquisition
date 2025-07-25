@@ -37,8 +37,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 
     protected function initInquisition()
     {
-        $class = SwatDBClassMap::get('InquisitionInquisition');
-        $this->inquisition = new $class();
+        $this->inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
         $this->inquisition->setDatabase($this->app->db);
 
         if (!$this->inquisition->load($this->id)) {
@@ -55,14 +54,14 @@ class InquisitionInquisitionDetails extends AdminIndex
             'question',
             $this->app->db,
             'select * from InquisitionQuestion where id in (%s)',
-            SwatDBClassMap::get('InquisitionQuestionWrapper')
+            SwatDBClassMap::get(InquisitionQuestionWrapper::class)
         );
 
         // efficiently load question options
         if ($questions instanceof InquisitionQuestionWrapper) {
             $questions->loadAllSubRecordsets(
                 'options',
-                SwatDBClassMap::get('InquisitionQuestionOptionWrapper'),
+                SwatDBClassMap::get(InquisitionQuestionOptionWrapper::class),
                 'InquisitionQuestionOption',
                 'question',
                 '',
@@ -124,8 +123,7 @@ class InquisitionInquisitionDetails extends AdminIndex
         parent::buildView($view);
 
         if ($view->id == 'question_view') {
-            $class_name = SwatDBClassMap::get('InquisitionQuestionImage');
-            $image_class = new $class_name();
+            $image_class = SwatDBClassMap::new(InquisitionQuestionImage::class);
             $image_class->setDatabase($this->app->db);
 
             $view->getColumn('image_count_column')->visible =
