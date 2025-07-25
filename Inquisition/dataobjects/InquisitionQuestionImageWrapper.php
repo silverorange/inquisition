@@ -10,7 +10,7 @@
  */
 class InquisitionQuestionImageWrapper extends SiteImageWrapper
 {
-	// {{{ protected function init()
+
 
 	protected function init()
 	{
@@ -20,7 +20,7 @@ class InquisitionQuestionImageWrapper extends SiteImageWrapper
 			SwatDBClassMap::get('InquisitionQuestionImage');
 	}
 
-	// }}}
+
 }
 
 ?>

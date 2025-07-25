@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionHintEdit extends AdminDBEdit
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestion
@@ -26,10 +26,10 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -42,8 +42,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initHint()
+
+
 
 	protected function initHint()
 	{
@@ -61,8 +61,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -90,8 +90,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -102,8 +102,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -123,18 +123,18 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/hint-edit.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveDBData()
+
 
 	protected function saveDBData(): void
 	{
@@ -148,8 +148,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function updateHint()
+
+
 
 	protected function updateHint()
 	{
@@ -175,8 +175,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		$this->hint->displayorder = $new_displayorder;
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -198,18 +198,18 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadDBData()
+
 
 	protected function loadDBData()
 	{
 		$this->ui->setValues($this->hint->getAttributes());
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -223,8 +223,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildFrame()
+
+
 
 	protected function buildFrame()
 	{
@@ -234,8 +234,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		$frame->title = $this->getTitle();
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -265,8 +265,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -274,8 +274,8 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -290,9 +290,9 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		return $suffix;
 	}
 
-	// }}}
 
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
@@ -301,10 +301,10 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 			Inquisition::_('Edit Hint');
 	}
 
-	// }}}
+
 
 	// finalize phase
-	// {{{ public function finalize()
+
 
 	public function finalize()
 	{
@@ -314,7 +314,7 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

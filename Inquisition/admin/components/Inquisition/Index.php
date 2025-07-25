@@ -10,7 +10,7 @@
 class InquisitionInquisitionIndex extends AdminIndex
 {
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -25,18 +25,18 @@ class InquisitionInquisitionIndex extends AdminIndex
 		);
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/index.xml';
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function getTableModel()
+
 
 	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
@@ -47,8 +47,8 @@ class InquisitionInquisitionIndex extends AdminIndex
 		return null;
 	}
 
-	// }}}
-	// {{{ protected function getInquisitionTableModel()
+
+
 
 	protected function getInquisitionTableModel(SwatView $view)
 	{
@@ -108,7 +108,7 @@ class InquisitionInquisitionIndex extends AdminIndex
 		return $store;
 	}
 
-	// }}}
+
 }
 
 ?>

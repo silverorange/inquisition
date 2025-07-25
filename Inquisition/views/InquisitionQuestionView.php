@@ -9,7 +9,7 @@
  */
 abstract class InquisitionQuestionView
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionInquisitionQuestionBinding
@@ -21,8 +21,8 @@ abstract class InquisitionQuestionView
 	 */
 	protected $db;
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	public function __construct(
 		InquisitionInquisitionQuestionBinding $question_binding,
@@ -32,13 +32,13 @@ abstract class InquisitionQuestionView
 		$this->db = $db;
 	}
 
-	// }}}
-	// {{{ abstract public function getWidget()
+
+
 
 	abstract public function getWidget(InquisitionResponseValue $value = null);
 
-	// }}}
-	// {{{ public function getResponseValue()
+
+
 
 	public function getResponseValue()
 	{
@@ -48,7 +48,7 @@ abstract class InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

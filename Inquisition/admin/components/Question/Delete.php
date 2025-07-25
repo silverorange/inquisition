@@ -9,17 +9,17 @@
  */
 class InquisitionQuestionDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var AcademyInquisition
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// helper methods
-	// {{{ public function setId()
+
 
 	public function setId($id)
 	{
@@ -47,10 +47,10 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		$form->addHiddenField('id', $id);
 	}
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -63,10 +63,10 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processDBData()
+
 
 	protected function processDBData(): void
 	{
@@ -95,8 +95,8 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -112,10 +112,10 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -209,8 +209,8 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -237,7 +237,7 @@ class InquisitionQuestionDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

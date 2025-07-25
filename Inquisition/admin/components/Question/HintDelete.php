@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionHintDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitonQuestionHintWrapper
@@ -26,10 +26,10 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// helper methods
-	// {{{ public function setId()
+
 
 	public function setId($id)
 	{
@@ -57,8 +57,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		$form->addHiddenField('id', $id);
 	}
 
-	// }}}
-	// {{{ public function setItems()
+
+
 
 	public function setItems($items, $extended_selected = false)
 	{
@@ -77,8 +77,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ public function setInquisition()
+
+
 
 	public function setInquisition(?InquisitionInquisition $inquisition = null)
 	{
@@ -90,10 +90,10 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -112,8 +112,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -133,10 +133,10 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		return $inquisition;
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processDBData()
+
 
 	protected function processDBData(): void
 	{
@@ -164,18 +164,18 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
 		AdminDBConfirmation::relocate();
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -209,8 +209,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -220,8 +220,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		$yes_button->title = Inquisition::_('Delete');
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -257,8 +257,8 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -266,9 +266,9 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		return Inquisition::_('Question');
 	}
 
-	// }}}
 
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -283,7 +283,7 @@ class InquisitionQuestionHintDelete extends AdminDBDelete
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

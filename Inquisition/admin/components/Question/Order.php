@@ -9,17 +9,17 @@
  */
 class InquisitionQuestionOrder extends AdminDBOrder
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -28,8 +28,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initInquistion()
+
+
 
 	protected function initInquisition()
 	{
@@ -59,10 +59,10 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveIndex()
+
 
 	protected function saveIndex($id, $index)
 	{
@@ -71,8 +71,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 			'integer:displayorder', $index, 'integer:id', array($id));
 	}
 
-	// }}}
-	// {{{ protected function getUpdatedMessage()
+
+
 
 	protected function getUpdatedMessage()
 	{
@@ -81,8 +81,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -94,10 +94,10 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -110,8 +110,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		parent::buildInternal();
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -135,8 +135,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		$this->navbar->createEntry(Inquisition::_('Change Question Order'));
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -146,8 +146,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		$form->addHiddenField('id', $this->inquisition->id);
 	}
 
-	// }}}
-	// {{{ protected function loadData()
+
+
 
 	protected function loadData()
 	{
@@ -168,7 +168,7 @@ class InquisitionQuestionOrder extends AdminDBOrder
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
 	}
 
-	// }}}
+
 }
 
 ?>

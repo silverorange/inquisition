@@ -9,7 +9,7 @@
  */
 class InquisitionOptionEdit extends AdminDBEdit
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestionOption
@@ -26,10 +26,10 @@ class InquisitionOptionEdit extends AdminDBEdit
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -42,8 +42,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initOption()
+
+
 
 	protected function initOption()
 	{
@@ -62,8 +62,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -91,8 +91,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -103,8 +103,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -124,18 +124,18 @@ class InquisitionOptionEdit extends AdminDBEdit
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/edit.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveDBData()
+
 
 	protected function saveDBData(): void
 	{
@@ -148,8 +148,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function updateHint()
+
+
 
 	protected function updateOption()
 	{
@@ -179,8 +179,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -193,18 +193,18 @@ class InquisitionOptionEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadDBData()
+
 
 	protected function loadDBData()
 	{
 		$this->ui->setValues($this->option->getAttributes());
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -218,8 +218,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -260,8 +260,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -269,8 +269,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getOptionTitle()
+
+
 
 	protected function getOptionTitle()
 	{
@@ -280,8 +280,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -296,8 +296,8 @@ class InquisitionOptionEdit extends AdminDBEdit
 		return $suffix;
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
@@ -306,7 +306,7 @@ class InquisitionOptionEdit extends AdminDBEdit
 			: Inquisition::_('Edit Option');
 	}
 
-	// }}}
+
 }
 
 ?>

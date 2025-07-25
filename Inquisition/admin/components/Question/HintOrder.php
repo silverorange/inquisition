@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionHintOrder extends AdminDBOrder
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestion
@@ -21,10 +21,10 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -34,8 +34,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -64,8 +64,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -76,8 +76,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -97,10 +97,10 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		return $inquisition;
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveIndex()
+
 
 	protected function saveIndex($id, $index)
 	{
@@ -110,16 +110,16 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function getUpdatedMessage()
+
+
 
 	protected function getUpdatedMessage()
 	{
 		return new SwatMessage(Inquisition::_('Hint order has been updated.'));
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -132,10 +132,10 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadData()
+
 
 	protected function loadData()
 	{
@@ -156,8 +156,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
 	}
 
-	// }}}
-	// {{{ protected function buildInternal()
+
+
 
 	protected function buildInternal()
 	{
@@ -169,8 +169,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		parent::buildInternal();
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -184,8 +184,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -215,8 +215,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -224,8 +224,8 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -240,15 +240,15 @@ class InquisitionQuestionHintOrder extends AdminDBOrder
 		return $suffix;
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
 		return Inquisition::_('Change Hint Order');
 	}
 
-	// }}}
+
 }
 
 ?>

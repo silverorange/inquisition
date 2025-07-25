@@ -9,12 +9,12 @@
  */
 class InquisitionCheckboxListQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+
 
 	private $checkbox_list;
 
-	// }}}
-	// {{{ public function getWidget()
+
+
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
@@ -40,8 +40,8 @@ class InquisitionCheckboxListQuestionView extends InquisitionQuestionView
 		return $this->checkbox_list;
 	}
 
-	// }}}
-	// {{{ public function getResponseValue()
+
+
 
 	public function getResponseValue()
 	{
@@ -57,7 +57,7 @@ class InquisitionCheckboxListQuestionView extends InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

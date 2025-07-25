@@ -9,17 +9,17 @@
  */
 class InquisitionInquisitionEdit extends AdminDBEdit
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -28,8 +28,8 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -45,18 +45,18 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/edit.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveDBData()
+
 
 	protected function saveDBData(): void
 	{
@@ -68,8 +68,8 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function updateInquisition()
+
+
 
 	protected function updateInquisition()
 	{
@@ -93,16 +93,16 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function getSavedMessage()
+
+
 
 	protected function getSavedMessage()
 	{
 		return new SwatMessage(Inquisition::_('Inquisition has been saved.'));
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -114,18 +114,18 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadDBData()
+
 
 	protected function loadDBData()
 	{
 		$this->ui->setValues($this->inquisition->getAttributes());
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -146,7 +146,7 @@ class InquisitionInquisitionEdit extends AdminDBEdit
 		$this->navbar->addEntry($last);
 	}
 
-	// }}}
+
 }
 
 ?>

@@ -10,7 +10,7 @@
  */
 class InquisitionResponseUsedHintBindingWrapper extends SwatDBRecordsetWrapper
 {
-	// {{{ protected function init()
+
 
 	protected function init()
 	{
@@ -21,7 +21,7 @@ class InquisitionResponseUsedHintBindingWrapper extends SwatDBRecordsetWrapper
 			SwatDBClassMap::get('InquisitionResponseUsedHintBinding');
 	}
 
-	// }}}
+
 }
 
 ?>

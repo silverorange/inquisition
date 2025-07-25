@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionCorrectOption extends AdminDBEdit
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestion
@@ -21,10 +21,10 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -36,8 +36,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		$this->ui->loadFromXML($this->getUiXml());
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -61,8 +61,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -73,8 +73,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -94,18 +94,18 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/correct-option.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveDBData()
+
 
 	protected function saveDBData(): void
 	{
@@ -123,8 +123,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -143,10 +143,10 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		$this->app->relocate($uri);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -166,8 +166,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -179,8 +179,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadDBData()
+
+
 
 	protected function loadDBData()
 	{
@@ -194,8 +194,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -225,8 +225,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		$this->navbar->createEntry(Inquisition::_('Edit Correct Question'));
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -234,8 +234,8 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -250,7 +250,7 @@ class InquisitionQuestionCorrectOption extends AdminDBEdit
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

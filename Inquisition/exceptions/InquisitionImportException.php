@@ -7,15 +7,15 @@
  */
 class InquisitionImportException extends Exception
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionFileParser
 	 */
 	protected $file_parser;
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	public function __construct(
 		$message,
@@ -26,15 +26,15 @@ class InquisitionImportException extends Exception
 		$this->file_parser = $file_parser;
 	}
 
-	// }}}
-	// {{{ public function getFileParser()
+
+
 
 	public function getFileParser()
 	{
 		return $this->file_parser;
 	}
 
-	// }}}
+
 }
 
 ?>

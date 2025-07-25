@@ -9,15 +9,15 @@
  */
 class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var SwatDate
 	 */
 	public $createdate;
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -35,7 +35,7 @@ class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
 	}
 
-	// }}}
+
 }
 
 ?>

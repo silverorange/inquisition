@@ -7,25 +7,25 @@
  */
 class InquisitionImporter
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var SiteApplication
 	 */
 	protected $app;
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	public function __construct(SiteApplication $app)
 	{
 		$this->app = $app;
 	}
 
-	// }}}
+
 
 	// inquisition
-	// {{{ public function importInquisition()
+
 
 	public function importInquisition(
 		InquisitionInquisition $inquisition,
@@ -35,8 +35,8 @@ class InquisitionImporter
 		$this->importQuestions($inquisition, $file);
 	}
 
-	// }}}
-	// {{{ protected function importInquisitionProperties()
+
+
 
 	protected function importInquisitionProperties(
 		InquisitionInquisition $inquisition,
@@ -44,10 +44,10 @@ class InquisitionImporter
 	) {
 	}
 
-	// }}}
+
 
 	// questions
-	// {{{ protected function importQuestions()
+
 
 	protected function importQuestions(
 		InquisitionInquisition $inquisition,
@@ -79,15 +79,15 @@ class InquisitionImporter
 		}
 	}
 
-	// }}}
-	// {{{ protected function getQuestionImporter()
+
+
 
 	protected function getQuestionImporter()
 	{
 		return new InquisitionQuestionImporter($this->app);
 	}
 
-	// }}}
+
 }
 
 ?>

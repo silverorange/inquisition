@@ -9,7 +9,7 @@
  */
 abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitonQuestionImageWrapper
@@ -21,10 +21,10 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// helper methods
-	// {{{ public function setId()
+
 
 	public function setId($id)
 	{
@@ -32,8 +32,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		$form->addHiddenField('id', $id);
 	}
 
-	// }}}
-	// {{{ public function setItems()
+
+
 
 	public function setItems($items, $extended_selected = false)
 	{
@@ -46,8 +46,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 			SwatDBClassMap::get('InquisitionQuestionImageWrapper'));
 	}
 
-	// }}}
-	// {{{ public function setInquisition()
+
+
 
 	public function setInquisition(?InquisitionInquisition $inquisition = null)
 	{
@@ -59,15 +59,15 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ abstract protected function getImageWrapper()
+
+
 
 	abstract protected function getImageWrapper();
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -86,8 +86,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -107,18 +107,18 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/image-delete.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processDBData()
+
 
 	protected function processDBData(): void
 	{
@@ -147,18 +147,18 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
 		AdminDBConfirmation::relocate();
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -188,8 +188,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -199,8 +199,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		$yes_button->title = Inquisition::_('Delete');
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -217,8 +217,8 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -233,7 +233,7 @@ abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

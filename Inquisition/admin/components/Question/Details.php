@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionDetails extends AdminIndex
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestion
@@ -31,10 +31,10 @@ class InquisitionQuestionDetails extends AdminIndex
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -49,8 +49,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		$this->initNextQuestion();
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -73,8 +73,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -85,8 +85,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -106,8 +106,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function initPrevQuestion()
+
+
 
 	protected function initPrevQuestion()
 	{
@@ -128,8 +128,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function initNextQuestion()
+
+
 
 	protected function initNextQuestion()
 	{
@@ -151,18 +151,18 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/details.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processActions()
+
 
 	protected function processActions(SwatView $view, SwatActions $actions)
 	{
@@ -205,10 +205,10 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -223,8 +223,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		$view->data = $this->getDetailsStore($this->question);
 	}
 
-	// }}}
-	// {{{ protected function buildImageFrame()
+
+
 
 	protected function buildImageFrame()
 	{
@@ -236,8 +236,8 @@ class InquisitionQuestionDetails extends AdminIndex
 			$image_class->hasImageSet();
 	}
 
-	// }}}
-	// {{{ protected function getDetailsStore()
+
+
 
 	protected function getDetailsStore(InquisitionQuestion $question)
 	{
@@ -246,8 +246,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $ds;
 	}
 
-	// }}}
-	// {{{ protected function getTableModel()
+
+
 
 	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
@@ -268,8 +268,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $model;
 	}
 
-	// }}}
-	// {{{ protected function getImageTableModel()
+
+
 
 	protected function getImageTableModel(SwatView $view)
 	{
@@ -284,8 +284,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getHintTableModel()
+
+
 
 	protected function getHintTableModel(SwatView $view)
 	{
@@ -303,8 +303,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getOptionTableModel()
+
+
 
 	protected function getOptionTableModel(SwatView $view)
 	{
@@ -322,8 +322,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getImageDetailsStore()
+
+
 
 	protected function getImageDetailsStore(SiteImage $image)
 	{
@@ -340,8 +340,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $ds;
 	}
 
-	// }}}
-	// {{{ protected function getOptionDetailsStore()
+
+
 
 	protected function getOptionDetailsStore(InquisitionQuestionOption $option)
 	{
@@ -358,8 +358,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $ds;
 	}
 
-	// }}}
-	// {{{ protected function getOptions()
+
+
 
 	protected function getOptions(SwatTableView $view)
 	{
@@ -378,8 +378,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		);
 	}
 
-	// }}}
-	// {{{ protected function buildFrame()
+
+
 
 	protected function buildFrame()
 	{
@@ -387,8 +387,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		$frame->title = sprintf($this->getQuestionTitle());
 	}
 
-	// }}}
-	// {{{ protected function buildToolbars()
+
+
 
 	protected function buildToolbars()
 	{
@@ -434,8 +434,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildViewRendererLinks()
+
+
 
 	protected function buildViewRendererLinks()
 	{
@@ -455,8 +455,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -477,8 +477,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -486,8 +486,8 @@ class InquisitionQuestionDetails extends AdminIndex
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -502,10 +502,10 @@ class InquisitionQuestionDetails extends AdminIndex
 		return $suffix;
 	}
 
-	// }}}
+
 
 	// finalize phase
-	// {{{ public function finalize()
+
 
 	public function finalize()
 	{
@@ -514,7 +514,7 @@ class InquisitionQuestionDetails extends AdminIndex
 			'packages/inquisition/admin/styles/inquisition-details.css');
 	}
 
-	// }}}
+
 }
 
 ?>

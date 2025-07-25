@@ -9,7 +9,7 @@
  */
 class InquisitionInquisitionDetails extends AdminIndex
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var integer
@@ -21,10 +21,10 @@ class InquisitionInquisitionDetails extends AdminIndex
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -41,8 +41,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$this->ui->loadFromXML($this->getUiXml());
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -78,18 +78,18 @@ class InquisitionInquisitionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/details.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processActions()
+
 
 	protected function processActions(SwatView $view, SwatActions $actions)
 	{
@@ -107,10 +107,10 @@ class InquisitionInquisitionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -130,16 +130,16 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$renderer->display_time_zone = $this->app->default_time_zone;
 	}
 
-	// }}}
-	// {{{ protected function getDetailsStore()
+
+
 
 	protected function getDetailsStore(InquisitionInquisition $inquisition)
 	{
 		return new SwatDetailsStore($inquisition);
 	}
 
-	// }}}
-	// {{{ protected function buildView()
+
+
 
 	protected function buildView(SwatView $view)
 	{
@@ -155,8 +155,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function getTableModel()
+
+
 
 	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
@@ -171,8 +171,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		return $model;
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTableModel()
+
+
 
 	protected function getQuestionTableModel(SwatTableView $view)
 	{
@@ -187,8 +187,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getQuestionDetailsStore()
+
+
 
 	protected function getQuestionDetailsStore(
 		InquisitionInquisitionQuestionBinding $question_binding
@@ -229,8 +229,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		return $ds;
 	}
 
-	// }}}
-	// {{{ protected function buildToolbars()
+
+
 
 	protected function buildToolbars()
 	{
@@ -244,8 +244,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildViewRendererLinks()
+
+
 
 	protected function buildViewRendererLinks()
 	{
@@ -265,8 +265,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -274,8 +274,8 @@ class InquisitionInquisitionDetails extends AdminIndex
 		$this->navbar->createEntry($this->inquisition->title);
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -290,10 +290,10 @@ class InquisitionInquisitionDetails extends AdminIndex
 		return $suffix;
 	}
 
-	// }}}
+
 
 	// finalize phase
-	// {{{ public function finalize()
+
 
 	public function finalize()
 	{
@@ -304,7 +304,7 @@ class InquisitionInquisitionDetails extends AdminIndex
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

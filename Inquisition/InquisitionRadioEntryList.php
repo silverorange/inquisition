@@ -9,12 +9,12 @@
  */
 class InquisitionRadioEntryList extends SwatRadioList
 {
-	// {{{ private properties
+
 
 	private $entry_option_values = array();
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	/**
 	 * Creates a new radiolist
@@ -35,8 +35,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		$this->classes[] = 'inquisition-radio-entry-list';
 	}
 
-	// }}}
-	// {{{ public function process()
+
+
 
 	/**
 	 * Processes this radio list
@@ -55,8 +55,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		}
 	}
 
-	// }}}
-	// {{{ public function getEntryValue()
+
+
 
 	public function getEntryValue($option_value)
 	{
@@ -69,8 +69,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		return $value;
 	}
 
-	// }}}
-	// {{{ public function setEntryValue()
+
+
 
 	public function setEntryValue($option_value, $text)
 	{
@@ -79,24 +79,24 @@ class InquisitionRadioEntryList extends SwatRadioList
 		}
 	}
 
-	// }}}
-	// {{{ public function setEntryOption()
+
+
 
 	public function setEntryOption($value)
 	{
 		$this->entry_option_values[] = $value;
 	}
 
-	// }}}
-	// {{{ public function hasEntry()
+
+
 
 	public function hasEntry($value)
 	{
 		return in_array($value, $this->entry_option_values);
 	}
 
-	// }}}
-	// {{{ public function display()
+
+
 
 	public function display()
 	{
@@ -104,8 +104,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		Swat::displayInlineJavaScript($this->getInlineJavaScript());
 	}
 
-	// }}}
-	// {{{ protected function displayOptionLabel()
+
+
 
 	protected function displayOptionLabel(SwatOption $option, $index)
 	{
@@ -118,8 +118,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		}
 	}
 
-	// }}}
-	// {{{ protected function createCompositeWidgets()
+
+
 
 	protected function createCompositeWidgets()
 	{
@@ -132,8 +132,8 @@ class InquisitionRadioEntryList extends SwatRadioList
 		}
 	}
 
-	// }}}
-	// {{{ protected function getInlineJavaScript()
+
+
 
 	protected function getInlineJavaScript()
 	{
@@ -144,7 +144,7 @@ class InquisitionRadioEntryList extends SwatRadioList
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

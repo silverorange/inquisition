@@ -9,12 +9,12 @@
  */
 class InquisitionCheckboxEntryList extends SwatCheckboxList
 {
-	// {{{ private properties
+
 
 	private $entry_option_values = array();
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	/**
 	 * Creates a new checkboxlist
@@ -35,8 +35,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		$this->classes[] = 'inquisition-checkbox-entry-list';
 	}
 
-	// }}}
-	// {{{ public function process()
+
+
 
 	/**
 	 * Processes this checkbox list
@@ -57,8 +57,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		}
 	}
 
-	// }}}
-	// {{{ public function getEntryValue()
+
+
 
 	public function getEntryValue($option_value)
 	{
@@ -71,8 +71,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		return $value;
 	}
 
-	// }}}
-	// {{{ public function setEntryValue()
+
+
 
 	public function setEntryValue($option_value, $text)
 	{
@@ -81,24 +81,24 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		}
 	}
 
-	// }}}
-	// {{{ public function setEntryOption()
+
+
 
 	public function setEntryOption($value)
 	{
 		$this->entry_option_values[] = $value;
 	}
 
-	// }}}
-	// {{{ public function hasEntry()
+
+
 
 	public function hasEntry($value)
 	{
 		return in_array($value, $this->entry_option_values);
 	}
 
-	// }}}
-	// {{{ public function display()
+
+
 
 	public function display()
 	{
@@ -106,8 +106,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		Swat::displayInlineJavaScript($this->getInlineJavaScript());
 	}
 
-	// }}}
-	// {{{ protected function displayOptionLabel()
+
+
 
 	protected function displayOptionLabel(SwatOption $option, $index)
 	{
@@ -120,8 +120,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		}
 	}
 
-	// }}}
-	// {{{ protected function createCompositeWidgets()
+
+
 
 	protected function createCompositeWidgets()
 	{
@@ -145,8 +145,8 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		}
 	}
 
-	// }}}
-	// {{{ protected function getInlineJavaScript()
+
+
 
 	protected function getInlineJavaScript()
 	{
@@ -157,7 +157,7 @@ class InquisitionCheckboxEntryList extends SwatCheckboxList
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

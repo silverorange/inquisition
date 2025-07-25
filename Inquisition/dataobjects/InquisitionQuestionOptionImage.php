@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionOptionImage extends SiteImage
 {
-	// {{{ protected function init()
+
 
 	protected function init()
 	{
@@ -18,7 +18,7 @@ class InquisitionQuestionOptionImage extends SiteImage
 		$this->image_set_shortname = 'inquisition-question-option';
 	}
 
-	// }}}
+
 }
 
 ?>

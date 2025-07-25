@@ -9,12 +9,12 @@
  */
 class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+
 
 	private $radio_table;
 
-	// }}}
-	// {{{ public function getWidget()
+
+
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
@@ -44,8 +44,8 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 		return $this->radio_table;
 	}
 
-	// }}}
-	// {{{ public function getResponseValue()
+
+
 
 	public function getResponseValue()
 	{
@@ -58,7 +58,7 @@ class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

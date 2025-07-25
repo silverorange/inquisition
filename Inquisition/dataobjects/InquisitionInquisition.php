@@ -9,7 +9,7 @@
  */
 class InquisitionInquisition extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -37,13 +37,13 @@ class InquisitionInquisition extends SwatDBDataObject
 	 */
 	public $createdate;
 
-	// }}}
-	// {{{ protected properties
+
+
 
 	protected $question_dependencies = array();
 
-	// }}}
-	// {{{ public function getResponseByAccount()
+
+
 
 	public function getResponseByAccount(SiteAccount $account)
 	{
@@ -66,8 +66,8 @@ class InquisitionInquisition extends SwatDBDataObject
 		return $response;
 	}
 
-	// }}}
-	// {{{ public function addQuestionDependency()
+
+
 
 	public function addQuestionDependency(
 		InquisitionInquisitionQuestionBinding $dependent_question_binding,
@@ -81,8 +81,8 @@ class InquisitionInquisition extends SwatDBDataObject
 		);
 	}
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -91,8 +91,8 @@ class InquisitionInquisition extends SwatDBDataObject
 		$this->registerDateProperty('createdate');
 	}
 
-	// }}}
-	// {{{ protected function getSerializableSubDataObjects()
+
+
 
 	protected function getSerializableSubDataObjects()
 	{
@@ -105,26 +105,26 @@ class InquisitionInquisition extends SwatDBDataObject
 		);
 	}
 
-	// }}}
-	// {{{ protected function getResolvedResponseWrapperClass()
+
+
 
 	protected function getResolvedResponseWrapperClass()
 	{
 		return SwatDBClassMap::get($this->getResponseWrapperClass());
 	}
 
-	// }}}
-	// {{{ protected function getResponseWrapperClass()
+
+
 
 	protected function getResponseWrapperClass()
 	{
 		return 'InquisitionResponseWrapper';
 	}
 
-	// }}}
+
 
 	// saver methods
-	// {{{ protected function saveQuestionBindings()
+
 
 	protected function saveQuestionBindings()
 	{
@@ -156,10 +156,10 @@ class InquisitionInquisition extends SwatDBDataObject
 		}
 	}
 
-	// }}}
+
 
 	// loader methods
-	// {{{ protected function loadResponses()
+
 
 	protected function loadResponses()
 	{
@@ -177,8 +177,8 @@ class InquisitionInquisition extends SwatDBDataObject
 		);
 	}
 
-	// }}}
-	// {{{ protected function loadQuestionBindings()
+
+
 
 	protected function loadQuestionBindings()
 	{
@@ -195,8 +195,8 @@ class InquisitionInquisition extends SwatDBDataObject
 		);
 	}
 
-	// }}}
-	// {{{ protected function loadVisibleQuestionBindings()
+
+
 
 	protected function loadVisibleQuestionBindings()
 	{
@@ -219,7 +219,7 @@ class InquisitionInquisition extends SwatDBDataObject
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

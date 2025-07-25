@@ -9,12 +9,12 @@
  */
 class InquisitionFlydownQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+
 
 	private $flydown;
 
-	// }}}
-	// {{{ public function getWidget()
+
+
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
@@ -39,8 +39,8 @@ class InquisitionFlydownQuestionView extends InquisitionQuestionView
 		return $this->flydown;
 	}
 
-	// }}}
-	// {{{ public function getResponseValue()
+
+
 
 	public function getResponseValue()
 	{
@@ -49,7 +49,7 @@ class InquisitionFlydownQuestionView extends InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

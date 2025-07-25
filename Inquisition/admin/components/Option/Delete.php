@@ -9,7 +9,7 @@
  */
 class InquisitionOptionDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var AcademyQuestion
@@ -21,10 +21,10 @@ class InquisitionOptionDelete extends AdminDBDelete
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// helper methods
-	// {{{ public function setId()
+
 
 	public function setId($id)
 	{
@@ -47,8 +47,8 @@ class InquisitionOptionDelete extends AdminDBDelete
 		$form->addHiddenField('id', $id);
 	}
 
-	// }}}
-	// {{{ public function setInquisition()
+
+
 
 	public function setInquisition(InquisitionInquisition $inquisition = null)
 	{
@@ -60,10 +60,10 @@ class InquisitionOptionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -82,8 +82,8 @@ class InquisitionOptionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -103,10 +103,10 @@ class InquisitionOptionDelete extends AdminDBDelete
 		return $inquisition;
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processDBData()
+
 
 	protected function processDBData(): void
 	{
@@ -135,18 +135,18 @@ class InquisitionOptionDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
 		AdminDBConfirmation::relocate();
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -195,8 +195,8 @@ class InquisitionOptionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -232,8 +232,8 @@ class InquisitionOptionDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -241,8 +241,8 @@ class InquisitionOptionDelete extends AdminDBDelete
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -257,7 +257,7 @@ class InquisitionOptionDelete extends AdminDBDelete
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

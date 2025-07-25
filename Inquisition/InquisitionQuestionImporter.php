@@ -7,25 +7,25 @@
  */
 class InquisitionQuestionImporter
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var SiteApplication
 	 */
 	protected $app;
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	public function __construct(SiteApplication $app)
 	{
 		$this->app = $app;
 	}
 
-	// }}}
+
 
 	// questions
-	// {{{ public function importQuestions()
+
 
 	public function importQuestions(InquisitionFileParser $file)
 	{
@@ -44,8 +44,8 @@ class InquisitionQuestionImporter
 		return $questions;
 	}
 
-	// }}}
-	// {{{ protected function importQuestion()
+
+
 
 	protected function importQuestion(
 		InquisitionQuestion $question,
@@ -88,8 +88,8 @@ class InquisitionQuestionImporter
 		}
 	}
 
-	// }}}
-	// {{{ protected function importQuestionProperties()
+
+
 
 	protected function importQuestionProperties(
 		InquisitionQuestion $question,
@@ -119,10 +119,10 @@ class InquisitionQuestionImporter
 		$question->bodytext = $data[0];
 	}
 
-	// }}}
+
 
 	// question options
-	// {{{ protected function importOptions()
+
 
 	protected function importOptions(
 		InquisitionQuestion $question,
@@ -173,8 +173,8 @@ class InquisitionQuestionImporter
 		}
 	}
 
-	// }}}
-	// {{{ protected function importOption()
+
+
 
 	protected function importOption(
 		InquisitionQuestionOption $option,
@@ -199,10 +199,10 @@ class InquisitionQuestionImporter
 		$option->title = $data[1];
 	}
 
-	// }}}
+
 
 	// helper methods
-	// {{{ protected function isOptionLine()
+
 
 	protected function isOptionLine(InquisitionFileParser $file)
 	{
@@ -210,8 +210,8 @@ class InquisitionQuestionImporter
 		return (isset($data[0]) && $data[0] === '');
 	}
 
-	// }}}
-	// {{{ protected function isCorrectOptionLine()
+
+
 
 	protected function isCorrectOptionLine(InquisitionFileParser $file)
 	{
@@ -219,7 +219,7 @@ class InquisitionQuestionImporter
 		return (isset($data[2]) && mb_strtolower(trim($data[2])) === 'x');
 	}
 
-	// }}}
+
 }
 
 ?>

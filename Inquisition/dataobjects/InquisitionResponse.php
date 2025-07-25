@@ -9,7 +9,7 @@
  */
 class InquisitionResponse extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -31,8 +31,8 @@ class InquisitionResponse extends SwatDBDataObject
 	 */
 	public $complete_date;
 
-	// }}}
-	// {{{ public function getUsedHintBindingsByQuestionBinding()
+
+
 
 	public function getUsedHintBindingsByQuestionBinding(
 		InquisitionInquisitionQuestionBinding $question_binding
@@ -56,8 +56,8 @@ class InquisitionResponse extends SwatDBDataObject
 		return $wrapper;
 	}
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -73,8 +73,8 @@ class InquisitionResponse extends SwatDBDataObject
 		);
 	}
 
-	// }}}
-	// {{{ protected function getSerializableSubDataObjects()
+
+
 
 	protected function getSerializableSubDataObjects()
 	{
@@ -87,10 +87,10 @@ class InquisitionResponse extends SwatDBDataObject
 		);
 	}
 
-	// }}}
+
 
 	// loader methods
-	// {{{ protected function loadValues()
+
 
 	protected function loadValues()
 	{
@@ -114,8 +114,8 @@ class InquisitionResponse extends SwatDBDataObject
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
 
-	// }}}
-	// {{{ protected function loadVisibleQuestionValues()
+
+
 
 	protected function loadVisibleQuestionValues()
 	{
@@ -142,8 +142,8 @@ class InquisitionResponse extends SwatDBDataObject
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
 
-	// }}}
-	// {{{ protected function loadUsedHintBindings()
+
+
 
 	protected function loadUsedHintBindings()
 	{
@@ -170,10 +170,10 @@ class InquisitionResponse extends SwatDBDataObject
 		return $bindings;
 	}
 
-	// }}}
+
 
 	// saver methods
-	// {{{ protected function saveValues()
+
 
 	protected function saveValues()
 	{
@@ -185,7 +185,7 @@ class InquisitionResponse extends SwatDBDataObject
 		$this->values->save();
 	}
 
-	// }}}
+
 }
 
 ?>

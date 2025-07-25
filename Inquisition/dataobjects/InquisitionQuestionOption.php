@@ -11,7 +11,7 @@
  */
 class InquisitionQuestionOption extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -33,8 +33,8 @@ class InquisitionQuestionOption extends SwatDBDataObject
 	 */
 	public $include_text;
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -45,10 +45,10 @@ class InquisitionQuestionOption extends SwatDBDataObject
 			SwatDBClassMap::get('InquisitionQuestion'));
 	}
 
-	// }}}
+
 
 	// loader methods
-	// {{{ protected function loadValues()
+
 
 	protected function loadValues()
 	{
@@ -61,8 +61,8 @@ class InquisitionQuestionOption extends SwatDBDataObject
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
 
-	// }}}
-	// {{{ protected function loadImages()
+
+
 
 	protected function loadImages()
 	{
@@ -79,8 +79,8 @@ class InquisitionQuestionOption extends SwatDBDataObject
 		return SwatDB::query($this->db, $sql, $wrapper);
 	}
 
-	// }}}
-	// {{{ protected function loadPosition()
+
+
 
 	protected function loadPosition()
 	{
@@ -96,7 +96,7 @@ class InquisitionQuestionOption extends SwatDBDataObject
 		return SwatDB::queryOne($this->db, $sql);
 	}
 
-	// }}}
+
 }
 
 ?>

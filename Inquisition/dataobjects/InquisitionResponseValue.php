@@ -9,7 +9,7 @@
  */
 class InquisitionResponseValue extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -26,8 +26,8 @@ class InquisitionResponseValue extends SwatDBDataObject
 	 */
 	public $text_value;
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -44,7 +44,7 @@ class InquisitionResponseValue extends SwatDBDataObject
 			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
 	}
 
-	// }}}
+
 }
 
 ?>

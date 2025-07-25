@@ -7,7 +7,7 @@
  */
 class InquisitionFileParser implements Iterator
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var integer
@@ -19,8 +19,8 @@ class InquisitionFileParser implements Iterator
 	 */
 	protected $file;
 
-	// }}}
-	// {{{ public function __construct()
+
+
 
 	public function __construct(string|SplFileObject $filename)
 	{
@@ -35,24 +35,24 @@ class InquisitionFileParser implements Iterator
 		$this->defuseBOM();
 	}
 
-	// }}}
-	// {{{ public function key()
+
+
 
 	public function key(): mixed
 	{
 		return $this->file->key();
 	}
 
-	// }}}
-	// {{{ public function current()
+
+
 
 	public function current(): mixed
 	{
 		return $this->file->current();
 	}
 
-	// }}}
-	// {{{ public function next()
+
+
 
 	public function next(): void
 	{
@@ -82,8 +82,8 @@ class InquisitionFileParser implements Iterator
 		}
 	}
 
-	// }}}
-	// {{{ public function rewind()
+
+
 
 	public function rewind(): void
 	{
@@ -91,40 +91,40 @@ class InquisitionFileParser implements Iterator
 		$this->line = 1;
 	}
 
-	// }}}
-	// {{{ public function valid()
+
+
 
 	public function valid(): bool
 	{
 		return $this->file->valid();
 	}
 
-	// }}}
-	// {{{ public function eof()
+
+
 
 	public function eof()
 	{
 		return $this->file->eof();
 	}
 
-	// }}}
-	// {{{ public function line()
+
+
 
 	public function line()
 	{
 		return $this->line;
 	}
 
-	// }}}
-	// {{{ public function row()
+
+
 
 	public function row()
 	{
 		return $this->file->key() + 1;
 	}
 
-	// }}}
-	// {{{ protected function defuseBOM()
+
+
 
 	/**
 	 * Seeks ahead of the byte-order-mark if it exists in the file
@@ -146,7 +146,7 @@ class InquisitionFileParser implements Iterator
 		}
 	}
 
-	// }}}
+
 }
 
 ?>

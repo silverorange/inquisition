@@ -9,17 +9,17 @@
  */
 class InquisitionInquisitionDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -28,8 +28,8 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -45,10 +45,10 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processDBData()
+
 
 	protected function processDBData(): void
 	{
@@ -67,8 +67,8 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		$this->app->messages->add($this->getDeletedMessage($num));
 	}
 
-	// }}}
-	// {{{ protected function deleteQuestions()
+
+
 
 	protected function deleteQuestions($item_list)
 	{
@@ -85,8 +85,8 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		SwatDB::exec($this->app->db, $sql);
 	}
 
-	// }}}
-	// {{{ protected function getDeletedMessage()
+
+
 
 	protected function getDeletedMessage($num)
 	{
@@ -102,10 +102,10 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -141,8 +141,8 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -161,10 +161,10 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		$this->navbar->addEntry($last);
 	}
 
-	// }}}
+
 
 	// helper methods
-	// {{{ protected function getSingleQuizQuestionsWhere()
+
 
 	protected function getSingleQuizQuestionsWhere($item_list)
 	{
@@ -180,7 +180,7 @@ class InquisitionInquisitionDelete extends AdminDBDelete
 		return $where;
 	}
 
-	// }}}
+
 }
 
 ?>

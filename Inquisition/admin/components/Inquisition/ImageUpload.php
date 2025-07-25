@@ -9,17 +9,17 @@
  */
 abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionInquisition
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -30,8 +30,8 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -42,8 +42,8 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -63,18 +63,18 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/image-upload.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveDBData()
+
 
 	protected function saveDBData(): void
 	{
@@ -95,8 +95,8 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function getImageObject()
+
+
 
 	protected function getImageObject()
 	{
@@ -109,20 +109,20 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		return $image;
 	}
 
-	// }}}
-	// {{{ abstract protected function getImageClass()
+
+
 
 	abstract protected function getImageClass();
 
-	// }}}
-	// {{{ abstract protected function updateBindings()
+
+
 
 	abstract protected function updateBindings(SiteImage $image);
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildForm()
+
 
 	protected function buildForm()
 	{
@@ -134,8 +134,8 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -154,8 +154,8 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -170,7 +170,7 @@ abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

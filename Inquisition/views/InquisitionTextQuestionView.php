@@ -9,12 +9,12 @@
  */
 class InquisitionTextQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+
 
 	private $textarea;
 
-	// }}}
-	// {{{ public function getWidget()
+
+
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
@@ -36,8 +36,8 @@ class InquisitionTextQuestionView extends InquisitionQuestionView
 		return $this->textarea;
 	}
 
-	// }}}
-	// {{{ public function getResponseValue();
+
+
 
 	public function getResponseValue()
 	{
@@ -46,7 +46,7 @@ class InquisitionTextQuestionView extends InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

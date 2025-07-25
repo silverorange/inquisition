@@ -7,15 +7,15 @@
  */
 class InquisitionQuestionOptionCellRenderer extends SwatTextCellRenderer
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var boolean
 	 */
 	public $correct = false;
 
-	// }}}
-	// {{{ public function render()
+
+
 
 	public function render()
 	{
@@ -33,7 +33,7 @@ class InquisitionQuestionOptionCellRenderer extends SwatTextCellRenderer
 		$span->close();
 	}
 
-	// }}}
+
 }
 
 ?>

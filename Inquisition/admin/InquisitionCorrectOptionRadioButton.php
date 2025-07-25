@@ -9,7 +9,7 @@
  */
 class InquisitionCorrectOptionRadioButton extends SwatCheckbox
 {
-	// {{{ public function process()
+
 
 	public function process()
 	{
@@ -23,8 +23,8 @@ class InquisitionCorrectOptionRadioButton extends SwatCheckbox
 			$data['correct_option'] == $this->id);
 	}
 
-	// }}}
-	// {{{ public function display()
+
+
 
 	public function display()
 	{
@@ -46,7 +46,7 @@ class InquisitionCorrectOptionRadioButton extends SwatCheckbox
 		$input_tag->display();
 	}
 
-	// }}}
+
 }
 
 ?>

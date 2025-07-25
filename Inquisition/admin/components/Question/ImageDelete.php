@@ -9,17 +9,17 @@
  */
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitonQuestion
 	 */
 	protected $question;
 
-	// }}}
+
 
 	// helper methods
-	// {{{ public function setId()
+
 
 	public function setId($id)
 	{
@@ -46,18 +46,18 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 		parent::setId($id);
 	}
 
-	// }}}
-	// {{{ protected function getImageWrapper()
+
+
 
 	protected function getImageWrapper()
 	{
 		return SwatDBClassMap::get('InquisitionQuestionImageWrapper');
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildNavBar()
+
 
 	protected function buildNavBar()
 	{
@@ -93,8 +93,8 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -102,7 +102,7 @@ class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 		return Inquisition::_('Question');
 	}
 
-	// }}}
+
 }
 
 ?>

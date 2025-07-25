@@ -10,7 +10,7 @@
  */
 class InquisitionResponseValueWrapper extends SwatDBRecordsetWrapper
 {
-	// {{{ protected function init()
+
 
 	protected function init()
 	{
@@ -22,7 +22,7 @@ class InquisitionResponseValueWrapper extends SwatDBRecordsetWrapper
 		$this->index_field = 'id';
 	}
 
-	// }}}
+
 }
 
 ?>

@@ -9,7 +9,7 @@
  */
 class InquisitionOptionDetails extends AdminIndex
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestionOption
@@ -21,10 +21,10 @@ class InquisitionOptionDetails extends AdminIndex
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -36,8 +36,8 @@ class InquisitionOptionDetails extends AdminIndex
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initOption()
+
+
 
 	protected function initOption()
 	{
@@ -60,8 +60,8 @@ class InquisitionOptionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -72,8 +72,8 @@ class InquisitionOptionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -93,18 +93,18 @@ class InquisitionOptionDetails extends AdminIndex
 		return $inquisition;
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/details.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processActions()
+
 
 	protected function processActions(SwatView $view, SwatActions $actions)
 	{
@@ -123,10 +123,10 @@ class InquisitionOptionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildInternal()
+
 
 	protected function buildInternal()
 	{
@@ -141,8 +141,8 @@ class InquisitionOptionDetails extends AdminIndex
 		$view->data = $this->getDetailsStore($this->option);
 	}
 
-	// }}}
-	// {{{ protected function buildImageFrame()
+
+
 
 	protected function buildImageFrame()
 	{
@@ -154,16 +154,16 @@ class InquisitionOptionDetails extends AdminIndex
 			$image_class->hasImageSet();
 	}
 
-	// }}}
-	// {{{ protected function getDetailsStore()
+
+
 
 	protected function getDetailsStore(InquisitionQuestionOption $option)
 	{
 		return new SwatDetailsStore($option);
 	}
 
-	// }}}
-	// {{{ protected function getTableModel()
+
+
 
 	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
@@ -178,8 +178,8 @@ class InquisitionOptionDetails extends AdminIndex
 		return $model;
 	}
 
-	// }}}
-	// {{{ protected function getImageTableModel()
+
+
 
 	protected function getImageTableModel(SwatView $view)
 	{
@@ -194,8 +194,8 @@ class InquisitionOptionDetails extends AdminIndex
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getImageDetailsStore()
+
+
 
 	protected function getImageDetailsStore(SiteImage $image)
 	{
@@ -212,8 +212,8 @@ class InquisitionOptionDetails extends AdminIndex
 		return $ds;
 	}
 
-	// }}}
-	// {{{ protected function buildToolbar()
+
+
 
 	protected function buildToolbar()
 	{
@@ -238,8 +238,8 @@ class InquisitionOptionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildViewRendererLinks()
+
+
 
 	protected function buildViewRendererLinks()
 	{
@@ -259,8 +259,8 @@ class InquisitionOptionDetails extends AdminIndex
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -288,8 +288,8 @@ class InquisitionOptionDetails extends AdminIndex
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function buildFrame()
+
+
 
 	protected function buildFrame()
 	{
@@ -297,8 +297,8 @@ class InquisitionOptionDetails extends AdminIndex
 		$frame->title = $this->getTitle();
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
@@ -308,8 +308,8 @@ class InquisitionOptionDetails extends AdminIndex
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -317,8 +317,8 @@ class InquisitionOptionDetails extends AdminIndex
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -333,7 +333,7 @@ class InquisitionOptionDetails extends AdminIndex
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

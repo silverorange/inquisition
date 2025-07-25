@@ -10,7 +10,7 @@
 class InquisitionQuestionIndex extends AdminSearch
 {
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -25,18 +25,18 @@ class InquisitionQuestionIndex extends AdminSearch
 		);
 	}
 
-	// }}}
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/index.xml';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function processActions()
+
 
 	protected function processActions(SwatView $view, SwatActions $actions)
 	{
@@ -48,8 +48,8 @@ class InquisitionQuestionIndex extends AdminSearch
 		}
 	}
 
-	// }}}
-	// {{{ protected function processInternal()
+
+
 
 	protected function processInternal()
 	{
@@ -67,10 +67,10 @@ class InquisitionQuestionIndex extends AdminSearch
 		$pager->process();
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function getTableModel()
+
 
 	protected function getTableModel(SwatView $view): ?SwatTableModel
 	{
@@ -81,8 +81,8 @@ class InquisitionQuestionIndex extends AdminSearch
 		return null;
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTableModel()
+
+
 
 	protected function getQuestionTableModel(SwatView $view): SwatTableStore
 	{
@@ -119,8 +119,8 @@ class InquisitionQuestionIndex extends AdminSearch
 		return $store;
 	}
 
-	// }}}
-	// {{{ protected function getWhereClause()
+
+
 
 	protected function getWhereClause()
 	{
@@ -136,7 +136,7 @@ class InquisitionQuestionIndex extends AdminSearch
 		return $where;
 	}
 
-	// }}}
+
 }
 
 ?>

@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionHint extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -26,8 +26,8 @@ class InquisitionQuestionHint extends SwatDBDataObject
 	 */
 	public $displayorder;
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -40,7 +40,7 @@ class InquisitionQuestionHint extends SwatDBDataObject
 		);
 	}
 
-	// }}}
+
 }
 
 ?>

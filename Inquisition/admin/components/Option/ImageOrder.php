@@ -9,7 +9,7 @@
  */
 class InquisitionOptionImageOrder extends AdminDBOrder
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestionOption
@@ -21,10 +21,10 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -34,8 +34,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initOption()
+
+
 
 	protected function initOption()
 	{
@@ -67,8 +67,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -79,8 +79,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -100,10 +100,10 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		return $inquisition;
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveIndex()
+
 
 	protected function saveIndex($id, $index)
 	{
@@ -113,16 +113,16 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function getUpdatedMessage()
+
+
 
 	protected function getUpdatedMessage()
 	{
 		return new SwatMessage(Inquisition::_('Image order has been updated.'));
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -135,10 +135,10 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadData()
+
 
 	protected function loadData()
 	{
@@ -165,8 +165,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
 	}
 
-	// }}}
-	// {{{ protected function buildInternal()
+
+
 
 	protected function buildInternal()
 	{
@@ -177,8 +177,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		parent::buildInternal();
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -192,8 +192,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -232,8 +232,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getOptionTitle()
+
+
 
 	protected function getOptionTitle()
 	{
@@ -243,8 +243,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -252,8 +252,8 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -268,15 +268,15 @@ class InquisitionOptionImageOrder extends AdminDBOrder
 		return $suffix;
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
 		return Inquisition::_('Change Image Order');
 	}
 
-	// }}}
+
 }
 
 ?>

@@ -9,7 +9,7 @@
  */
 class Inquisition
 {
-	// {{{ constants
+
 
 	/**
 	 * The gettext domain for Inquisition
@@ -18,8 +18,8 @@ class Inquisition
 	 */
 	const GETTEXT_DOMAIN = 'inquisition';
 
-	// }}}
-	// {{{ private properties
+
+
 
 	/**
 	 * Whether or not this package is initialized
@@ -28,8 +28,8 @@ class Inquisition
 	 */
 	private static $is_initialized = false;
 
-	// }}}
-	// {{{ public static function _()
+
+
 
 	/**
 	 * Translates a phrase
@@ -45,8 +45,8 @@ class Inquisition
 		return self::gettext($message);
 	}
 
-	// }}}
-	// {{{ public static function gettext()
+
+
 
 	/**
 	 * Translates a phrase
@@ -63,8 +63,8 @@ class Inquisition
 		return dgettext(self::GETTEXT_DOMAIN, $message);
 	}
 
-	// }}}
-	// {{{ public static function ngettext()
+
+
 
 	/**
 	 * Translates a plural phrase
@@ -92,8 +92,8 @@ class Inquisition
 			$singular_message, $plural_message, $number);
 	}
 
-	// }}}
-	// {{{ public static function setupGettext()
+
+
 
 	public static function setupGettext()
 	{
@@ -101,8 +101,8 @@ class Inquisition
 		bind_textdomain_codeset(self::GETTEXT_DOMAIN, 'UTF-8');
 	}
 
-	// }}}
-	// {{{ public static function getConfigDefinitions()
+
+
 
 	/**
 	 * Gets configuration definitions used by the Inquisition package
@@ -120,8 +120,8 @@ class Inquisition
 		return array();
 	}
 
-	// }}}
-	// {{{ public static function init()
+
+
 
 	public static function init()
 	{
@@ -140,8 +140,8 @@ class Inquisition
 		self::$is_initialized = true;
 	}
 
-	// }}}
-	// {{{ private function __construct()
+
+
 
 	/**
 	 * Prevent instantiation of this static class
@@ -150,7 +150,7 @@ class Inquisition
 	{
 	}
 
-	// }}}
+
 }
 
 ?>

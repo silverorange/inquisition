@@ -9,17 +9,17 @@
  */
 class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestionOption
 	 */
 	protected $option;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -28,8 +28,8 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		$this->initOption();
 	}
 
-	// }}}
-	// {{{ protected function initOption()
+
+
 
 	protected function initOption()
 	{
@@ -56,18 +56,18 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		}
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ abstract protected function getImageClass()
+
 
 	protected function getImageClass()
 	{
 		return SwatDBClassMap::get('InquisitionQuestionOptionImage');
 	}
 
-	// }}}
-	// {{{ protected function updateBindings()
+
+
 
 	protected function updateBindings(SiteImage $image)
 	{
@@ -81,8 +81,8 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		SwatDB::exec($this->app->db, $sql);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -95,17 +95,17 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadDBData()
+
 
 	protected function loadDBData()
 	{
 	}
 
-	// }}}
-	// {{{ protected function buildFrame()
+
+
 
 	protected function buildFrame()
 	{
@@ -114,8 +114,8 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		$frame->subtitle = $this->getTitle();
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -142,16 +142,16 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
 		return Inquisition::_('Add Image');
 	}
 
-	// }}}
-	// {{{ protected function getOptionTitle()
+
+
 
 	protected function getOptionTitle()
 	{
@@ -161,8 +161,8 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		);
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -170,8 +170,8 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -186,7 +186,7 @@ class InquisitionOptionImageUpload extends InquisitionInquisitionImageUpload
 		return $suffix;
 	}
 
-	// }}}
+
 }
 
 ?>

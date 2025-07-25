@@ -9,15 +9,15 @@
  */
 class InquisitionRadioListQuestionView extends InquisitionQuestionView
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var SwatRadioList
 	 */
 	protected $radio_list;
 
-	// }}}
-	// {{{ public function getWidget()
+
+
 
 	public function getWidget(InquisitionResponseValue $value = null)
 	{
@@ -42,8 +42,8 @@ class InquisitionRadioListQuestionView extends InquisitionQuestionView
 		return $this->radio_list;
 	}
 
-	// }}}
-	// {{{ public function getResponseValue()
+
+
 
 	public function getResponseValue()
 	{
@@ -52,7 +52,7 @@ class InquisitionRadioListQuestionView extends InquisitionQuestionView
 		return $value;
 	}
 
-	// }}}
+
 }
 
 ?>

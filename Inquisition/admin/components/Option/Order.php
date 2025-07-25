@@ -9,7 +9,7 @@
  */
 class InquisitionOptionOrder extends AdminDBOrder
 {
-	// {{{ protected properties
+
 
 	/**
 	 * @var InquisitionQuestion
@@ -21,10 +21,10 @@ class InquisitionOptionOrder extends AdminDBOrder
 	 */
 	protected $inquisition;
 
-	// }}}
+
 
 	// init phase
-	// {{{ protected function initInternal()
+
 
 	protected function initInternal()
 	{
@@ -34,8 +34,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		$this->initInquisition();
 	}
 
-	// }}}
-	// {{{ protected function initQuestion()
+
+
 
 	protected function initQuestion()
 	{
@@ -64,8 +64,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function initInquisition()
+
+
 
 	protected function initInquisition()
 	{
@@ -76,8 +76,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function loadInquisition()
+
+
 
 	protected function loadInquisition($inquisition_id)
 	{
@@ -97,10 +97,10 @@ class InquisitionOptionOrder extends AdminDBOrder
 		return $inquisition;
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function saveIndex()
+
 
 	protected function saveIndex($id, $index)
 	{
@@ -110,8 +110,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function getUpdatedMessage()
+
+
 
 	protected function getUpdatedMessage()
 	{
@@ -120,8 +120,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
-	// {{{ protected function relocate()
+
+
 
 	protected function relocate()
 	{
@@ -134,10 +134,10 @@ class InquisitionOptionOrder extends AdminDBOrder
 		);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function loadData()
+
 
 	protected function loadData()
 	{
@@ -158,8 +158,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
 	}
 
-	// }}}
-	// {{{ protected function buildInternal()
+
+
 
 	protected function buildInternal()
 	{
@@ -171,8 +171,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		parent::buildInternal();
 	}
 
-	// }}}
-	// {{{ protected function buildForm()
+
+
 
 	protected function buildForm()
 	{
@@ -186,8 +186,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		}
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -217,8 +217,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		$this->navbar->createEntry($this->getTitle());
 	}
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
+
+
 
 	protected function getQuestionTitle()
 	{
@@ -226,8 +226,8 @@ class InquisitionOptionOrder extends AdminDBOrder
 		return Inquisition::_('Question');
 	}
 
-	// }}}
-	// {{{ protected function getLinkSuffix()
+
+
 
 	protected function getLinkSuffix()
 	{
@@ -242,15 +242,15 @@ class InquisitionOptionOrder extends AdminDBOrder
 		return $suffix;
 	}
 
-	// }}}
-	// {{{ protected function getTitle()
+
+
 
 	protected function getTitle()
 	{
 		return Inquisition::_('Change Option Order');
 	}
 
-	// }}}
+
 }
 
 ?>

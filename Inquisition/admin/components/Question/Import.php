@@ -9,31 +9,31 @@
  */
 class InquisitionQuestionImport extends AdminObjectEdit
 {
-	// {{{ protected properties
+
 
 	protected $imported_question_count = 0;
 
-	// }}}
 
-	// {{{ protected function getUiXml()
+
+
 
 	protected function getUiXml()
 	{
 		return __DIR__.'/import.xml';
 	}
 
-	// }}}
-	// {{{ protected function getObjectClass()
+
+
 
 	protected function getObjectClass()
 	{
 		return 'InquisitionInquisition';
 	}
 
-	// }}}
+
 
 	// process phase
-	// {{{ protected function validate()
+
 
 	protected function validate(): void
 	{
@@ -48,8 +48,8 @@ class InquisitionQuestionImport extends AdminObjectEdit
 		}
 	}
 
-	// }}}
-	// {{{ protected function importInquisition()
+
+
 
 	protected function importInquisition($filename)
 	{
@@ -73,8 +73,8 @@ class InquisitionQuestionImport extends AdminObjectEdit
 			$initial_questions_count;
 	}
 
-	// }}}
-	// {{{ protected function getSavedMessage()
+
+
 
 	protected function getSavedMessage()
 	{
@@ -92,26 +92,26 @@ class InquisitionQuestionImport extends AdminObjectEdit
 		);
 	}
 
-	// }}}
-	// {{{ protected function getFileParser()
+
+
 
 	protected function getFileParser($filename)
 	{
 		return new InquisitionFileParser($filename);
 	}
 
-	// }}}
-	// {{{ protected function getImporter()
+
+
 
 	protected function getImporter()
 	{
 		return new InquisitionImporter($this->app);
 	}
 
-	// }}}
+
 
 	// build phase
-	// {{{ protected function buildFrame()
+
 
 	protected function buildFrame()
 	{
@@ -121,8 +121,8 @@ class InquisitionQuestionImport extends AdminObjectEdit
 			Inquisition::_('Import Questions');
 	}
 
-	// }}}
-	// {{{ protected function buildNavBar()
+
+
 
 	protected function buildNavBar()
 	{
@@ -131,7 +131,7 @@ class InquisitionQuestionImport extends AdminObjectEdit
 		$this->navbar->createEntry(Inquisition::_('Import Questions'));
 	}
 
-	// }}}
+
 }
 
 ?>

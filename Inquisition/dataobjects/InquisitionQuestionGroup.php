@@ -9,7 +9,7 @@
  */
 class InquisitionQuestionGroup extends SwatDBDataObject
 {
-	// {{{ public properties
+
 
 	/**
 	 * @var integer
@@ -26,8 +26,8 @@ class InquisitionQuestionGroup extends SwatDBDataObject
 	 */
 	public $bodytext;
 
-	// }}}
-	// {{{ protected function init()
+
+
 
 	protected function init()
 	{
@@ -35,7 +35,7 @@ class InquisitionQuestionGroup extends SwatDBDataObject
 		$this->id_field = 'integer:id';
 	}
 
-	// }}}
+
 }
 
 ?>
