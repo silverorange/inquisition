@@ -1,19 +1,19 @@
 #question_option_table_view .title .swat-textarea {
-	width: 97%;
-	padding: 1px 2px;
-	resize: vertical;
+  width: 97%;
+  padding: 1px 2px;
+  resize: vertical;
 }
 
 #question_option_table_view .title {
-	width: 100%;
+  width: 100%;
 }
 
 #question_option_table_view thead th,
 #question_option_table_view td.correct-option,
 #question_option_table_view td.checkbox-column {
-	text-align: center;
+  text-align: center;
 }
 
 #bodytext {
-	width: 97%;
+  width: 97%;
 }
