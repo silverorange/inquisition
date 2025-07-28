@@ -1,176 +1,135 @@
 <?php
 
 /**
- * Upload page for inquisition images
+ * Upload page for inquisition images.
  *
- * @package   Inquisition
  * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 abstract class InquisitionInquisitionImageUpload extends AdminDBEdit
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitionInquisition
+     */
+    protected $inquisition;
 
-	/**
-	 * @var InquisitionInquisition
-	 */
-	protected $inquisition;
+    // init phase
 
-	// }}}
+    protected function initInternal()
+    {
+        parent::initInternal();
 
-	// init phase
-	// {{{ protected function initInternal()
+        $this->ui->loadFromXML($this->getUiXml());
 
-	protected function initInternal()
-	{
-		parent::initInternal();
+        $this->initInquisition();
+    }
 
-		$this->ui->loadFromXML($this->getUiXml());
+    protected function initInquisition()
+    {
+        $inquisition_id = SiteApplication::initVar('inquisition');
 
-		$this->initInquisition();
-	}
+        if ($inquisition_id !== null) {
+            $this->inquisition = $this->loadInquisition($inquisition_id);
+        }
+    }
 
-	// }}}
-	// {{{ protected function initInquisition()
+    protected function loadInquisition($inquisition_id)
+    {
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
+        $inquisition->setDatabase($this->app->db);
 
-	protected function initInquisition()
-	{
-		$inquisition_id = SiteApplication::initVar('inquisition');
+        if (!$inquisition->load($inquisition_id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition with id ‘%s’ not found.',
+                    $inquisition_id
+                )
+            );
+        }
 
-		if ($inquisition_id !== null) {
-			$this->inquisition = $this->loadInquisition($inquisition_id);
-		}
-	}
+        return $inquisition;
+    }
 
-	// }}}
-	// {{{ protected function loadInquisition()
+    protected function getUiXml()
+    {
+        return __DIR__ . '/image-upload.xml';
+    }
 
-	protected function loadInquisition($inquisition_id)
-	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$inquisition = new $class;
-		$inquisition->setDatabase($this->app->db);
+    // process phase
 
-		if (!$inquisition->load($inquisition_id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$inquisition_id
-				)
-			);
-		}
+    protected function saveDBData(): void
+    {
+        $original = $this->ui->getWidget('original_image');
 
-		return $inquisition;
-	}
+        $image = $this->getImageObject();
+        $image->process($original->getTempFileName());
 
-	// }}}
-	// {{{ protected function getUiXml()
+        $this->updateBindings($image);
 
-	protected function getUiXml()
-	{
-		return __DIR__.'/image-upload.xml';
-	}
+        $this->app->messages->add(
+            new SwatMessage(
+                sprintf(
+                    Inquisition::_('Image has been saved.'),
+                    $image->title
+                )
+            )
+        );
+    }
 
-	// }}}
+    protected function getImageObject()
+    {
+        $class_name = $this->getImageClass();
 
-	// process phase
-	// {{{ protected function saveDBData()
+        $image = new $class_name();
+        $image->setDatabase($this->app->db);
+        $image->setFileBase('../images');
 
-	protected function saveDBData(): void
-	{
-		$original = $this->ui->getWidget('original_image');
+        return $image;
+    }
 
-		$image = $this->getImageObject();
-		$image->process($original->getTempFileName());
+    abstract protected function getImageClass();
 
-		$this->updateBindings($image);
+    abstract protected function updateBindings(SiteImage $image);
 
-		$this->app->messages->add(
-			new SwatMessage(
-				sprintf(
-					Inquisition::_('Image has been saved.'),
-					$image->title
-				)
-			)
-		);
-	}
+    // build phase
 
-	// }}}
-	// {{{ protected function getImageObject()
+    protected function buildForm()
+    {
+        parent::buildForm();
 
-	protected function getImageObject()
-	{
-		$class_name = $this->getImageClass();
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $form = $this->ui->getWidget('edit_form');
+            $form->addHiddenField('inquisition', $this->inquisition->id);
+        }
+    }
 
-		$image = new $class_name();
-		$image->setDatabase($this->app->db);
-		$image->setFileBase('../images');
+    protected function buildNavBar()
+    {
+        parent::buildNavBar();
 
-		return $image;
-	}
+        $this->navbar->popEntry();
 
-	// }}}
-	// {{{ abstract protected function getImageClass()
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
+    }
 
-	abstract protected function getImageClass();
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-	// }}}
-	// {{{ abstract protected function updateBindings()
-
-	abstract protected function updateBindings(SiteImage $image);
-
-	// }}}
-
-	// build phase
-	// {{{ protected function buildForm()
-
-	protected function buildForm()
-	{
-		parent::buildForm();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$form = $this->ui->getWidget('edit_form');
-			$form->addHiddenField('inquisition', $this->inquisition->id);
-		}
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
-	}
-
-	// }}}
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
+        return $suffix;
+    }
 }
-
-?>

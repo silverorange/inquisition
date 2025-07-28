@@ -1,93 +1,70 @@
 <?php
 
 /**
- * @package   Inquisition
  * @copyright 2014-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionImporter
 {
-	// {{{ protected properties
+    /**
+     * @var SiteApplication
+     */
+    protected $app;
 
-	/**
-	 * @var SiteApplication
-	 */
-	protected $app;
+    public function __construct(SiteApplication $app)
+    {
+        $this->app = $app;
+    }
 
-	// }}}
-	// {{{ public function __construct()
+    // inquisition
 
-	public function __construct(SiteApplication $app)
-	{
-		$this->app = $app;
-	}
+    public function importInquisition(
+        InquisitionInquisition $inquisition,
+        InquisitionFileParser $file
+    ) {
+        $this->importInquisitionProperties($inquisition, $file);
+        $this->importQuestions($inquisition, $file);
+    }
 
-	// }}}
+    protected function importInquisitionProperties(
+        InquisitionInquisition $inquisition,
+        InquisitionFileParser $file
+    ) {}
 
-	// inquisition
-	// {{{ public function importInquisition()
+    // questions
 
-	public function importInquisition(
-		InquisitionInquisition $inquisition,
-		InquisitionFileParser $file
-	) {
-		$this->importInquisitionProperties($inquisition, $file);
-		$this->importQuestions($inquisition, $file);
-	}
+    protected function importQuestions(
+        InquisitionInquisition $inquisition,
+        InquisitionFileParser $file
+    ) {
+        $importer = $this->getQuestionImporter();
+        $questions = $importer->importQuestions($file);
 
-	// }}}
-	// {{{ protected function importInquisitionProperties()
+        $binding_class = SwatDBClassMap::get(
+            InquisitionInquisitionQuestionBinding::class
+        );
 
-	protected function importInquisitionProperties(
-		InquisitionInquisition $inquisition,
-		InquisitionFileParser $file
-	) {
-	}
+        foreach ($questions as $question) {
+            $binding = new $binding_class();
+            $binding->setDatabase($this->app->db);
 
-	// }}}
+            $binding->question = $question;
+            $binding->inquisition = $inquisition;
 
-	// questions
-	// {{{ protected function importQuestions()
+            $previous_binding = $inquisition->question_bindings->getLast();
 
-	protected function importQuestions(
-		InquisitionInquisition $inquisition,
-		InquisitionFileParser $file
-	) {
-		$importer = $this->getQuestionImporter();
-		$questions = $importer->importQuestions($file);
+            if ($previous_binding instanceof $binding_class) {
+                $binding->displayorder = $previous_binding->displayorder + 1;
+            } else {
+                $binding->displayorder = 1;
+            }
 
-		foreach ($questions as $question) {
-			$binding_class = SwatDBClassMap::get(
-				'InquisitionInquisitionQuestionBinding'
-			);
+            $inquisition->question_bindings->add($binding);
+        }
+    }
 
-			$binding = new $binding_class();
-			$binding->setDatabase($this->app->db);
-
-			$binding->question = $question;
-			$binding->inquisition = $inquisition;
-
-			$previous_binding = $inquisition->question_bindings->getLast();
-
-			if ($previous_binding instanceof $binding_class) {
-				$binding->displayorder = $previous_binding->displayorder + 1;
-			} else {
-				$binding->displayorder = 1;
-			}
-
-			$inquisition->question_bindings->add($binding);
-		}
-	}
-
-	// }}}
-	// {{{ protected function getQuestionImporter()
-
-	protected function getQuestionImporter()
-	{
-		return new InquisitionQuestionImporter($this->app);
-	}
-
-	// }}}
+    protected function getQuestionImporter()
+    {
+        return new InquisitionQuestionImporter($this->app);
+    }
 }
-
-?>

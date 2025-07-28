@@ -1,108 +1,87 @@
 <?php
 
 /**
- * Delete confirmation page for question images
+ * Delete confirmation page for question images.
  *
- * @package   Inquisition
  * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitonQuestion
+     */
+    protected $question;
 
-	/**
-	 * @var InquisitonQuestion
-	 */
-	protected $question;
+    // helper methods
 
-	// }}}
+    public function setId($id)
+    {
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
+        $this->question->setDatabase($this->app->db);
 
-	// helper methods
-	// {{{ public function setId()
+        if ($id == '') {
+            throw new AdminNotFoundException(
+                'Question id not provided.'
+            );
+        }
 
-	public function setId($id)
-	{
-		$class_name = SwatDBClassMap::get('InquisitionQuestion');
+        if (!$this->question->load($id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Question with id ‘%s’ not found.',
+                    $id
+                )
+            );
+        }
 
-		$this->question = new $class_name();
-		$this->question->setDatabase($this->app->db);
+        parent::setId($id);
+    }
 
-		if ($id == '') {
-			throw new AdminNotFoundException(
-				'Question id not provided.'
-			);
-		}
+    protected function getImageWrapper()
+    {
+        return SwatDBClassMap::get(InquisitionQuestionImageWrapper::class);
+    }
 
-		if (!$this->question->load($id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Question with id ‘%s’ not found.',
-					$id
-				)
-			);
-		}
+    // build phase
 
-		parent::setId($id);
-	}
+    protected function buildNavBar()
+    {
+        AdminDBDelete::buildNavBar();
 
-	// }}}
-	// {{{ protected function getImageWrapper()
+        $this->navbar->popEntry();
 
-	protected function getImageWrapper()
-	{
-		return SwatDBClassMap::get('InquisitionQuestionImageWrapper');
-	}
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-	// }}}
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-	// build phase
-	// {{{ protected function buildNavBar()
+        $this->navbar->createEntry(
+            ngettext(
+                'Delete Image',
+                'Delete Images',
+                count($this->images)
+            )
+        );
+    }
 
-	protected function buildNavBar()
-	{
-		AdminDBDelete::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
-
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-
-		$this->navbar->createEntry(
-			ngettext(
-				'Delete Image',
-				'Delete Images',
-				count($this->images)
-			)
-		);
-	}
-
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 }
-
-?>

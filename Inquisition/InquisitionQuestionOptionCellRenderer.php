@@ -1,39 +1,31 @@
 <?php
 
 /**
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionOptionCellRenderer extends SwatTextCellRenderer
 {
-	// {{{ public properties
+    /**
+     * @var bool
+     */
+    public $correct = false;
 
-	/**
-	 * @var boolean
-	 */
-	public $correct = false;
+    public function render()
+    {
+        if (!$this->visible) {
+            return;
+        }
 
-	// }}}
-	// {{{ public function render()
+        $span = new SwatHtmlTag('span');
+        $span->class = 'inquisition-question-option';
 
-	public function render()
-	{
-		if (!$this->visible)
-			return;
+        if ($this->correct) {
+            $span->class .= ' inquisition-question-option-correct';
+        }
 
-		$span = new SwatHtmlTag('span');
-		$span->class = 'inquisition-question-option';
-
-		if ($this->correct)
-			$span->class.= ' inquisition-question-option-correct';
-
-		$span->open();
-		parent::render();
-		$span->close();
-	}
-
-	// }}}
+        $span->open();
+        parent::render();
+        $span->close();
+    }
 }
-
-?>

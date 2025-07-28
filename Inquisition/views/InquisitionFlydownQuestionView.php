@@ -1,55 +1,45 @@
 <?php
 
 /**
- * Flydown question view
+ * Flydown question view.
  *
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionFlydownQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+    private $flydown;
 
-	private $flydown;
+    public function getWidget(?InquisitionResponseValue $value = null)
+    {
+        $binding = $this->question_binding;
+        $question = $this->question_binding->question;
 
-	// }}}
-	// {{{ public function getWidget()
+        if ($this->flydown === null) {
+            $id = sprintf('question%s_%s', $binding->id, $question->id);
 
-	public function getWidget(InquisitionResponseValue $value = null)
-	{
-		$binding = $this->question_binding;
-		$question = $this->question_binding->question;
+            $this->flydown = new SwatFlydown($id);
+            $this->flydown->required = $question->required;
 
-		if ($this->flydown === null) {
-			$id = sprintf('question%s_%s', $binding->id, $question->id);
+            foreach ($question->options as $option) {
+                $this->flydown->addOption($option->id, $option->title);
+            }
+        }
 
-			$this->flydown = new SwatFlydown($id);
-			$this->flydown->required = $question->required;
+        if ($value !== null) {
+            $this->flydown->value = intval(
+                $value->getInternalValue('question_option')
+            );
+        }
 
-			foreach ($question->options as $option)
-				$this->flydown->addOption($option->id, $option->title);
-		}
+        return $this->flydown;
+    }
 
-		if ($value !== null) {
-			$this->flydown->value = intval(
-				$value->getInternalValue('question_option'));
-		}
+    public function getResponseValue()
+    {
+        $value = parent::getResponseValue();
+        $value->question_option = $this->flydown->value;
 
-		return $this->flydown;
-	}
-
-	// }}}
-	// {{{ public function getResponseValue()
-
-	public function getResponseValue()
-	{
-		$value = parent::getResponseValue();
-		$value->question_option = $this->flydown->value;
-		return $value;
-	}
-
-	// }}}
+        return $value;
+    }
 }
-
-?>

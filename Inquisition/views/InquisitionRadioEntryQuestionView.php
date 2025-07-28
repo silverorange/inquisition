@@ -1,64 +1,51 @@
 <?php
 
 /**
- * Radio list with text question view
+ * Radio list with text question view.
  *
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionRadioEntryQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+    private $radio_table;
 
-	private $radio_table;
+    public function getWidget(?InquisitionResponseValue $value = null)
+    {
+        $binding = $this->question_binding;
+        $question = $this->question_binding->question;
 
-	// }}}
-	// {{{ public function getWidget()
+        if (!$this->radio_table instanceof InquisitionRadioEntryList) {
+            $id = sprintf('question%s_%s', $binding->id, $question->id);
 
-	public function getWidget(InquisitionResponseValue $value = null)
-	{
-		$binding = $this->question_binding;
-		$question = $this->question_binding->question;
+            $this->radio_table = new InquisitionRadioEntryList($id);
+            $this->radio_table->required = $question->required;
 
-		if (!$this->radio_table instanceof InquisitionRadioEntryList) {
-			$id = sprintf('question%s_%s', $binding->id, $question->id);
+            foreach ($question->options as $option) {
+                $this->radio_table->addOption($option->id, $option->title);
+                if ($option->include_text) {
+                    $this->radio_table->setEntryOption($option->id);
+                }
+            }
+        }
 
-			$this->radio_table = new InquisitionRadioEntryList($id);
-			$this->radio_table->required = $question->required;
+        if ($value instanceof InquisitionResponseValue) {
+            $this->radio_table->value = intval(
+                $value->getInternalValue('question_option')
+            );
+        }
 
-			foreach ($question->options as $option) {
-				$this->radio_table->addOption($option->id, $option->title);
-				if ($option->include_text) {
-					$this->radio_table->setEntryOption($option->id);
-				}
-			}
-		}
+        return $this->radio_table;
+    }
 
-		if ($value instanceof InquisitionResponseValue) {
-			$this->radio_table->value = intval(
-				$value->getInternalValue('question_option')
-			);
-		}
+    public function getResponseValue()
+    {
+        $value = parent::getResponseValue();
+        $value->question_option = $this->radio_table->value;
+        $value->text_value = $this->radio_table->getEntryValue(
+            $this->radio_table->value
+        );
 
-		return $this->radio_table;
-	}
-
-	// }}}
-	// {{{ public function getResponseValue()
-
-	public function getResponseValue()
-	{
-		$value = parent::getResponseValue();
-		$value->question_option = $this->radio_table->value;
-		$value->text_value = $this->radio_table->getEntryValue(
-			$this->radio_table->value
-		);
-
-		return $value;
-	}
-
-	// }}}
+        return $value;
+    }
 }
-
-?>

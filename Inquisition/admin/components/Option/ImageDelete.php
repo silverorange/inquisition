@@ -1,148 +1,119 @@
 <?php
 
-	'Inquisition/dataobjects/InquisitionQuestionOptionImageWrapper.php';
-
 /**
- * Delete confirmation page for option images
+ * Delete confirmation page for option images.
  *
- * @package   Inquisition
  * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitonQuestionOption
+     */
+    protected $option;
 
-	/**
-	 * @var InquisitonQuestionOption
-	 */
-	protected $option;
+    // helper methods
 
-	// }}}
+    public function setId($id)
+    {
+        $this->option = SwatDBClassMap::new(InquisitionQuestionOption::class);
+        $this->option->setDatabase($this->app->db);
 
-	// helper methods
-	// {{{ public function setId()
+        if ($id == '') {
+            throw new AdminNotFoundException(
+                'Option id not provided.'
+            );
+        }
 
-	public function setId($id)
-	{
-		$class_name = SwatDBClassMap::get('InquisitionQuestionOption');
+        if (!$this->option->load($id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Option with id ‘%s’ not found.',
+                    $id
+                )
+            );
+        }
 
-		$this->option = new $class_name();
-		$this->option->setDatabase($this->app->db);
+        parent::setId($id);
+    }
 
-		if ($id == '') {
-			throw new AdminNotFoundException(
-				'Option id not provided.'
-			);
-		}
+    protected function getImageWrapper()
+    {
+        return SwatDBClassMap::get(InquisitionQuestionOptionImageWrapper::class);
+    }
 
-		if (!$this->option->load($id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Option with id ‘%s’ not found.',
-					$id
-				)
-			);
-		}
+    // build phase
 
-		parent::setId($id);
-	}
+    protected function buildNavBar()
+    {
+        AdminDBDelete::buildNavBar();
 
-	// }}}
-	// {{{ protected function getImageWrapper()
+        $this->navbar->popEntry();
 
-	protected function getImageWrapper()
-	{
-		return SwatDBClassMap::get('InquisitionQuestionOptionImageWrapper');
-	}
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-	// }}}
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->option->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-	// build phase
-	// {{{ protected function buildNavBar()
+        if ($this->option instanceof InquisitionQuestionOption) {
+            $this->navbar->createEntry(
+                $this->getOptionTitle(),
+                sprintf(
+                    'Option/Details?id=%s%s',
+                    $this->option->id,
+                    $this->getLinkSuffix()
+                )
+            );
+        }
 
-	protected function buildNavBar()
-	{
-		AdminDBDelete::buildNavBar();
+        $this->navbar->createEntry(
+            Inquisition::ngettext(
+                'Delete Image',
+                'Delete Images',
+                count($this->images)
+            )
+        );
+    }
 
-		$this->navbar->popEntry();
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
+    protected function getOptionTitle()
+    {
+        return sprintf(
+            Inquisition::_('Option %s'),
+            $this->option->position
+        );
+    }
 
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->option->question->id,
-				$this->getLinkSuffix()
-			)
-		);
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-		if ($this->option instanceof InquisitionQuestionOption) {
-			$this->navbar->createEntry(
-				$this->getOptionTitle(),
-				sprintf(
-					'Option/Details?id=%s%s',
-					$this->option->id,
-					$this->getLinkSuffix()
-				)
-			);
-		}
-
-		$this->navbar->createEntry(
-			Inquisition::ngettext(
-				'Delete Image',
-				'Delete Images',
-				count($this->images)
-			)
-		);
-	}
-
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
-	// {{{ protected function getOptionTitle()
-
-	protected function getOptionTitle()
-	{
-		return sprintf(
-				Inquisition::_('Option %s'),
-				$this->option->position
-			);
-	}
-
-	// }}}
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
+        return $suffix;
+    }
 }
-
-?>

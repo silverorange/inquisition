@@ -1,263 +1,230 @@
 <?php
 
 /**
- * Delete confirmation page for options
+ * Delete confirmation page for options.
  *
- * @package   Inquisition
  * @copyright 2012-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionOptionDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+    /**
+     * @var AcademyQuestion
+     */
+    protected $question;
 
-	/**
-	 * @var AcademyQuestion
-	 */
-	protected $question;
+    /**
+     * @var InquisitionInquisition
+     */
+    protected $inquisition;
 
-	/**
-	 * @var InquisitionInquisition
-	 */
-	protected $inquisition;
+    // helper methods
 
-	// }}}
+    public function setId($id)
+    {
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
+        $this->question->setDatabase($this->app->db);
 
-	// helper methods
-	// {{{ public function setId()
+        if ($id == '') {
+            throw new AdminNotFoundException('Question id not provided.');
+        }
 
-	public function setId($id)
-	{
-		$class_name = SwatDBClassMap::get('InquisitionQuestion');
+        if (!$this->question->load($id)) {
+            throw new AdminNotFoundException(
+                sprintf('Question with id ‘%s’ not found.', $id)
+            );
+        }
 
-		$this->question = new $class_name();
-		$this->question->setDatabase($this->app->db);
+        $form = $this->ui->getWidget('confirmation_form');
+        $form->addHiddenField('id', $id);
+    }
 
-		if ($id == '') {
-			throw new AdminNotFoundException('Question id not provided.');
-		}
+    public function setInquisition(?InquisitionInquisition $inquisition = null)
+    {
+        if ($inquisition instanceof InquisitionInquisition) {
+            $this->inquisition = $inquisition;
 
-		if (!$this->question->load($id)) {
-			throw new AdminNotFoundException(
-				sprintf('Question with id ‘%s’ not found.', $id)
-			);
-		}
+            $form = $this->ui->getWidget('confirmation_form');
+            $form->addHiddenField('inquisition_id', $this->inquisition->id);
+        }
+    }
 
-		$form = $this->ui->getWidget('confirmation_form');
-		$form->addHiddenField('id', $id);
-	}
+    // init phase
 
-	// }}}
-	// {{{ public function setInquisition()
+    protected function initInternal()
+    {
+        parent::initInternal();
 
-	public function setInquisition(InquisitionInquisition $inquisition = null)
-	{
-		if ($inquisition instanceof InquisitionInquisition) {
-			$this->inquisition = $inquisition;
+        $form = $this->ui->getWidget('confirmation_form');
+        $id = $form->getHiddenField('id');
+        if ($id != '') {
+            $this->setId($id);
+        }
 
-			$form = $this->ui->getWidget('confirmation_form');
-			$form->addHiddenField('inquisition_id', $this->inquisition->id);
-		}
-	}
+        $inquisition_id = $form->getHiddenField('inquisition_id');
+        if ($inquisition_id != '') {
+            $inquisition = $this->loadInquisition($inquisition_id);
+            $this->setInquisition($inquisition);
+        }
+    }
 
-	// }}}
+    protected function loadInquisition($inquisition_id)
+    {
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
+        $inquisition->setDatabase($this->app->db);
 
-	// init phase
-	// {{{ protected function initInternal()
+        if (!$inquisition->load($inquisition_id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition with id ‘%s’ not found.',
+                    $inquisition_id
+                )
+            );
+        }
 
-	protected function initInternal()
-	{
-		parent::initInternal();
+        return $inquisition;
+    }
 
-		$form = $this->ui->getWidget('confirmation_form');
-		$id = $form->getHiddenField('id');
-		if ($id != '') {
-			$this->setId($id);
-		}
+    // process phase
 
-		$inquisition_id = $form->getHiddenField('inquisition_id');
-		if ($inquisition_id != '') {
-			$inquisition = $this->loadInquisition($inquisition_id);
-			$this->setInquisition($inquisition);
-		}
-	}
+    protected function processDBData(): void
+    {
+        parent::processDBData();
 
-	// }}}
-	// {{{ protected function loadInquisition()
+        $locale = SwatI18NLocale::get();
 
-	protected function loadInquisition($inquisition_id)
-	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$inquisition = new $class;
-		$inquisition->setDatabase($this->app->db);
+        $sql = sprintf(
+            'delete from InquisitionQuestionOption where id in (%s)',
+            $this->getItemList('integer')
+        );
 
-		if (!$inquisition->load($inquisition_id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$inquisition_id
-				)
-			);
-		}
+        $num = SwatDB::exec($this->app->db, $sql);
 
-		return $inquisition;
-	}
+        $this->app->messages->add(
+            new SwatMessage(
+                sprintf(
+                    Inquisition::ngettext(
+                        'One option has been deleted.',
+                        '%s options have been deleted.',
+                        $num
+                    ),
+                    $locale->formatNumber($num)
+                )
+            )
+        );
+    }
 
-	// }}}
+    protected function relocate()
+    {
+        AdminDBConfirmation::relocate();
+    }
 
-	// process phase
-	// {{{ protected function processDBData()
+    // build phase
 
-	protected function processDBData(): void
-	{
-		parent::processDBData();
+    protected function buildInternal()
+    {
+        parent::buildInternal();
 
-		$locale = SwatI18NLocale::get();
+        $item_list = $this->getItemList('integer');
 
-		$sql = sprintf(
-			'delete from InquisitionQuestionOption where id in (%s)',
-			$this->getItemList('integer')
-		);
+        $dep = new AdminListDependency();
+        $dep->setTitle(
+            Inquisition::_('option'),
+            Inquisition::_('options')
+        );
 
-		$num = SwatDB::exec($this->app->db, $sql);
+        $dep->entries = AdminListDependency::queryEntries(
+            $this->app->db,
+            'InquisitionQuestionOption',
+            'id',
+            null,
+            'text:title',
+            'displayorder, id',
+            'id in (' . $item_list . ')',
+            AdminDependency::DELETE
+        );
 
-		$this->app->messages->add(
-			new SwatMessage(
-				sprintf(
-					Inquisition::ngettext(
-						'One option has been deleted.',
-						'%s options have been deleted.',
-						$num
-					),
-					$locale->formatNumber($num)
-				)
-			)
-		);
-	}
+        // check images dependencies
+        $dep_images = new AdminSummaryDependency();
+        $dep_images->setTitle(
+            Inquisition::_('image'),
+            Inquisition::_('images')
+        );
 
-	// }}}
-	// {{{ protected function relocate()
+        $dep_images->summaries = AdminSummaryDependency::querySummaries(
+            $this->app->db,
+            'InquisitionQuestionOptionImageBinding',
+            'integer:image',
+            'integer:question_option',
+            'question_option in (' . $item_list . ')',
+            AdminDependency::DELETE
+        );
 
-	protected function relocate()
-	{
-		AdminDBConfirmation::relocate();
-	}
+        $dep->addDependency($dep_images);
 
-	// }}}
+        foreach ($dep->entries as $entry) {
+            $entry->title = SwatString::condense($entry->title);
+        }
 
-	// build phase
-	// {{{ protected function buildInternal()
+        $message = $this->ui->getWidget('confirmation_message');
+        $message->content = $dep->getMessage();
+        $message->content_type = 'text/xml';
 
-	protected function buildInternal()
-	{
-		parent::buildInternal();
+        if ($dep->getStatusLevelCount(AdminDependency::DELETE) == 0) {
+            $this->switchToCancelButton();
+        }
+    }
 
-		$item_list = $this->getItemList('integer');
+    protected function buildNavBar()
+    {
+        parent::buildNavBar();
 
-		$dep = new AdminListDependency();
-		$dep->setTitle(
-			Inquisition::_('option'),
-			Inquisition::_('options')
-		);
+        $this->navbar->popEntry();
 
-		$dep->entries = AdminListDependency::queryEntries(
-			$this->app->db,
-			'InquisitionQuestionOption', 'id', null, 'text:title',
-			'displayorder, id', 'id in ('.$item_list.')',
-			AdminDependency::DELETE
-		);
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-		// check images dependencies
-		$dep_images = new AdminSummaryDependency();
-		$dep_images->setTitle(
-			Inquisition::_('image'),
-			Inquisition::_('images')
-		);
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-		$dep_images->summaries = AdminSummaryDependency::querySummaries(
-			$this->app->db, 'InquisitionQuestionOptionImageBinding',
-			'integer:image', 'integer:question_option',
-			'question_option in ('.$item_list.')', AdminDependency::DELETE
-		);
+        $this->navbar->createEntry(
+            Inquisition::ngettext(
+                'Delete Option',
+                'Delete Options',
+                $this->getItemCount()
+            )
+        );
+    }
 
-		$dep->addDependency($dep_images);
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 
-		foreach ($dep->entries as $entry) {
-			$entry->title = SwatString::condense($entry->title);
-		}
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-		$message = $this->ui->getWidget('confirmation_message');
-		$message->content = $dep->getMessage();
-		$message->content_type = 'text/xml';
-
-		if ($dep->getStatusLevelCount(AdminDependency::DELETE) == 0) {
-			$this->switchToCancelButton();
-		}
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
-
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-
-		$this->navbar->createEntry(
-			Inquisition::ngettext(
-				'Delete Option',
-				'Delete Options',
-				$this->getItemCount()
-			)
-		);
-	}
-
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
+        return $suffix;
+    }
 }
-
-?>

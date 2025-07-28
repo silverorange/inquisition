@@ -1,46 +1,38 @@
 <?php
 
 /**
- * An inquisition question hint
+ * An inquisition question hint.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionQuestion $question
  */
 class InquisitionQuestionHint extends SwatDBDataObject
 {
-	// {{{ public properties
+    /**
+     * @var int
+     */
+    public $id;
 
-	/**
-	 * @var integer
-	 */
-	public $id;
+    /**
+     * @var ?string
+     */
+    public $bodytext;
 
-	/**
-	 * @var text
-	 */
-	public $bodytext;
+    /**
+     * @var int
+     */
+    public $displayorder;
 
-	/**
-	 * @var integer
-	 */
-	public $displayorder;
+    protected function init()
+    {
+        $this->table = 'InquisitionQuestionHint';
+        $this->id_field = 'integer:id';
 
-	// }}}
-	// {{{ protected function init()
-
-	protected function init()
-	{
-		$this->table = 'InquisitionQuestionHint';
-		$this->id_field = 'integer:id';
-
-		$this->registerInternalProperty(
-			'question',
-			SwatDBClassMap::get('InquisitionQuestion')
-		);
-	}
-
-	// }}}
+        $this->registerInternalProperty(
+            'question',
+            SwatDBClassMap::get(InquisitionQuestion::class)
+        );
+    }
 }
-
-?>

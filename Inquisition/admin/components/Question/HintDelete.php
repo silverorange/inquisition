@@ -1,289 +1,246 @@
 <?php
 
 /**
- * Delete confirmation page for question hints
+ * Delete confirmation page for question hints.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintDelete extends AdminDBDelete
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitonQuestionHintWrapper
+     */
+    protected $hints;
 
-	/**
-	 * @var InquisitonQuestionHintWrapper
-	 */
-	protected $hints;
+    /**
+     * @var InquisitonQuestion
+     */
+    protected $question;
 
-	/**
-	 * @var InquisitonQuestion
-	 */
-	protected $question;
+    /**
+     * @var InquisitionInquisition
+     */
+    protected $inquisition;
 
-	/**
-	 * @var InquisitionInquisition
-	 */
-	protected $inquisition;
+    // helper methods
 
-	// }}}
+    public function setId($id)
+    {
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
+        $this->question->setDatabase($this->app->db);
 
-	// helper methods
-	// {{{ public function setId()
+        if ($id == '') {
+            throw new AdminNotFoundException(
+                'Question id not provided.'
+            );
+        }
 
-	public function setId($id)
-	{
-		$class_name = SwatDBClassMap::get('InquisitionQuestion');
+        if (!$this->question->load($id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Question with id ‘%s’ not found.',
+                    $id
+                )
+            );
+        }
 
-		$this->question = new $class_name();
-		$this->question->setDatabase($this->app->db);
+        $form = $this->ui->getWidget('confirmation_form');
+        $form->addHiddenField('id', $id);
+    }
 
-		if ($id == '') {
-			throw new AdminNotFoundException(
-				'Question id not provided.'
-			);
-		}
+    public function setItems($items, $extended_selected = false)
+    {
+        parent::setItems($items, $extended_selected);
 
-		if (!$this->question->load($id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Question with id ‘%s’ not found.',
-					$id
-				)
-			);
-		}
-
-		$form = $this->ui->getWidget('confirmation_form');
-		$form->addHiddenField('id', $id);
-	}
-
-	// }}}
-	// {{{ public function setItems()
-
-	public function setItems($items, $extended_selected = false)
-	{
-		parent::setItems($items, $extended_selected);
-
-		$sql = sprintf(
-			'select InquisitionQuestionHint.*
+        $sql = sprintf(
+            'select InquisitionQuestionHint.*
 			from InquisitionQuestionHint where id in (%s)',
-			$this->getItemList('integer')
-		);
+            $this->getItemList('integer')
+        );
 
-		$this->hints = SwatDB::query(
-			$this->app->db,
-			$sql,
-			SwatDBClassMap::get('InquisitionQuestionHintWrapper')
-		);
-	}
+        $this->hints = SwatDB::query(
+            $this->app->db,
+            $sql,
+            SwatDBClassMap::get(InquisitionQuestionHintWrapper::class)
+        );
+    }
 
-	// }}}
-	// {{{ public function setInquisition()
+    public function setInquisition(?InquisitionInquisition $inquisition = null)
+    {
+        if ($inquisition instanceof InquisitionInquisition) {
+            $this->inquisition = $inquisition;
 
-	public function setInquisition(?InquisitionInquisition $inquisition = null)
-	{
-		if ($inquisition instanceof InquisitionInquisition) {
-			$this->inquisition = $inquisition;
+            $form = $this->ui->getWidget('confirmation_form');
+            $form->addHiddenField('inquisition_id', $this->inquisition->id);
+        }
+    }
 
-			$form = $this->ui->getWidget('confirmation_form');
-			$form->addHiddenField('inquisition_id', $this->inquisition->id);
-		}
-	}
+    // init phase
 
-	// }}}
+    protected function initInternal()
+    {
+        parent::initInternal();
 
-	// init phase
-	// {{{ protected function initInternal()
+        $form = $this->ui->getWidget('confirmation_form');
+        $id = $form->getHiddenField('id');
+        if ($id != '') {
+            $this->setId($id);
+        }
 
-	protected function initInternal()
-	{
-		parent::initInternal();
+        $inquisition_id = $form->getHiddenField('inquisition_id');
+        if ($inquisition_id != '') {
+            $inquisition = $this->loadInquisition($inquisition_id);
+            $this->setInquisition($inquisition);
+        }
+    }
 
-		$form = $this->ui->getWidget('confirmation_form');
-		$id = $form->getHiddenField('id');
-		if ($id != '') {
-			$this->setId($id);
-		}
+    protected function loadInquisition($inquisition_id)
+    {
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
+        $inquisition->setDatabase($this->app->db);
 
-		$inquisition_id = $form->getHiddenField('inquisition_id');
-		if ($inquisition_id != '') {
-			$inquisition = $this->loadInquisition($inquisition_id);
-			$this->setInquisition($inquisition);
-		}
-	}
+        if (!$inquisition->load($inquisition_id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition with id ‘%s’ not found.',
+                    $inquisition_id
+                )
+            );
+        }
 
-	// }}}
-	// {{{ protected function loadInquisition()
+        return $inquisition;
+    }
 
-	protected function loadInquisition($inquisition_id)
-	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$inquisition = new $class;
-		$inquisition->setDatabase($this->app->db);
+    // process phase
 
-		if (!$inquisition->load($inquisition_id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$inquisition_id
-				)
-			);
-		}
+    protected function processDBData(): void
+    {
+        parent::processDBData();
 
-		return $inquisition;
-	}
+        $sql = sprintf(
+            'delete from InquisitionQuestionHint where id in (%s)',
+            $this->getItemList('integer')
+        );
 
-	// }}}
+        $delete_count = SwatDB::exec($this->app->db, $sql);
+        $locale = SwatI18NLocale::get();
 
-	// process phase
-	// {{{ protected function processDBData()
+        $this->app->messages->add(
+            new SwatMessage(
+                sprintf(
+                    Inquisition::ngettext(
+                        'One hint has been deleted.',
+                        '%s hints have been deleted.',
+                        $delete_count
+                    ),
+                    $locale->formatNumber($delete_count)
+                )
+            )
+        );
+    }
 
-	protected function processDBData(): void
-	{
-		parent::processDBData();
+    protected function relocate()
+    {
+        AdminDBConfirmation::relocate();
+    }
 
-		$sql = sprintf(
-			'delete from InquisitionQuestionHint where id in (%s)',
-			$this->getItemList('integer')
-		);
+    // build phase
 
-		$delete_count = SwatDB::exec($this->app->db, $sql);
-		$locale = SwatI18NLocale::get();
+    protected function buildInternal()
+    {
+        parent::buildInternal();
 
-		$this->app->messages->add(
-			new SwatMessage(
-				sprintf(
-					Inquisition::ngettext(
-						'One hint has been deleted.',
-						'%s hints have been deleted.',
-						$delete_count
-					),
-					$locale->formatNumber($delete_count)
-				)
-			)
-		);
-	}
+        $item_list = $this->getItemList('integer');
 
-	// }}}
-	// {{{ protected function relocate()
+        $dep = new AdminListDependency();
+        $dep->setTitle(
+            Inquisition::_('hint'),
+            Inquisition::_('hints')
+        );
 
-	protected function relocate()
-	{
-		AdminDBConfirmation::relocate();
-	}
+        $dep->entries = AdminListDependency::queryEntries(
+            $this->app->db,
+            'InquisitionQuestionHint',
+            'id',
+            null,
+            'text:bodytext',
+            'displayorder, id',
+            'id in (' . $item_list . ')',
+            AdminDependency::DELETE
+        );
 
-	// }}}
+        foreach ($dep->entries as $entry) {
+            $entry->title = SwatString::condense($entry->title, 50);
+        }
 
-	// build phase
-	// {{{ protected function buildInternal()
+        $message = $this->ui->getWidget('confirmation_message');
+        $message->content = $dep->getMessage();
+        $message->content_type = 'text/xml';
 
-	protected function buildInternal()
-	{
-		parent::buildInternal();
+        if ($dep->getStatusLevelCount(AdminDependency::DELETE) == 0) {
+            $this->switchToCancelButton();
+        }
+    }
 
-		$item_list = $this->getItemList('integer');
+    protected function buildForm()
+    {
+        parent::buildForm();
 
-		$dep = new AdminListDependency();
-		$dep->setTitle(
-			Inquisition::_('hint'),
-			Inquisition::_('hints')
-		);
+        $yes_button = $this->ui->getWidget('yes_button');
+        $yes_button->title = Inquisition::_('Delete');
+    }
 
-		$dep->entries = AdminListDependency::queryEntries(
-			$this->app->db,
-			'InquisitionQuestionHint', 'id', null, 'text:bodytext',
-			'displayorder, id', 'id in ('.$item_list.')',
-			AdminDependency::DELETE
-		);
+    protected function buildNavBar()
+    {
+        parent::buildNavBar();
 
-		foreach ($dep->entries as $entry) {
-			$entry->title = SwatString::condense($entry->title, 50);
-		}
+        $this->navbar->popEntry();
 
-		$message = $this->ui->getWidget('confirmation_message');
-		$message->content = $dep->getMessage();
-		$message->content_type = 'text/xml';
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-		if ($dep->getStatusLevelCount(AdminDependency::DELETE) == 0) {
-			$this->switchToCancelButton();
-		}
-	}
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-	// }}}
-	// {{{ protected function buildForm()
+        $this->navbar->createEntry(
+            Inquisition::ngettext(
+                'Delete Hint',
+                'Delete Hints',
+                count($this->hints)
+            )
+        );
+    }
 
-	protected function buildForm()
-	{
-		parent::buildForm();
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 
-		$yes_button = $this->ui->getWidget('yes_button');
-		$yes_button->title = Inquisition::_('Delete');
-	}
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
-
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-
-		$this->navbar->createEntry(
-			Inquisition::ngettext(
-				'Delete Hint',
-				'Delete Hints',
-				count($this->hints)
-			)
-		);
-	}
-
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
-
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
+        return $suffix;
+    }
 }
-
-?>

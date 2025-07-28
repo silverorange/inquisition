@@ -1,152 +1,113 @@
 <?php
 
 /**
- * @package   Inquisition
  * @copyright 2014-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionFileParser implements Iterator
 {
-	// {{{ protected properties
+    /**
+     * @var int
+     */
+    protected $line = 1;
 
-	/**
-	 * @var integer
-	 */
-	protected $line = 1;
+    /**
+     * @var SplFileObject
+     */
+    protected $file;
 
-	/**
-	 * @var SplFileObject
-	 */
-	protected $file;
+    public function __construct(SplFileObject|string $filename)
+    {
+        if ($filename instanceof SplFileObject) {
+            $this->file = $filename;
+        } else {
+            $this->file = new SplFileObject($filename, 'r');
+        }
 
-	// }}}
-	// {{{ public function __construct()
+        $this->file->setFlags(SplFileObject::READ_CSV);
 
-	public function __construct(string|SplFileObject $filename)
-	{
-		if ($filename instanceof SplFileObject) {
-			$this->file = $filename;
-		} else {
-			$this->file = new SplFileObject($filename, 'r');
-		}
+        $this->defuseBOM();
+    }
 
-		$this->file->setFlags(SplFileObject::READ_CSV);
+    public function key(): mixed
+    {
+        return $this->file->key();
+    }
 
-		$this->defuseBOM();
-	}
+    public function current(): mixed
+    {
+        return $this->file->current();
+    }
 
-	// }}}
-	// {{{ public function key()
+    public function next(): void
+    {
+        if (!$this->file->eof()) {
+            // count newlines in csv columns
+            $this->line += mb_substr_count(implode('', $this->current()), "\n");
 
-	public function key(): mixed
-	{
-		return $this->file->key();
-	}
+            // count next line
+            $this->line++;
 
-	// }}}
-	// {{{ public function current()
+            $this->file->next();
 
-	public function current(): mixed
-	{
-		return $this->file->current();
-	}
+            // Need to call current to parse next line, otherwise the eof()
+            // call will not be valid.
+            $current = $this->current();
 
-	// }}}
-	// {{{ public function next()
+            // skip blank lines
+            while (!$this->file->eof()) {
+                if (array_pop($current) === null) {
+                    $this->line++;
+                    $this->file->next();
+                    $current = $this->current();
+                } else {
+                    break;
+                }
+            }
+        }
+    }
 
-	public function next(): void
-	{
-		if (!$this->file->eof()) {
-			// count newlines in csv columns
-			$this->line += mb_substr_count(implode('', $this->current()), "\n");
+    public function rewind(): void
+    {
+        $this->file->rewind();
+        $this->line = 1;
+    }
 
-			// count next line
-			$this->line++;
+    public function valid(): bool
+    {
+        return $this->file->valid();
+    }
 
-			$this->file->next();
+    public function eof()
+    {
+        return $this->file->eof();
+    }
 
-			// Need to call current to parse next line, otherwise the eof()
-			// call will not be valid.
-			$current = $this->current();
+    public function line()
+    {
+        return $this->line;
+    }
 
-			// skip blank lines
-			while (!$this->file->eof()) {
-				if (array_pop($current) === null) {
-					$this->line++;
-					$this->file->next();
-					$current = $this->current();
-				} else {
-					break;
-				}
-			}
-		}
-	}
+    public function row()
+    {
+        return $this->file->key() + 1;
+    }
 
-	// }}}
-	// {{{ public function rewind()
+    /**
+     * Seeks ahead of the byte-order-mark if it exists in the file.
+     *
+     * If there is a BOM at the start of the current line, then move the file
+     * pointer past the BOM. This will cause subsequent calls to
+     * $file->current() to skip the BOM.
+     */
+    protected function defuseBOM()
+    {
+        $bom = "\xef\xbb\xbf";
+        $data = $this->file->current();
+        $encoding = '8bit';
 
-	public function rewind(): void
-	{
-		$this->file->rewind();
-		$this->line = 1;
-	}
-
-	// }}}
-	// {{{ public function valid()
-
-	public function valid(): bool
-	{
-		return $this->file->valid();
-	}
-
-	// }}}
-	// {{{ public function eof()
-
-	public function eof()
-	{
-		return $this->file->eof();
-	}
-
-	// }}}
-	// {{{ public function line()
-
-	public function line()
-	{
-		return $this->line;
-	}
-
-	// }}}
-	// {{{ public function row()
-
-	public function row()
-	{
-		return $this->file->key() + 1;
-	}
-
-	// }}}
-	// {{{ protected function defuseBOM()
-
-	/**
-	 * Seeks ahead of the byte-order-mark if it exists in the file
-	 *
-	 * If there is a BOM at the start of the current line, then move the file
-	 * pointer past the BOM. This will cause subsequent calls to
-	 * $file->current() to skip the BOM.
-	 *
-	 * @param SplFileObject $file
-	 */
-	protected function defuseBOM()
-	{
-		$bom = "\xef\xbb\xbf";
-		$data = $this->file->current();
-		$encoding = '8bit';
-
-		if (mb_strpos($data[0], $bom, 0, $encoding) === 0) {
-			$this->file->fseek(mb_strlen($bom, $encoding));
-		}
-	}
-
-	// }}}
+        if (mb_strpos($data[0], $bom, 0, $encoding) === 0) {
+            $this->file->fseek(mb_strlen($bom, $encoding));
+        }
+    }
 }
-
-?>

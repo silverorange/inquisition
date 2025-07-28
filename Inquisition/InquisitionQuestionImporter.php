@@ -1,225 +1,194 @@
 <?php
 
 /**
- * @package   Inquisition
  * @copyright 2014-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionImporter
 {
-	// {{{ protected properties
+    /**
+     * @var SiteApplication
+     */
+    protected $app;
 
-	/**
-	 * @var SiteApplication
-	 */
-	protected $app;
+    public function __construct(SiteApplication $app)
+    {
+        $this->app = $app;
+    }
 
-	// }}}
-	// {{{ public function __construct()
+    // questions
 
-	public function __construct(SiteApplication $app)
-	{
-		$this->app = $app;
-	}
+    public function importQuestions(InquisitionFileParser $file)
+    {
+        $questions = [];
 
-	// }}}
+        while (!$file->eof()) {
+            $question = SwatDBClassMap::new(InquisitionQuestion::class);
+            $question->setDatabase($this->app->db);
+            $this->importQuestion($question, $file);
 
-	// questions
-	// {{{ public function importQuestions()
+            $questions[] = $question;
+        }
 
-	public function importQuestions(InquisitionFileParser $file)
-	{
-		$questions = array();
+        return $questions;
+    }
 
-		while (!$file->eof()) {
-			$question_class = SwatDBClassMap::get('InquisitionQuestion');
+    protected function importQuestion(
+        InquisitionQuestion $question,
+        InquisitionFileParser $file
+    ) {
+        $line = $file->line();
+        $row = $file->row();
 
-			$question = new $question_class();
-			$question->setDatabase($this->app->db);
-			$this->importQuestion($question, $file);
+        $this->importQuestionProperties($question, $file);
+        $this->importOptions($question, $file);
 
-			$questions[] = $question;
-		}
+        if (count($question->options) < 2) {
+            throw new InquisitionImportException(
+                sprintf(
+                    Inquisition::_(
+                        'Question on line %s (CSV row %s) must have at ' .
+                        'least two options.'
+                    ),
+                    $line,
+                    $row
+                ),
+                0,
+                $file
+            );
+        }
 
-		return $questions;
-	}
+        if (!$question->correct_option instanceof InquisitionQuestionOption) {
+            throw new InquisitionImportException(
+                sprintf(
+                    Inquisition::_(
+                        'Question on line %s (CSV row %s) must have a ' .
+                        'correct answer.'
+                    ),
+                    $line,
+                    $row
+                ),
+                0,
+                $file
+            );
+        }
+    }
 
-	// }}}
-	// {{{ protected function importQuestion()
+    protected function importQuestionProperties(
+        InquisitionQuestion $question,
+        InquisitionFileParser $file
+    ) {
+        $line = $file->line();
+        $row = $file->row();
+        $data = $file->current();
 
-	protected function importQuestion(
-		InquisitionQuestion $question,
-		InquisitionFileParser $file
-	) {
-		$line = $file->line();
-		$row  = $file->row();
+        $question->required = true;
+        $question->question_type = InquisitionQuestion::TYPE_RADIO_LIST;
 
-		$this->importQuestionProperties($question, $file);
-		$this->importOptions($question, $file);
+        if (!isset($data[0]) || $data[0] == '') {
+            throw new InquisitionImportException(
+                sprintf(
+                    Inquisition::_(
+                        'Line %s (CSV row %s) has no question text.'
+                    ),
+                    $line,
+                    $row
+                ),
+                0,
+                $file
+            );
+        }
 
-		if (count($question->options) < 2) {
-			throw new InquisitionImportException(
-				sprintf(
-					Inquisition::_(
-						'Question on line %s (CSV row %s) must have at '.
-						'least two options.'
-					),
-					$line,
-					$row
-				),
-				0,
-				$file
-			);
-		}
+        $question->bodytext = $data[0];
+    }
 
-		if (!$question->correct_option instanceof InquisitionQuestionOption) {
-			throw new InquisitionImportException(
-				sprintf(
-					Inquisition::_(
-						'Question on line %s (CSV row %s) must have a '.
-						'correct answer.'
-					),
-					$line,
-					$row
-				),
-				0,
-				$file
-			);
-		}
-	}
+    // question options
 
-	// }}}
-	// {{{ protected function importQuestionProperties()
+    protected function importOptions(
+        InquisitionQuestion $question,
+        InquisitionFileParser $file
+    ) {
+        $file->next();
 
-	protected function importQuestionProperties(
-		InquisitionQuestion $question,
-		InquisitionFileParser $file
-	) {
-		$line = $file->line();
-		$row  = $file->row();
-		$data = $file->current();
+        $option_class = SwatDBClassMap::get(InquisitionQuestionOption::class);
 
-		$question->required = true;
-		$question->question_type = InquisitionQuestion::TYPE_RADIO_LIST;
+        while (!$file->eof() && $this->isOptionLine($file)) {
+            $option = new $option_class();
+            $option->setDatabase($this->app->db);
+            $this->importOption($option, $file);
 
-		if (!isset($data[0]) || $data[0] == '') {
-			throw new InquisitionImportException(
-				sprintf(
-					Inquisition::_(
-						'Line %s (CSV row %s) has no question text.'
-					),
-					$line,
-					$row
-				),
-				0,
-				$file
-			);
-		}
+            $previous_option = $question->options->getLast();
 
-		$question->bodytext = $data[0];
-	}
+            if ($previous_option instanceof $option_class) {
+                $option->displayorder = $previous_option->displayorder + 1;
+            } else {
+                $option->displayorder = 1;
+            }
 
-	// }}}
+            $question->options->add($option);
 
-	// question options
-	// {{{ protected function importOptions()
+            if ($this->isCorrectOptionLine($file)) {
+                $line = $file->line();
+                $row = $file->row();
 
-	protected function importOptions(
-		InquisitionQuestion $question,
-		InquisitionFileParser $file
-	) {
-		$file->next();
+                if ($question->correct_option instanceof $option_class) {
+                    throw new InquisitionImportException(
+                        sprintf(
+                            Inquisition::_(
+                                'Line %s (CSV row %s) contains a second ' .
+                                'correct answer.'
+                            ),
+                            $line,
+                            $row
+                        ),
+                        0,
+                        $file
+                    );
+                }
 
-		while (!$file->eof() && $this->isOptionLine($file)) {
-			$option_class = SwatDBClassMap::get('InquisitionQuestionOption');
+                $question->correct_option = $option;
+            }
 
-			$option = new $option_class();
-			$option->setDatabase($this->app->db);
-			$this->importOption($option, $file);
+            $file->next();
+        }
+    }
 
-			$previous_option = $question->options->getLast();
+    protected function importOption(
+        InquisitionQuestionOption $option,
+        InquisitionFileParser $file
+    ) {
+        $line = $file->line();
+        $row = $file->row();
+        $data = $file->current();
 
-			if ($previous_option instanceof $option_class) {
-				$option->displayorder = $previous_option->displayorder + 1;
-			} else {
-				$option->displayorder = 1;
-			}
+        if (!isset($data[1]) || $data[1] == '') {
+            throw new InquisitionImportException(
+                sprintf(
+                    Inquisition::_('Line %s (CSV row %s) has no option text.'),
+                    $line,
+                    $row
+                ),
+                0,
+                $file
+            );
+        }
 
-			$question->options->add($option);
+        $option->title = $data[1];
+    }
 
-			if ($this->isCorrectOptionLine($file)) {
-				$line = $file->line();
-				$row  = $file->row();
+    // helper methods
 
-				if ($question->correct_option instanceof $option_class) {
-					throw new InquisitionImportException(
-						sprintf(
-							Inquisition::_(
-								'Line %s (CSV row %s) contains a second '.
-								'correct answer.'
-							),
-							$line,
-							$row
-						),
-						0,
-						$file
-					);
-				}
+    protected function isOptionLine(InquisitionFileParser $file)
+    {
+        $data = $file->current();
 
-				$question->correct_option = $option;
-			}
+        return isset($data[0]) && $data[0] === '';
+    }
 
-			$file->next();
-		}
-	}
+    protected function isCorrectOptionLine(InquisitionFileParser $file)
+    {
+        $data = $file->current();
 
-	// }}}
-	// {{{ protected function importOption()
-
-	protected function importOption(
-		InquisitionQuestionOption $option,
-		InquisitionFileParser $file
-	) {
-		$line = $file->line();
-		$row  = $file->row();
-		$data = $file->current();
-
-		if (!isset($data[1]) || $data[1] == '') {
-			throw new InquisitionImportException(
-				sprintf(
-					Inquisition::_('Line %s (CSV row %s) has no option text.'),
-					$line,
-					$row
-				),
-				0,
-				$file
-			);
-		}
-
-		$option->title = $data[1];
-	}
-
-	// }}}
-
-	// helper methods
-	// {{{ protected function isOptionLine()
-
-	protected function isOptionLine(InquisitionFileParser $file)
-	{
-		$data = $file->current();
-		return (isset($data[0]) && $data[0] === '');
-	}
-
-	// }}}
-	// {{{ protected function isCorrectOptionLine()
-
-	protected function isCorrectOptionLine(InquisitionFileParser $file)
-	{
-		$data = $file->current();
-		return (isset($data[2]) && mb_strtolower(trim($data[2])) === 'x');
-	}
-
-	// }}}
+        return isset($data[2]) && mb_strtolower(trim($data[2])) === 'x';
+    }
 }
-
-?>

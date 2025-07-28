@@ -1,41 +1,41 @@
 <?php
 
 /**
- * An binding for responses to used hints
+ * An binding for responses to used hints.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ *
+ * @property InquisitionResponse                   $response
+ * @property InquisitionQuestionHint               $question_hint
+ * @property InquisitionInquisitionQuestionBinding $question_binding
  */
 class InquisitionResponseUsedHintBinding extends SwatDBDataObject
 {
-	// {{{ public properties
+    /**
+     * @var SwatDate
+     */
+    public $createdate;
 
-	/**
-	 * @var SwatDate
-	 */
-	public $createdate;
+    protected function init()
+    {
+        $this->table = 'InquisitionResponseUsedHintBinding';
 
-	// }}}
-	// {{{ protected function init()
+        $this->registerDateProperty('createdate');
 
-	protected function init()
-	{
-		$this->table = 'InquisitionResponseUsedHintBinding';
+        $this->registerInternalProperty(
+            'response',
+            SwatDBClassMap::get(InquisitionResponse::class)
+        );
 
-		$this->registerDateProperty('createdate');
+        $this->registerInternalProperty(
+            'question_hint',
+            SwatDBClassMap::get(InquisitionQuestionHint::class)
+        );
 
-		$this->registerInternalProperty('response',
-			SwatDBClassMap::get('InquisitionResponse'));
-
-		$this->registerInternalProperty('question_hint',
-			SwatDBClassMap::get('InquisitionQuestionHint'));
-
-		$this->registerInternalProperty('question_binding',
-			SwatDBClassMap::get('InquisitionInquisitionQuestionBinding'));
-	}
-
-	// }}}
+        $this->registerInternalProperty(
+            'question_binding',
+            SwatDBClassMap::get(InquisitionInquisitionQuestionBinding::class)
+        );
+    }
 }
-
-?>

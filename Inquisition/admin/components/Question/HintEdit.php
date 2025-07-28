@@ -1,320 +1,258 @@
 <?php
 
 /**
- * Page for creating new question hints
+ * Page for creating new question hints.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintEdit extends AdminDBEdit
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitionQuestion
+     */
+    protected $hint;
 
-	/**
-	 * @var InquisitionQuestion
-	 */
-	protected $hint;
+    /**
+     * @var InquisitionQuestion
+     */
+    protected $question;
 
-	/**
-	 * @var InquisitionQuestion
-	 */
-	protected $question;
+    /**
+     * @var InquisitionInquisition
+     */
+    protected $inquisition;
 
-	/**
-	 * @var InquisitionInquisition
-	 */
-	protected $inquisition;
+    // init phase
 
-	// }}}
+    protected function initInternal()
+    {
+        parent::initInternal();
 
-	// init phase
-	// {{{ protected function initInternal()
+        $this->ui->loadFromXML($this->getUiXml());
 
-	protected function initInternal()
-	{
-		parent::initInternal();
+        $this->initHint();
+        $this->initQuestion();
+        $this->initInquisition();
+    }
 
-		$this->ui->loadFromXML($this->getUiXml());
+    protected function initHint()
+    {
+        $this->hint = SwatDBClassMap::new(InquisitionQuestionHint::class);
+        $this->hint->setDatabase($this->app->db);
 
-		$this->initHint();
-		$this->initQuestion();
-		$this->initInquisition();
-	}
+        if ($this->id !== null && !$this->hint->load($this->id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition Question Hint with id ‘%s’ not found.',
+                    $this->id
+                )
+            );
+        }
+    }
 
-	// }}}
-	// {{{ protected function initHint()
+    protected function initQuestion()
+    {
+        if ($this->hint->id != null) {
+            $this->question = $this->hint->question;
+        } else {
+            $question_id = SiteApplication::initVar('question');
 
-	protected function initHint()
-	{
-		$class = SwatDBClassMap::get('InquisitionQuestionHint');
-		$this->hint = new $class;
-		$this->hint->setDatabase($this->app->db);
+            if (is_numeric($question_id)) {
+                $question_id = intval($question_id);
+            }
 
-		if ($this->id !== null && !$this->hint->load($this->id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition Question Hint with id ‘%s’ not found.',
-					$this->id
-				)
-			);
-		}
-	}
+            $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
+            $this->question->setDatabase($this->app->db);
 
-	// }}}
-	// {{{ protected function initQuestion()
+            if (!$this->question->load($question_id)) {
+                throw new AdminNotFoundException(
+                    sprintf(
+                        'A question with the id of “%s” does not exist',
+                        $question_id
+                    )
+                );
+            }
+        }
+    }
 
-	protected function initQuestion()
-	{
-		if ($this->hint->id != null) {
-			$this->question = $this->hint->question;
-		} else {
-			$question_id = SiteApplication::initVar('question');
+    protected function initInquisition()
+    {
+        $inquisition_id = SiteApplication::initVar('inquisition');
 
-			if (is_numeric($question_id)) {
-				$question_id = intval($question_id);
-			}
+        if ($inquisition_id !== null) {
+            $this->inquisition = $this->loadInquisition($inquisition_id);
+        }
+    }
 
-			$class = SwatDBClassMap::get('InquisitionQuestion');
-			$this->question = new $class;
-			$this->question->setDatabase($this->app->db);
+    protected function loadInquisition($inquisition_id)
+    {
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
+        $inquisition->setDatabase($this->app->db);
 
-			if (!$this->question->load($question_id)) {
-				throw new AdminNotFoundException(
-					sprintf(
-						'A question with the id of “%s” does not exist',
-						$question_id
-					)
-				);
-			}
-		}
-	}
+        if (!$inquisition->load($inquisition_id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition with id ‘%s’ not found.',
+                    $inquisition_id
+                )
+            );
+        }
 
-	// }}}
-	// {{{ protected function initInquisition()
+        return $inquisition;
+    }
 
-	protected function initInquisition()
-	{
-		$inquisition_id = SiteApplication::initVar('inquisition');
+    protected function getUiXml()
+    {
+        return __DIR__ . '/hint-edit.xml';
+    }
 
-		if ($inquisition_id !== null) {
-			$this->inquisition = $this->loadInquisition($inquisition_id);
-		}
-	}
+    // process phase
 
-	// }}}
-	// {{{ protected function loadInquisition()
+    protected function saveDBData(): void
+    {
+        $this->updateHint();
+        $this->hint->save();
 
-	protected function loadInquisition($inquisition_id)
-	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$inquisition = new $class;
-		$inquisition->setDatabase($this->app->db);
+        $this->app->messages->add(
+            new SwatMessage(
+                Inquisition::_('Hint has been saved.')
+            )
+        );
+    }
 
-		if (!$inquisition->load($inquisition_id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$inquisition_id
-				)
-			);
-		}
+    protected function updateHint()
+    {
+        $values = $this->ui->getValues(
+            [
+                'bodytext',
+            ]
+        );
 
-		return $inquisition;
-	}
+        $this->hint->bodytext = $values['bodytext'];
+        $this->hint->question = $this->question->id;
 
-	// }}}
-	// {{{ protected function getUiXml()
-
-	protected function getUiXml()
-	{
-		return __DIR__.'/hint-edit.xml';
-	}
-
-	// }}}
-
-	// process phase
-	// {{{ protected function saveDBData()
-
-	protected function saveDBData(): void
-	{
-		$this->updateHint();
-		$this->hint->save();
-
-		$this->app->messages->add(
-			new SwatMessage(
-				Inquisition::_('Hint has been saved.')
-			)
-		);
-	}
-
-	// }}}
-	// {{{ protected function updateHint()
-
-	protected function updateHint()
-	{
-		$values = $this->ui->getValues(
-			array(
-				'bodytext',
-			)
-		);
-
-		$this->hint->bodytext = $values['bodytext'];
-		$this->hint->question = $this->question->id;
-
-		// set displayorder so the new question appears at the end of the
-		// list of the current hints by default.
-		$sql = sprintf(
-			'select max(displayorder) from InquisitionQuestionHint
+        // set displayorder so the new question appears at the end of the
+        // list of the current hints by default.
+        $sql = sprintf(
+            'select max(displayorder) from InquisitionQuestionHint
 			where question = %s',
-			$this->app->db->quote($this->question->id, 'integer')
-		);
+            $this->app->db->quote($this->question->id, 'integer')
+        );
 
-		$max_displayorder = SwatDB::queryOne($this->app->db, $sql);
-		$new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
-		$this->hint->displayorder = $new_displayorder;
-	}
+        $max_displayorder = SwatDB::queryOne($this->app->db, $sql);
+        $new_displayorder = floor(($max_displayorder + 10) / 10) * 10;
+        $this->hint->displayorder = $new_displayorder;
+    }
 
-	// }}}
-	// {{{ protected function relocate()
+    protected function relocate()
+    {
+        $button = $this->ui->getWidget('another_button');
 
-	protected function relocate()
-	{
-		$button = $this->ui->getWidget('another_button');
+        if ($button->hasBeenClicked()) {
+            $uri = '%1$s?question=%2$s%3$s';
+        } else {
+            $uri = 'Question/Details?id=%2$s%3$s';
+        }
 
-		if ($button->hasBeenClicked()) {
-			$uri = '%1$s?question=%2$s%3$s';
-		} else {
-			$uri = 'Question/Details?id=%2$s%3$s';
-		}
+        $this->app->relocate(
+            sprintf(
+                $uri,
+                $this->source,
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
+    }
 
-		$this->app->relocate(
-			sprintf(
-				$uri,
-				$this->source,
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-	}
+    // build phase
 
-	// }}}
+    protected function loadDBData()
+    {
+        $this->ui->setValues($this->hint->getAttributes());
+    }
 
-	// build phase
-	// {{{ protected function loadDBData()
+    protected function buildForm()
+    {
+        parent::buildForm();
 
-	protected function loadDBData()
-	{
-		$this->ui->setValues($this->hint->getAttributes());
-	}
+        $form = $this->ui->getWidget('edit_form');
+        $form->addHiddenField('question', $this->question->id);
 
-	// }}}
-	// {{{ protected function buildForm()
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $form->addHiddenField('inquisition', $this->inquisition->id);
+        }
+    }
 
-	protected function buildForm()
-	{
-		parent::buildForm();
+    protected function buildFrame()
+    {
+        parent::buildFrame();
 
-		$form = $this->ui->getWidget('edit_form');
-		$form->addHiddenField('question', $this->question->id);
+        $frame = $this->ui->getWidget('edit_frame');
+        $frame->title = $this->getTitle();
+    }
 
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$form->addHiddenField('inquisition', $this->inquisition->id);
-		}
-	}
+    protected function buildNavBar()
+    {
+        parent::buildNavBar();
 
-	// }}}
-	// {{{ protected function buildFrame()
+        $this->navbar->popEntry();
 
-	protected function buildFrame()
-	{
-		parent::buildFrame();
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-		$frame = $this->ui->getWidget('edit_frame');
-		$frame->title = $this->getTitle();
-	}
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-	// }}}
-	// {{{ protected function buildNavBar()
+        $this->navbar->createEntry($this->getTitle());
+    }
 
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 
-		$this->navbar->popEntry();
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
+        return $suffix;
+    }
 
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
+    protected function getTitle()
+    {
+        return ($this->hint->id === null) ?
+            Inquisition::_('New Hint') :
+            Inquisition::_('Edit Hint');
+    }
 
-		$this->navbar->createEntry($this->getTitle());
-	}
+    // finalize phase
 
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
-
-	// {{{ protected function getTitle()
-
-	protected function getTitle()
-	{
-		return ($this->hint->id === null) ?
-			Inquisition::_('New Hint') :
-			Inquisition::_('Edit Hint');
-	}
-
-	// }}}
-
-	// finalize phase
-	// {{{ public function finalize()
-
-	public function finalize()
-	{
-		parent::finalize();
-		$this->layout->addHtmlHeadEntry(
-			'packages/inquisition/admin/styles/inquisition-question-edit.css'
-		);
-	}
-
-	// }}}
+    public function finalize()
+    {
+        parent::finalize();
+        $this->layout->addHtmlHeadEntry(
+            'packages/inquisition/admin/styles/inquisition-question-edit.css'
+        );
+    }
 }
-
-?>

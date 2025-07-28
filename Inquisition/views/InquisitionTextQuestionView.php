@@ -1,52 +1,41 @@
 <?php
 
 /**
- * Text question view
+ * Text question view.
  *
- * @package   Inquisition
  * @copyright 2011-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionTextQuestionView extends InquisitionQuestionView
 {
-	// {{{ private properties
+    private $textarea;
 
-	private $textarea;
+    public function getWidget(?InquisitionResponseValue $value = null)
+    {
+        $binding = $this->question_binding;
+        $question = $this->question_binding->question;
 
-	// }}}
-	// {{{ public function getWidget()
+        if ($this->textarea === null) {
+            $id = sprintf('question%s_%s', $binding->id, $question->id);
 
-	public function getWidget(InquisitionResponseValue $value = null)
-	{
-		$binding = $this->question_binding;
-		$question = $this->question_binding->question;
+            $this->textarea = new SwatTextarea($id);
+            $this->textarea->required = $question->required;
+        }
 
-		if ($this->textarea === null) {
-			$id = sprintf('question%s_%s', $binding->id, $question->id);
+        if ($value !== null) {
+            $this->textarea->value = intval(
+                $value->getInternalValue('question_option')
+            );
+        }
 
-			$this->textarea = new SwatTextarea($id);
-			$this->textarea->required = $question->required;
-		}
+        return $this->textarea;
+    }
 
-		if ($value !== null) {
-			$this->textarea->value = intval(
-				$value->getInternalValue('question_option'));
-		}
+    public function getResponseValue()
+    {
+        $value = parent::getResponseValue();
+        $value->text_value = $this->textarea->value;
 
-		return $this->textarea;
-	}
-
-	// }}}
-	// {{{ public function getResponseValue();
-
-	public function getResponseValue()
-	{
-		$value = parent::getResponseValue();
-		$value->text_value = $this->textarea->value;
-		return $value;
-	}
-
-	// }}}
+        return $value;
+    }
 }
-
-?>

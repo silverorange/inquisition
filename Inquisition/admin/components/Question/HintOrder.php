@@ -1,254 +1,208 @@
 <?php
 
 /**
- * Change order page for question hints
+ * Change order page for question hints.
  *
- * @package   Inquisition
  * @copyright 2013-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class InquisitionQuestionHintOrder extends AdminDBOrder
 {
-	// {{{ protected properties
+    /**
+     * @var InquisitionQuestion
+     */
+    protected $question;
 
-	/**
-	 * @var InquisitionQuestion
-	 */
-	protected $question;
+    /**
+     * @var InquisitionInquisition
+     */
+    protected $inquisition;
 
-	/**
-	 * @var InquisitionInquisition
-	 */
-	protected $inquisition;
+    // init phase
 
-	// }}}
+    protected function initInternal()
+    {
+        parent::initInternal();
 
-	// init phase
-	// {{{ protected function initInternal()
+        $this->initQuestion();
+        $this->initInquisition();
+    }
 
-	protected function initInternal()
-	{
-		parent::initInternal();
+    protected function initQuestion()
+    {
+        $id = SiteApplication::initVar('id');
 
-		$this->initQuestion();
-		$this->initInquisition();
-	}
+        if ($id == '') {
+            throw new AdminNotFoundException(
+                'No question id specified.'
+            );
+        }
 
-	// }}}
-	// {{{ protected function initQuestion()
+        if (is_numeric($id)) {
+            $id = intval($id);
+        }
 
-	protected function initQuestion()
-	{
-		$id = SiteApplication::initVar('id');
+        $this->question = SwatDBClassMap::new(InquisitionQuestion::class);
+        $this->question->setDatabase($this->app->db);
 
-		if ($id == '') {
-			throw new AdminNotFoundException(
-				'No question id specified.'
-			);
-		}
+        if (!$this->question->load($id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'A question with the id of “%s” does not exist',
+                    $id
+                )
+            );
+        }
+    }
 
-		if (is_numeric($id)) {
-			$id = intval($id);
-		}
+    protected function initInquisition()
+    {
+        $inquisition_id = SiteApplication::initVar('inquisition');
 
-		$class = SwatDBClassMap::get('InquisitionQuestion');
-		$this->question = new $class;
-		$this->question->setDatabase($this->app->db);
+        if ($inquisition_id !== null) {
+            $this->inquisition = $this->loadInquisition($inquisition_id);
+        }
+    }
 
-		if (!$this->question->load($id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'A question with the id of “%s” does not exist', $id
-				)
-			);
-		}
-	}
+    protected function loadInquisition($inquisition_id)
+    {
+        $inquisition = SwatDBClassMap::new(InquisitionInquisition::class);
+        $inquisition->setDatabase($this->app->db);
 
-	// }}}
-	// {{{ protected function initInquisition()
+        if (!$inquisition->load($inquisition_id)) {
+            throw new AdminNotFoundException(
+                sprintf(
+                    'Inquisition with id ‘%s’ not found.',
+                    $inquisition_id
+                )
+            );
+        }
 
-	protected function initInquisition()
-	{
-		$inquisition_id = SiteApplication::initVar('inquisition');
+        return $inquisition;
+    }
 
-		if ($inquisition_id !== null) {
-			$this->inquisition = $this->loadInquisition($inquisition_id);
-		}
-	}
+    // process phase
 
-	// }}}
-	// {{{ protected function loadInquisition()
+    protected function saveIndex($id, $index)
+    {
+        SwatDB::updateColumn(
+            $this->app->db,
+            'InquisitionQuestionHint',
+            'integer:displayorder',
+            $index,
+            'integer:id',
+            [$id]
+        );
+    }
 
-	protected function loadInquisition($inquisition_id)
-	{
-		$class = SwatDBClassMap::get('InquisitionInquisition');
-		$inquisition = new $class;
-		$inquisition->setDatabase($this->app->db);
+    protected function getUpdatedMessage()
+    {
+        return new SwatMessage(Inquisition::_('Hint order has been updated.'));
+    }
 
-		if (!$inquisition->load($inquisition_id)) {
-			throw new AdminNotFoundException(
-				sprintf(
-					'Inquisition with id ‘%s’ not found.',
-					$inquisition_id
-				)
-			);
-		}
+    protected function relocate()
+    {
+        $this->app->relocate(
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
+    }
 
-		return $inquisition;
-	}
+    // build phase
 
-	// }}}
+    protected function loadData()
+    {
+        $sum = 0;
+        $order_widget = $this->ui->getWidget('order');
 
-	// process phase
-	// {{{ protected function saveIndex()
+        foreach ($this->question->hints as $hint) {
+            $sum += $hint->displayorder;
 
-	protected function saveIndex($id, $index)
-	{
-		SwatDB::updateColumn(
-			$this->app->db, 'InquisitionQuestionHint',
-			'integer:displayorder', $index, 'integer:id', array($id)
-		);
-	}
+            $order_widget->addOption(
+                $hint->id,
+                SwatString::condense($hint->bodytext, 50),
+                'text/xml'
+            );
+        }
 
-	// }}}
-	// {{{ protected function getUpdatedMessage()
+        $options_list = $this->ui->getWidget('options');
+        $options_list->value = ($sum == 0) ? 'auto' : 'custom';
+    }
 
-	protected function getUpdatedMessage()
-	{
-		return new SwatMessage(Inquisition::_('Hint order has been updated.'));
-	}
+    protected function buildInternal()
+    {
+        $this->ui->getWidget('order_frame')->title = $this->getTitle();
 
-	// }}}
-	// {{{ protected function relocate()
+        $this->ui->getWidget('order')->width = '500px';
+        $this->ui->getWidget('order')->height = '200px';
 
-	protected function relocate()
-	{
-		$this->app->relocate(
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-	}
+        parent::buildInternal();
+    }
 
-	// }}}
+    protected function buildForm()
+    {
+        parent::buildForm();
 
-	// build phase
-	// {{{ protected function loadData()
+        $form = $this->ui->getWidget('order_form');
+        $form->addHiddenField('id', $this->question->id);
 
-	protected function loadData()
-	{
-		$sum = 0;
-		$order_widget = $this->ui->getWidget('order');
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $form->addHiddenField('inquisition', $this->inquisition->id);
+        }
+    }
 
-		foreach ($this->question->hints as $hint) {
-			$sum += $hint->displayorder;
+    protected function buildNavBar()
+    {
+        parent::buildNavBar();
 
-			$order_widget->addOption(
-				$hint->id,
-				SwatString::condense($hint->bodytext, 50),
-				'text/xml'
-			);
-		}
+        $this->navbar->popEntry();
 
-		$options_list = $this->ui->getWidget('options');
-		$options_list->value = ($sum == 0) ? 'auto' : 'custom';
-	}
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $this->navbar->createEntry(
+                $this->inquisition->title,
+                sprintf(
+                    'Inquisition/Details?id=%s',
+                    $this->inquisition->id
+                )
+            );
+        }
 
-	// }}}
-	// {{{ protected function buildInternal()
+        $this->navbar->createEntry(
+            $this->getQuestionTitle(),
+            sprintf(
+                'Question/Details?id=%s%s',
+                $this->question->id,
+                $this->getLinkSuffix()
+            )
+        );
 
-	protected function buildInternal()
-	{
-		$this->ui->getWidget('order_frame')->title = $this->getTitle();
+        $this->navbar->createEntry($this->getTitle());
+    }
 
-		$this->ui->getWidget('order')->width = '500px';
-		$this->ui->getWidget('order')->height = '200px';
+    protected function getQuestionTitle()
+    {
+        // TODO: Update this with some version of getPosition().
+        return Inquisition::_('Question');
+    }
 
-		parent::buildInternal();
-	}
+    protected function getLinkSuffix()
+    {
+        $suffix = null;
+        if ($this->inquisition instanceof InquisitionInquisition) {
+            $suffix = sprintf(
+                '&inquisition=%s',
+                $this->inquisition->id
+            );
+        }
 
-	// }}}
-	// {{{ protected function buildForm()
+        return $suffix;
+    }
 
-	protected function buildForm()
-	{
-		parent::buildForm();
-
-		$form = $this->ui->getWidget('order_form');
-		$form->addHiddenField('id', $this->question->id);
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$form->addHiddenField('inquisition', $this->inquisition->id);
-		}
-	}
-
-	// }}}
-	// {{{ protected function buildNavBar()
-
-	protected function buildNavBar()
-	{
-		parent::buildNavBar();
-
-		$this->navbar->popEntry();
-
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$this->navbar->createEntry(
-				$this->inquisition->title,
-				sprintf(
-					'Inquisition/Details?id=%s',
-					$this->inquisition->id
-				)
-			);
-		}
-
-		$this->navbar->createEntry(
-			$this->getQuestionTitle(),
-			sprintf(
-				'Question/Details?id=%s%s',
-				$this->question->id,
-				$this->getLinkSuffix()
-			)
-		);
-
-		$this->navbar->createEntry($this->getTitle());
-	}
-
-	// }}}
-	// {{{ protected function getQuestionTitle()
-
-	protected function getQuestionTitle()
-	{
-		// TODO: Update this with some version of getPosition().
-		return Inquisition::_('Question');
-	}
-
-	// }}}
-	// {{{ protected function getLinkSuffix()
-
-	protected function getLinkSuffix()
-	{
-		$suffix = null;
-		if ($this->inquisition instanceof InquisitionInquisition) {
-			$suffix = sprintf(
-				'&inquisition=%s',
-				$this->inquisition->id
-			);
-		}
-
-		return $suffix;
-	}
-
-	// }}}
-	// {{{ protected function getTitle()
-
-	protected function getTitle()
-	{
-		return Inquisition::_('Change Hint Order');
-	}
-
-	// }}}
+    protected function getTitle()
+    {
+        return Inquisition::_('Change Hint Order');
+    }
 }
-
-?>

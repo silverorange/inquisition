@@ -23,12 +23,10 @@ Inquisition:
     - Swat
 
   Provides:
-
     # JavaScript resources
     packages/inquisition/javascript/inquisition-radio-list-with-text-question-view.js:
 
     # Style-sheet resources
     packages/inquisition/admin/styles/inquisition-details.css:
     packages/inquisition/admin/styles/inquisition-question-edit.css:
-
 # vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2:
