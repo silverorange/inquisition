@@ -161,12 +161,12 @@ class InquisitionOptionDetails extends AdminIndex
         $ds = new SwatDetailsStore($image);
 
         $ds->image = $image->getUri('thumb', '../');
-        $ds->width = $image->getWidth('thumb', '../');
-        $ds->height = $image->getHeight('thumb', '../');
+        $ds->width = $image->getWidth('thumb');
+        $ds->height = $image->getHeight('thumb');
 
         $ds->preview_image = $image->getUri('small', '../');
-        $ds->preview_width = $image->getWidth('small', '../');
-        $ds->preview_height = $image->getHeight('small', '../');
+        $ds->preview_width = $image->getWidth('small');
+        $ds->preview_height = $image->getHeight('small');
 
         return $ds;
     }

@@ -207,23 +207,12 @@ class InquisitionQuestionDetails extends AdminIndex
 
     protected function getTableModel(SwatView $view): ?SwatTableModel
     {
-        $model = null;
-
-        switch ($view->id) {
-            case 'image_view':
-                $model = $this->getImageTableModel($view);
-                break;
-
-            case 'hint_view':
-                $model = $this->getHintTableModel($view);
-                break;
-
-            case 'option_view':
-                $model = $this->getOptionTableModel($view);
-                break;
-        }
-
-        return $model;
+        return match ($view->id) {
+            'image_view'  => $this->getImageTableModel($view),
+            'hint_view'   => $this->getHintTableModel($view),
+            'option_view' => $this->getOptionTableModel($view),
+            default       => null,
+        };
     }
 
     protected function getImageTableModel(SwatView $view)
@@ -276,12 +265,12 @@ class InquisitionQuestionDetails extends AdminIndex
         $ds = new SwatDetailsStore($image);
 
         $ds->image = $image->getUri('thumb', '../');
-        $ds->width = $image->getWidth('thumb', '../');
-        $ds->height = $image->getHeight('thumb', '../');
+        $ds->width = $image->getWidth('thumb');
+        $ds->height = $image->getHeight('thumb');
 
         $ds->preview_image = $image->getUri('small', '../');
-        $ds->preview_width = $image->getWidth('small', '../');
-        $ds->preview_height = $image->getHeight('small', '../');
+        $ds->preview_width = $image->getWidth('small');
+        $ds->preview_height = $image->getHeight('small');
 
         return $ds;
     }
