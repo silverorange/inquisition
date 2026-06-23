@@ -32,12 +32,10 @@ class InquisitionInquisitionIndex extends AdminIndex
 
     protected function getTableModel(SwatView $view): ?SwatTableModel
     {
-        switch ($view->id) {
-            case 'inquisition_view':
-                return $this->getInquisitionTableModel($view);
-        }
-
-        return null;
+        return match ($view->id) {
+            'inquisition_view' => $this->getInquisitionTableModel($view),
+            default            => null,
+        };
     }
 
     protected function getInquisitionTableModel(SwatView $view)

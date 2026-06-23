@@ -60,12 +60,10 @@ class InquisitionQuestionIndex extends AdminSearch
 
     protected function getTableModel(SwatView $view): ?SwatTableModel
     {
-        switch ($view->id) {
-            case 'index_view':
-                return $this->getQuestionTableModel($view);
-        }
-
-        return null;
+        return match ($view->id) {
+            'index_view' => $this->getQuestionTableModel($view),
+            default      => null,
+        };
     }
 
     protected function getQuestionTableModel(SwatView $view): SwatTableStore
@@ -89,8 +87,8 @@ class InquisitionQuestionIndex extends AdminSearch
         );
 
         if (count($questions) > 0) {
-            $this->ui->getWidget('results_message')->content =
-                $pager->getResultsMessage();
+            $this->ui->getWidget('results_message')->content
+                = $pager->getResultsMessage();
         }
 
         $store = new SwatTableStore();

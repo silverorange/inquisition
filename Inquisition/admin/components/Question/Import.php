@@ -53,8 +53,8 @@ class InquisitionQuestionImport extends AdminObjectEdit
         }
 
         $final_question_count = count($inquisition->question_bindings);
-        $this->imported_question_count = $final_question_count -
-            $initial_questions_count;
+        $this->imported_question_count = $final_question_count
+            - $initial_questions_count;
     }
 
     protected function getSavedMessage()
@@ -89,8 +89,8 @@ class InquisitionQuestionImport extends AdminObjectEdit
     {
         parent::buildFrame();
 
-        $this->ui->getWidget('edit_frame')->title =
-            Inquisition::_('Import Questions');
+        $this->ui->getWidget('edit_frame')->title
+            = Inquisition::_('Import Questions');
     }
 
     protected function buildNavBar()

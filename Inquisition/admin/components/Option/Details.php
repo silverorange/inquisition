@@ -121,8 +121,8 @@ class InquisitionOptionDetails extends AdminIndex
         $image_class = SwatDBClassMap::new(InquisitionQuestionOptionImage::class);
         $image_class->setDatabase($this->app->db);
 
-        $this->ui->getWidget('images_frame')->visible =
-            $image_class->hasImageSet();
+        $this->ui->getWidget('images_frame')->visible
+            = $image_class->hasImageSet();
     }
 
     protected function getDetailsStore(InquisitionQuestionOption $option)
@@ -161,12 +161,12 @@ class InquisitionOptionDetails extends AdminIndex
         $ds = new SwatDetailsStore($image);
 
         $ds->image = $image->getUri('thumb', '../');
-        $ds->width = $image->getWidth('thumb', '../');
-        $ds->height = $image->getHeight('thumb', '../');
+        $ds->width = $image->getWidth('thumb');
+        $ds->height = $image->getHeight('thumb');
 
         $ds->preview_image = $image->getUri('small', '../');
-        $ds->preview_width = $image->getWidth('small', '../');
-        $ds->preview_height = $image->getHeight('small', '../');
+        $ds->preview_width = $image->getWidth('small');
+        $ds->preview_height = $image->getHeight('small');
 
         return $ds;
     }

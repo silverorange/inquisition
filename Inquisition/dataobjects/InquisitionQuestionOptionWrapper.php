@@ -12,8 +12,8 @@ class InquisitionQuestionOptionWrapper extends SwatDBRecordsetWrapper
     {
         parent::init();
 
-        $this->row_wrapper_class =
-            SwatDBClassMap::get(InquisitionQuestionOption::class);
+        $this->row_wrapper_class
+            = SwatDBClassMap::get(InquisitionQuestionOption::class);
 
         $this->index_field = 'id';
     }

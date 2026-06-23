@@ -196,8 +196,8 @@ class InquisitionQuestionDetails extends AdminIndex
         $image_class = SwatDBClassMap::new(InquisitionQuestionImage::class);
         $image_class->setDatabase($this->app->db);
 
-        $this->ui->getWidget('images_frame')->visible =
-            $image_class->hasImageSet();
+        $this->ui->getWidget('images_frame')->visible
+            = $image_class->hasImageSet();
     }
 
     protected function getDetailsStore(InquisitionQuestion $question)
@@ -207,23 +207,12 @@ class InquisitionQuestionDetails extends AdminIndex
 
     protected function getTableModel(SwatView $view): ?SwatTableModel
     {
-        $model = null;
-
-        switch ($view->id) {
-            case 'image_view':
-                $model = $this->getImageTableModel($view);
-                break;
-
-            case 'hint_view':
-                $model = $this->getHintTableModel($view);
-                break;
-
-            case 'option_view':
-                $model = $this->getOptionTableModel($view);
-                break;
-        }
-
-        return $model;
+        return match ($view->id) {
+            'image_view'  => $this->getImageTableModel($view),
+            'hint_view'   => $this->getHintTableModel($view),
+            'option_view' => $this->getOptionTableModel($view),
+            default       => null,
+        };
     }
 
     protected function getImageTableModel(SwatView $view)
@@ -276,12 +265,12 @@ class InquisitionQuestionDetails extends AdminIndex
         $ds = new SwatDetailsStore($image);
 
         $ds->image = $image->getUri('thumb', '../');
-        $ds->width = $image->getWidth('thumb', '../');
-        $ds->height = $image->getHeight('thumb', '../');
+        $ds->width = $image->getWidth('thumb');
+        $ds->height = $image->getHeight('thumb');
 
         $ds->preview_image = $image->getUri('small', '../');
-        $ds->preview_width = $image->getWidth('small', '../');
-        $ds->preview_height = $image->getHeight('small', '../');
+        $ds->preview_width = $image->getWidth('small');
+        $ds->preview_height = $image->getHeight('small');
 
         return $ds;
     }
@@ -294,8 +283,8 @@ class InquisitionQuestionDetails extends AdminIndex
 
         $ds->title = sprintf('%s. %s', $option->position, $option->title);
         $ds->image_count = count($option->images);
-        $ds->correct =
-            ($correct_option instanceof InquisitionQuestionOption)
+        $ds->correct
+            = ($correct_option instanceof InquisitionQuestionOption)
             && ($correct_option->id === $option->id);
 
         return $ds;

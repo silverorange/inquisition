@@ -102,8 +102,8 @@ class InquisitionInquisitionDetails extends AdminIndex
         $view = $this->ui->getWidget('details_view');
         $view->data = $this->getDetailsStore($this->inquisition);
 
-        $this->ui->getWidget('details_frame')->title =
-            $this->inquisition->title;
+        $this->ui->getWidget('details_frame')->title
+            = $this->inquisition->title;
 
         $this->buildToolbars();
         $this->buildViewRendererLinks();
@@ -126,8 +126,8 @@ class InquisitionInquisitionDetails extends AdminIndex
             $image_class = SwatDBClassMap::new(InquisitionQuestionImage::class);
             $image_class->setDatabase($this->app->db);
 
-            $view->getColumn('image_count_column')->visible =
-                $image_class->hasImageSet();
+            $view->getColumn('image_count_column')->visible
+                = $image_class->hasImageSet();
         }
     }
 

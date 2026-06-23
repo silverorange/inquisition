@@ -47,8 +47,8 @@ class InquisitionQuestionImporter
             throw new InquisitionImportException(
                 sprintf(
                     Inquisition::_(
-                        'Question on line %s (CSV row %s) must have at ' .
-                        'least two options.'
+                        'Question on line %s (CSV row %s) must have at '
+                        . 'least two options.'
                     ),
                     $line,
                     $row
@@ -62,8 +62,8 @@ class InquisitionQuestionImporter
             throw new InquisitionImportException(
                 sprintf(
                     Inquisition::_(
-                        'Question on line %s (CSV row %s) must have a ' .
-                        'correct answer.'
+                        'Question on line %s (CSV row %s) must have a '
+                        . 'correct answer.'
                     ),
                     $line,
                     $row
@@ -135,8 +135,8 @@ class InquisitionQuestionImporter
                     throw new InquisitionImportException(
                         sprintf(
                             Inquisition::_(
-                                'Line %s (CSV row %s) contains a second ' .
-                                'correct answer.'
+                                'Line %s (CSV row %s) contains a second '
+                                . 'correct answer.'
                             ),
                             $line,
                             $row

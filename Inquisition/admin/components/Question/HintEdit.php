@@ -241,9 +241,9 @@ class InquisitionQuestionHintEdit extends AdminDBEdit
 
     protected function getTitle()
     {
-        return ($this->hint->id === null) ?
-            Inquisition::_('New Hint') :
-            Inquisition::_('Edit Hint');
+        return ($this->hint->id === null)
+            ? Inquisition::_('New Hint')
+            : Inquisition::_('Edit Hint');
     }
 
     // finalize phase
