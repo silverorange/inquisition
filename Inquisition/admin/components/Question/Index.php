@@ -89,8 +89,8 @@ class InquisitionQuestionIndex extends AdminSearch
         );
 
         if (count($questions) > 0) {
-            $this->ui->getWidget('results_message')->content =
-                $pager->getResultsMessage();
+            $this->ui->getWidget('results_message')->content
+                = $pager->getResultsMessage();
         }
 
         $store = new SwatTableStore();

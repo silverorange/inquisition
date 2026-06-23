@@ -121,8 +121,8 @@ class InquisitionOptionDetails extends AdminIndex
         $image_class = SwatDBClassMap::new(InquisitionQuestionOptionImage::class);
         $image_class->setDatabase($this->app->db);
 
-        $this->ui->getWidget('images_frame')->visible =
-            $image_class->hasImageSet();
+        $this->ui->getWidget('images_frame')->visible
+            = $image_class->hasImageSet();
     }
 
     protected function getDetailsStore(InquisitionQuestionOption $option)

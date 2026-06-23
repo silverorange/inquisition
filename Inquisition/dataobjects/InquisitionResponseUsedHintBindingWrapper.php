@@ -15,7 +15,7 @@ class InquisitionResponseUsedHintBindingWrapper extends SwatDBRecordsetWrapper
         parent::init();
 
         $this->index_field = 'question_hint';
-        $this->row_wrapper_class =
-            SwatDBClassMap::get(InquisitionResponseUsedHintBinding::class);
+        $this->row_wrapper_class
+            = SwatDBClassMap::get(InquisitionResponseUsedHintBinding::class);
     }
 }

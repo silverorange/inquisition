@@ -196,8 +196,8 @@ class InquisitionQuestionDetails extends AdminIndex
         $image_class = SwatDBClassMap::new(InquisitionQuestionImage::class);
         $image_class->setDatabase($this->app->db);
 
-        $this->ui->getWidget('images_frame')->visible =
-            $image_class->hasImageSet();
+        $this->ui->getWidget('images_frame')->visible
+            = $image_class->hasImageSet();
     }
 
     protected function getDetailsStore(InquisitionQuestion $question)
@@ -294,8 +294,8 @@ class InquisitionQuestionDetails extends AdminIndex
 
         $ds->title = sprintf('%s. %s', $option->position, $option->title);
         $ds->image_count = count($option->images);
-        $ds->correct =
-            ($correct_option instanceof InquisitionQuestionOption)
+        $ds->correct
+            = ($correct_option instanceof InquisitionQuestionOption)
             && ($correct_option->id === $option->id);
 
         return $ds;

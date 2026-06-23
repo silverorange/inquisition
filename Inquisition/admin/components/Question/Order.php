@@ -84,8 +84,8 @@ class InquisitionQuestionOrder extends AdminDBOrder
 
     protected function buildInternal()
     {
-        $this->ui->getWidget('order_frame')->title =
-            Inquisition::_('Change Question Order');
+        $this->ui->getWidget('order_frame')->title
+            = Inquisition::_('Change Question Order');
 
         $this->ui->getWidget('order')->width = '500px';
         $this->ui->getWidget('order')->height = '500px';
