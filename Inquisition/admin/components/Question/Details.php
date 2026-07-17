@@ -290,7 +290,7 @@ class InquisitionQuestionDetails extends AdminIndex
         return $ds;
     }
 
-    protected function getOptions(SwatTableView $view)
+    protected function getOptions(SwatView $view)
     {
         $sql = sprintf(
             'select * from InquisitionQuestionOption
@@ -335,7 +335,7 @@ class InquisitionQuestionDetails extends AdminIndex
             }
         }
 
-        // Hide the next/prev links if there is no inquisiton.
+        // Hide the next/prev links if there is no inquisition.
         if (!$this->inquisition instanceof InquisitionInquisition) {
             $this->ui->getWidget('prev_question')->visible = false;
             $this->ui->getWidget('next_question')->visible = false;

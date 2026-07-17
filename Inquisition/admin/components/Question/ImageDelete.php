@@ -9,7 +9,7 @@
 class InquisitionQuestionImageDelete extends InquisitionInquisitionImageDelete
 {
     /**
-     * @var InquisitonQuestion
+     * @var InquisitionQuestion
      */
     protected $question;
 

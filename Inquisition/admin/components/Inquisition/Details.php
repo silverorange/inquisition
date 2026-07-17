@@ -144,7 +144,7 @@ class InquisitionInquisitionDetails extends AdminIndex
         return $model;
     }
 
-    protected function getQuestionTableModel(SwatTableView $view)
+    protected function getQuestionTableModel(SwatView $view)
     {
         $store = new SwatTableStore();
 
