@@ -26,8 +26,4 @@ return RectorConfig::configure()
         ClassPropertyAssignToConstructorPromotionRector::class,
         NullToStrictStringFuncCallArgRector::class,
         RemoveUnusedVariableInCatchRector::class,
-    ])
-    // See https://getrector.com/documentation/integration-to-new-project
-    // for other configuration settings
-    ->withTypeCoverageLevel(1)
-    ->withDeadCodeLevel(0);
+    ]);
