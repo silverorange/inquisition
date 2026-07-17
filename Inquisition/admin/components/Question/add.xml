@@ -1,53 +1,53 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0" standalone="no" ?>
 <!DOCTYPE swatml SYSTEM "http://swat.silverorange.com/swatml1.dtd">
 <swatml>
-	<widget class="SwatMessageDisplay" id="message_display" />
-	<widget class="SwatFrame" id="edit_frame">
-		<property name="title" translatable="yes">Question</property>
-		<widget class="SwatForm" id="edit_form">
-			<widget class="SwatFormField" id="bodytext_field">
-				<property name="title" translatable="yes">Question</property>
-				<widget class="SwatTextareaEditor" id="bodytext">
-					<property name="required" type="boolean">true</property>
-					<property name="rows" type="integer">5</property>
-				</widget>
-			</widget>
-			<widget class="SwatFormField" id="options_field">
-				<property name="title" translatable="yes">Options</property>
-				<widget class="SwatTableView" id="question_option_table_view">
-					<object class="SwatTableViewColumn" id="title">
-						<object class="SwatInputCell">
-							<widget class="SwatTextarea">
-								<property name="rows" type="integer">2</property>
-								<property name="resizeable" type="boolean">false</property>
-								<property name="maxlength" type="integer">255</property>
-							</widget>
-						</object>
-					</object>
-					<object class="SwatTableViewColumn" id="correct_option">
-						<property name="title" translatable="yes">Correct Option</property>
-						<object class="SwatInputCell">
-							<widget class="InquisitionCorrectOptionRadioButton" />
-						</object>
-					</object>
-					<object class="SwatTableViewColumn">
-						<property name="title" translatable="yes">Remove</property>
-						<object class="SwatRemoveInputCell" />
-					</object>
-					<object class="SwatTableViewInputRow" id="input_row">
-						<property name="number" type="integer">4</property>
-						<property name="enter_text">add another option</property>
-					</object>
-				</widget>
-			</widget>
-			<widget class="SwatFooterFormField">
-				<widget class="SwatButton" id="submit_button">
-					<property name="title">Done</property>
-				</widget>
-				<widget class="SwatButton" id="another_button">
-					<property name="title">Create and Add Another</property>
-				</widget>
-			</widget>
-		</widget>
-	</widget>
+    <widget class="SwatMessageDisplay" id="message_display" />
+    <widget class="SwatFrame" id="edit_frame">
+        <property name="title" translatable="yes">Question</property>
+        <widget class="SwatForm" id="edit_form">
+            <widget class="SwatFormField" id="bodytext_field">
+                <property name="title" translatable="yes">Question</property>
+                <widget class="SwatTextareaEditor" id="bodytext">
+                    <property name="required" type="boolean">true</property>
+                    <property name="rows" type="integer">5</property>
+                </widget>
+            </widget>
+            <widget class="SwatFormField" id="options_field">
+                <property name="title" translatable="yes">Options</property>
+                <widget class="SwatTableView" id="question_option_table_view">
+                    <object class="SwatTableViewColumn" id="title">
+                        <object class="SwatInputCell">
+                            <widget class="SwatTextarea">
+                                <property name="rows" type="integer">2</property>
+                                <property name="resizeable" type="boolean">false</property>
+                                <property name="maxlength" type="integer">255</property>
+                            </widget>
+                        </object>
+                    </object>
+                    <object class="SwatTableViewColumn" id="correct_option">
+                        <property name="title" translatable="yes">Correct Option</property>
+                        <object class="SwatInputCell">
+                            <widget class="InquisitionCorrectOptionRadioButton" />
+                        </object>
+                    </object>
+                    <object class="SwatTableViewColumn">
+                        <property name="title" translatable="yes">Remove</property>
+                        <object class="SwatRemoveInputCell" />
+                    </object>
+                    <object class="SwatTableViewInputRow" id="input_row">
+                        <property name="number" type="integer">4</property>
+                        <property name="enter_text">add another option</property>
+                    </object>
+                </widget>
+            </widget>
+            <widget class="SwatFooterFormField">
+                <widget class="SwatButton" id="submit_button">
+                    <property name="title">Done</property>
+                </widget>
+                <widget class="SwatButton" id="another_button">
+                    <property name="title">Create and Add Another</property>
+                </widget>
+            </widget>
+        </widget>
+    </widget>
 </swatml>
