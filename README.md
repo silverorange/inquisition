@@ -27,9 +27,6 @@ There is also a CSV importer and exporter for question management.
 
 ## Installation
 
-Make sure the silverorange composer repository is added to the `composer.json`
-for the project and then run:
-
 ```sh
 composer require silverorange/inquisition
 ```

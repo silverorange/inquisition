@@ -3,6 +3,15 @@ parameters:
   level: 1
   paths:
     - Inquisition
-  editorUrl: '%%file%%:%%line%%'
-  editorUrlTitle: '%%file%%:%%line%%'
+  editorUrl: '%%relfile%%:%%line%%'
+  editorUrlTitle: '%%relfile%%:%%line%%'
   errorFormat: table
+# Checks from higher levels that we want to include here
+# Level 2
+  checkClassCaseSensitivity: true
+  checkPhpDocMissingReturn: true
+#  checkThisOnly: false
+# Level 3
+  checkPhpDocMethodSignatures: true
+# Level 5
+  checkFunctionArgumentTypes: true
