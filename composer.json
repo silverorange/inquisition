@@ -30,7 +30,7 @@
   "require": {
     "php": ">=8.2",
     "ext-mbstring": "*",
-    "silverorange/admin": "^7.0.3",
+    "silverorange/admin": "^7.1.0",
     "silverorange/mdb2": "^3.2.0",
     "silverorange/site": "^15.3.2 || ^16.1.0",
     "silverorange/swat": "^7.10.0"
