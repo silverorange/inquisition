@@ -9,12 +9,12 @@
 class InquisitionQuestionHintDelete extends AdminDBDelete
 {
     /**
-     * @var InquisitonQuestionHintWrapper
+     * @var InquisitionQuestionHintWrapper
      */
     protected $hints;
 
     /**
-     * @var InquisitonQuestion
+     * @var InquisitionQuestion
      */
     protected $question;
 

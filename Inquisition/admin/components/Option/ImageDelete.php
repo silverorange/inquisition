@@ -9,7 +9,7 @@
 class InquisitionOptionImageDelete extends InquisitionInquisitionImageDelete
 {
     /**
-     * @var InquisitonQuestionOption
+     * @var InquisitionQuestionOption
      */
     protected $option;
 

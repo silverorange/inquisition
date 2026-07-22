@@ -3,6 +3,84 @@ parameters:
   level: 1
   paths:
     - Inquisition
-  editorUrl: '%%file%%:%%line%%'
-  editorUrlTitle: '%%file%%:%%line%%'
+  editorUrl: '%%relfile%%:%%line%%'
+  editorUrlTitle: '%%relfile%%:%%line%%'
   errorFormat: table
+# Checks from higher levels that we want to include here
+# Level 2
+  checkClassCaseSensitivity: true
+  checkPhpDocMissingReturn: true
+#  checkThisOnly: false
+# Level 3
+  checkPhpDocMethodSignatures: true
+# Level 5
+  checkFunctionArgumentTypes: true
+
+  # @todo these should eventually be fixed
+  # (although most are issues with the Admin or Swat packages)
+  ignoreErrors:
+    -
+      message: '#^Parameter \#4 \$parent_field of static method AdminListDependency\:\:queryEntries\(\) expects string, null given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Inquisition/Delete.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, InquisitionInquisition given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Inquisition/Details.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, InquisitionQuestion given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Inquisition/Details.php
+
+    -
+      message: '#^Parameter \#4 \$parent_field of static method AdminListDependency\:\:queryEntries\(\) expects string, null given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Option/Delete.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, InquisitionQuestionOption given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Option/Details.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, SiteImage given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Option/Details.php
+
+    -
+      message: '#^Parameter \#4 \$parent_field of static method AdminListDependency\:\:queryEntries\(\) expects string, null given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Question/Delete.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, InquisitionQuestion given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Question/Details.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, InquisitionQuestionOption given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Question/Details.php
+
+    -
+      message: '#^Parameter \#1 \$base_object of class SwatDetailsStore constructor expects stdClass\|null, SiteImage given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Question/Details.php
+
+    -
+      message: '#^Parameter \#4 \$parent_field of static method AdminListDependency\:\:queryEntries\(\) expects string, null given\.$#'
+      identifier: argument.type
+      count: 1
+      path: Inquisition/admin/components/Question/HintDelete.php

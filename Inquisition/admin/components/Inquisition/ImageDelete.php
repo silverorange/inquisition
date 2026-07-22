@@ -9,7 +9,7 @@
 abstract class InquisitionInquisitionImageDelete extends AdminDBDelete
 {
     /**
-     * @var InquisitonQuestionImageWrapper
+     * @var InquisitionQuestionImageWrapper
      */
     protected $images;
 
